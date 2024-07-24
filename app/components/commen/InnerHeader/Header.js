@@ -1,15 +1,10 @@
 'use client'
 import React from 'react';
-import { useRouter } from 'next/navigation' 
+import { useDashboard } from '../../../contexts/dashboardContext';
 import Styles from './Innerheader.module.scss';
 
 const InnerHeader = () => {
-    const router = useRouter();
-
-    // Go back to url
-    const handleGoBack = () => {
-        router.back();
-      };
+    const { handleGoBack } = useDashboard();
     return (
         <div className={Styles.innerheader}> 
             <div className={Styles.innerheadercntnt}> 

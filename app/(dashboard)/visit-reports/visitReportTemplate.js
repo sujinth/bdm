@@ -1,16 +1,13 @@
 'use client'
-import React, { useState, useEffect  } from 'react';
-import Styles from '../visitreport.module.scss';
-import { Button, Row, Col, Form, InputGroup} from 'react-bootstrap';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import React, { useState } from 'react';
+import { Button} from 'react-bootstrap';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import Modal from 'react-bootstrap/Modal';
-import Overlay from 'react-bootstrap/Overlay';
+import Styles from './visitreport.module.scss';
 
-    const QADealer = () => {
+    const VisitReportTemplate = ({selectedVisitReportData}) => {
       const [imagePopupVisible, setImagePopupVisible] = useState(false);
-    const menuClick = ()=>{
+         const menuClick = ()=>{
       // document.getElementById("addimagepopup").style.display = "block";
       var imagepopup = document.getElementById("addimagepopup");
       if (imagepopup.style.display === "block") {
@@ -21,8 +18,8 @@ import Overlay from 'react-bootstrap/Overlay';
       document.body.classList.add(Styles.bodyOverlayActive);
       }
     
-      }
-        const btnClick = ()=>{
+          }
+         const btnClick = ()=>{
             // document.getElementById("addimagepopup").style.display = "block";
             var searchpopup = document.getElementById("searchboxpopup");
             if (searchpopup.style.display === "none") {
@@ -30,20 +27,36 @@ import Overlay from 'react-bootstrap/Overlay';
             } else {
                 searchpopup.style.display = "none";
             }
-            }
+         }
       
-        const cancel = ()=>{
+         const cancel = ()=>{
         document.getElementsByClassName("imageoption").style.display = "none";
         setImagePopupVisible(false); // Close the image popup
 
-        }
+         }
         
+
+
+        // const [visitReports, setVisitReports] = useState([])
+        // console.log("visit",visitReports);
+        // // Function for  fetch dealer ship visit reports
+        // async function getVisitReports(){
+        //     const response = await axios.get('/api/visitReports');
+        //     if (response.data.result?.length !== 0) {
+        //         setVisitReports(response.data.result.root);
+        //     }
+        // } 
+        // useEffect(()=>{
+        //     getVisitReports();
+        // },[])
+
     return (
       
     <div className={Styles.bgcolor}>
     <div className={`${Styles.container} ${Styles.innerpgcntnt} `}>
         <div className={Styles.visitnamebx}>
             <div className={Styles.titlebx}>My Dealer</div>
+            
             <div className={Styles.listitems}>
                 <ul className={`${Styles.listcntnt} ${Styles.listiconhide} `}>
                 <li className={Styles.listhead}><a>New Form</a></li>
@@ -79,7 +92,10 @@ import Overlay from 'react-bootstrap/Overlay';
                 </tr>
                 </tbody>
             </table>
+
             <div className={Styles.cntnttitle}>Areas for discussion</div>
+            <div dangerouslySetInnerHTML={{ __html: selectedVisitReportData?.formInfo }} />
+            <hr/>
             <div className={Styles.checbxcntnt}>
                 <div className={`${Styles.flex} ${Styles.chcklabletxt} `}>
                 <label className={Styles.checklabel}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
@@ -272,4 +288,4 @@ import Overlay from 'react-bootstrap/Overlay';
 );
 };
 
-export default QADealer;
+export default VisitReportTemplate;
