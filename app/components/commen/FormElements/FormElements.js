@@ -63,7 +63,7 @@ const Checkbox = ({ id,label, name, checked, onChange }) => (
                 name={name} 
                 type="checkbox"  
                 checked={checked} 
-                onChange={(e) => onChange(name, e.target.value)}
+                onChange={(e) => onChange(name, e.target.checked)}
             />
                <span className={Styles.checkmark}></span>
             </label>

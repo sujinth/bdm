@@ -14,6 +14,7 @@ const DynamicForm = ({ formDetails, handleFormChange ,formValues}) => {
   return (
     <>
       {sortedFormDetails?.map((item, index) => {
+        const counter = index + 1;
         const controlId = item.formControlId;
         const formFieldId = item.formFieldId
         const sortOrder = item.sortOrder;
@@ -39,20 +40,20 @@ const DynamicForm = ({ formDetails, handleFormChange ,formValues}) => {
                 <Label key={index} answer={item.question} />
                 <TextArea
                   key={index}
-                  id={formFieldId}
+                  id={`ta${counter}`}
                   width="50%"
-                  name={`ta${sortOrder}`}
+                  name={`ta${counter}`}
                   value={value}
                   onChange={handleChange}
                 />
               </React.Fragment>
             );
           case "3":
-            checked = formValues?.[`ch${sortOrder}`] || false;
+            checked = formValues?.[`chk${counter}`] || false;
             return(
               <Checkbox
                 id={formFieldId}
-                name={`ch${sortOrder}`}
+                name={`chk${counter}`}
                 label="Review pending business MTA & Score"
                 checked={checked}
                 onChange={handleChange}
