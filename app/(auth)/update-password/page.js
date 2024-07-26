@@ -53,7 +53,6 @@ const Updatepassword = () => {
         setErrorMessage((prev)=>({...prev, txtCPasswordErrorMsg: ''}));
       }
     }
-    console.log("value",value.trim().length);
     setFormFields((prevState) => ({
       ...prevState,
       [name]: value.trim(),
@@ -101,7 +100,6 @@ const Updatepassword = () => {
                 }
                 // ${process.env.NEXT_PUBLIC_APP_ENDPOINT}
                 const response = await axios.post(`/api/auth/updatePassword`,requestBody);
-                console.log("response",response);
                 let responseData = response.data.result;
                 console.log("responseData",responseData);
 

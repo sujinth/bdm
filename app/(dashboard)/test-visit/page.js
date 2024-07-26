@@ -73,7 +73,7 @@ const visitreport = () => {
         setSelectedDealerData(item);
         setGoBackToPage((prev)=>({...prev,pageOne : false,pageTwo : false,pageThree : true}))
     }
-console.log("selectedVisitReportData",selectedVisitReportData);
+
     return (
         <>
             {(Object.keys(selectedDealer).length !== 0 && goBackToPage.pageThree) ?

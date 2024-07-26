@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import Styles from "../auth.module.scss";
 
 const Login = () => {
-  console.log("Login");
   const router = useRouter();
   // States
   const [formFields, setFormFields] = useState({

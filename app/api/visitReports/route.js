@@ -8,7 +8,12 @@ const agent = new https.Agent({
 
 export async function GET(request) {
     try {
-        const response = await axios.get(config.VISITREPORTS, {
+        const {searchParams} = new URL(request.url);
+        const userId = searchParams.get('userId');
+        if (!userId) {
+            return new Response(JSON.stringify({message :"userId parameter is required."}),{status : 400});
+          }
+        const response = await axios.get(`${config.VISITREPORTS}?userid=${userId}&lastupdatedttm=${'2012-03-12 05:49:32'}`, {
             httpsAgent: agent
         });
 

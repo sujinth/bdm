@@ -5,7 +5,8 @@ const CHANGE_PASSWORD = `${ABSPATH}changepassword.php`;
 const FORGOT_PASSWORD = `${ABSPATH}forgotpassword.php`;
 const COACHINGMODULE = `${ABSPATH}coachingmodule.php`;
 const RESOURCE = `${ABSPATH}resources.php`;
-const VISITREPORTS = `https://192.168.200.6:11443/~sangeeth/santenderbdm/ipadapp/dealershipvisitreportstemplate.php`;
+const VISITREPORTS = `${ABSPATH}dealershipvisitreportstemplate.php`;
+// const VISITREPORTS = `https://192.168.200.6:11443/~sangeeth/santenderbdm/ipadapp/dealershipvisitreportstemplate.php`;
 const DEALERSHIP = `${ABSPATH}dealership.php`;
 
 module.exports = {
