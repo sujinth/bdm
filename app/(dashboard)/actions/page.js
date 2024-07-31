@@ -12,6 +12,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { useDashboard } from '../../contexts/dashboardContext';
+import Button from '../../components/commen/FormElements/Button';
 
 // Action component
 const Action = () => {
@@ -26,13 +27,16 @@ const Action = () => {
     const [selectedFormId, setSelectedFormId] = useState("");
     const [dealerGroupId, setDealerGroupId] = useState();
     const [dealership, setDealership] = useState([]);
+    const [strFormControlData, setStrFormControlData] = useState("");
+    const [postData, setPostData] = useState("")
+    const [cartId, setCartId] = useState();
     const { setGoBackToPage, goBackToPage } = useDashboard();
     const session = useSession();
 
     // Function for render at ṭhe time of change in session value and at the time of change in page name.
     useEffect(()=>{
         getVisitName();
-    },[pageName, session])
+    },[pageName, session.data?.user?.id])
 
     // Function for render at the time of change in goBackToPage state.
     useEffect(()=>{
@@ -122,12 +126,11 @@ const Action = () => {
                     if (incompleteActions?.data?.result?.root?.reportLists && Array.isArray(incompleteActions?.data?.result?.root?.reportLists)) {
                         setIncompleteActions(incompleteActions.data.result.root.reportLists);
                     }
-
+                    console.log(incompleteActions.data.result.root.reportLists[0])
                     break;
             }
 
-
-        }catch (error){
+        } catch(error){
             console.log("error",error.message);
         }
     }
@@ -140,6 +143,68 @@ const Action = () => {
             setFlagDealergroup("N");
         }
     };
+
+    // Function for submit data
+    function submitData(){
+        try{
+            let stringFieldValues = document.getElementById('strFormControlInfo')?.value || "";
+            setStrFormControlData(stringFieldValues);
+            let fieldValuesArray = [];
+            let strPostData = "";
+            if(stringFieldValues){
+                fieldValuesArray = stringFieldValues.split("^@^");
+                fieldValuesArray.map((id, index)=>{
+                    let idBasedPostData = document.getElementById(id);
+                    if(idBasedPostData?.checked){
+                        if(fieldValuesArray.length > index + 1){
+                            strPostData +=  "true^@^";
+                        } else {
+                            strPostData +=  "true";
+                        }
+                    } else {
+                        if(fieldValuesArray.length > index + 1){
+                            strPostData +=  "^@^";
+                        } else {
+                            strPostData +=  "";
+                        }
+                    } 
+                });
+            }
+            setPostData(strPostData);
+
+            // Data submit in to api
+            dataPostInToApi(stringFieldValues, strPostData);
+        } catch(error){
+            console.log("error : ",error);
+        }
+    }
+    
+    // Function for data submit in to api
+    async function dataPostInToApi(stringFieldValues, strPostData){
+        try{
+            let userId = session.data?.user?.id;
+            if (!userId) {
+                throw new Error('user id not found');
+            }
+
+            // API call to next server for delearship visit report
+            const visitNameResponse = await axios.post(`/api/actions/incompleteUpdateActionStatus`,{
+                userId,
+                cartId,
+                formId : selectedFormId,
+                dealershipId : dealerGroupId,
+                strFormControlInfo : stringFieldValues,
+                postData : strPostData
+            });
+
+            // Setting response to the state
+            if (visitNameResponse?.data?.result?.status) {
+                getVisitName();
+            }
+        } catch(error){
+            console.log("error in api call : ",error);
+        }
+    }
 
     return (   
         <>
@@ -164,7 +229,7 @@ const Action = () => {
                                     ))}
                                 </ul>
                             </div>
-                        : null }
+                        : null}
                         
                         {/* Content need to show in dealer group side bar */}
                         {pageName == "Dealer Groups" ? 
@@ -203,29 +268,34 @@ const Action = () => {
                             <div className={Styles.listitems}>
                                 <ul className={Styles.listcntnt}>
                                     {incompleteActions.map((item, index)=>(
-                                        <li onClick={(e)=> {setCurrentIncompleteAction(e?.target?.value);}} value={index}>{item?.dateandtime}</li>
+                                        <li onClick={(e)=> {setCurrentIncompleteAction(e?.target?.value); setCartId(item.cartid)}} value={index}>{item?.dateandtime}</li>
                                     ))}
                                 </ul>
                             </div>
-                        : null} 
-
+                        : null}
                     </div>
 
                     {/* Content need to show under details */}
                     <div className={Styles.detailbx}>
                         <div className={Styles.titlebx}>Details</div>
                         <div className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}>
+
                             {pageName == "Visit Reports" && incompleteActions[currentIncompleteAction]?.formdata ?
-                                <div dangerouslySetInnerHTML={{ __html: incompleteActions[currentIncompleteAction]?.formdata }} />
+                                <div>
+                                    <div dangerouslySetInnerHTML={{ __html: incompleteActions[currentIncompleteAction]?.formdata }} />
+                                    <Button onClick={()=>alert("Save functionality not added.")} children="Save" />
+                                    <Button onClick={submitData} children="Submit" />
+                                </div>
+                                
                             :
                                 <div>
                                     <img className={Styles.logoimage} src="/logo.png" alt="logo" />
                                     <div className={`${Styles.textcntr} ${Styles.pdT20} ${Styles.ftw600} `}> Select a report from the left</div>
                                 </div>
                             }
+                            
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </>
