@@ -21,36 +21,34 @@ const agent = new https.Agent({
         // Configure one or more authentication providers
         providers: [
               CredentialsProvider({
-                credentials: {
-                  email: {},
-                  password: {}
-              },
-            async authorize(credentials, req) {
-              try {
-                let formData = new FormData();
-                formData.append('txtEmail', credentials.txtEmail);
-                formData.append('txtPassWord', credentials.txtPassWord);
-                const response  = await axios.post(config.LOGIN,formData,{
-                  httpsAgent: agent
-                });
-                const userData = response.data?.root;
-                // console.log("user",userData);
-                if(userData.status == '1' && userData.userId && userData.userName){
-                  console.log("userData.userId",userData.userId);
-                  return{
-                    id : userData.userId,
-                    name : userData.userName
+              //   credentials: {
+              //     email: {},
+              //     password: {}
+              // },
+              async authorize(credentials, req) {
+                try {
+                  let formData = new FormData();
+                  formData.append('txtEmail', credentials.txtUserName);
+                  formData.append('txtPassWord', credentials.txtPassWord);
+                  const response  = await axios.post(config.LOGIN,formData,{
+                    httpsAgent: agent
+                  });
+                  const userData = response.data?.root;
+                  if(userData.status == '1' && userData.userId && userData.userName){
+                    return{
+                      id : userData.userId,
+                      name : userData.userName
+                    }
+                  }else if(userData.status == '0'){
+                    let errMsg = userData.message
+                    throw new Error(userData.message);
                   }
-                }else if(userData.status == '0'){
-                  let errMsg = userData.message
-                  throw new Error(userData.message);
-                }
-                return null;
-              } catch (error) {
-                console.error("Login error:", error.message);
-                throw new Error(error.message); 
-              }  
-            }
+                  return null;
+                } catch (error) {
+                  console.error("Login error:", error.message);
+                  throw new Error(error.message); 
+                }  
+              }
           })
         ],
         callbacks: {

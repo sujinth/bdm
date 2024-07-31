@@ -13,10 +13,9 @@ export async function GET(request) {
         if (!userId) {
             return new Response(JSON.stringify({message :"userId parameter is required."}),{status : 400});
           }
-        const response = await axios.get(`${config.VISITREPORTS}?userid=${userId}&lastupdatedttm=${'2012-03-12 05:49:32'}`, {
+        const response = await axios.get(`${config.VISITREPORTS}?userid=100&lastupdatedttm=${'2012-03-12 05:49:32'}`, {
             httpsAgent: agent
         });
-
         return new Response(JSON.stringify(
             { message: "success", result: response.data }
         ), { status: 200 });

@@ -8,8 +8,8 @@ const agent = new https.Agent({
     
 export async function POST(request) {
     try{
-        const {txtFEmail} = await request.json();
-        const response  = await axios.post(`${config.FORGOT_PASSWORD}?txtFEmail=${txtFEmail}`,{},{
+        const {txtFUsername} = await request.json();
+        const response  = await axios.post(`${config.FORGOT_PASSWORD}?txtFEmail=${txtFUsername}`,{},{
             httpsAgent: agent
         });
         return new Response(JSON.stringify(

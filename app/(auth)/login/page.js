@@ -9,12 +9,12 @@ const Login = () => {
   const router = useRouter();
   // States
   const [formFields, setFormFields] = useState({
-    txtEmail: '',
+    txtUsername: '',
     txtPassWord: '',
   });
   const [errorMessage, setErrorMessage] = useState({
     apiErrorMsg : '',
-    txtEmailErrorMsg : '',
+    txtUsernameErrorMsg : '',
     txtPasswordErrorMsg : ''
   });
 
@@ -32,14 +32,14 @@ const Login = () => {
     e.preventDefault();
     try {
 
-      if(formFields.txtEmail == '' || formFields.txtPassWord == ''){
+      if(formFields.txtUsername == '' || formFields.txtPassWord == ''){
 
             setErrorMessage((prev)=>({...prev,apiErrorMsg : ''}));
-          if(formFields.txtEmail == ''){
-            setErrorMessage((prev)=>({...prev, txtEmailErrorMsg: 'Enter email.'}));
+          if(formFields.txtUsername == ''){
+            setErrorMessage((prev)=>({...prev, txtUsernameErrorMsg: 'Enter User Name.'}));
           }else{
             // Clear previous error messages
-            setErrorMessage((prev)=>({...prev, txtEmailErrorMsg: ''}));
+            setErrorMessage((prev)=>({...prev, txtUsernameErrorMsg: ''}));
           }
           if(formFields.txtPassWord == ''){
             setErrorMessage((prev)=>({...prev, txtPasswordErrorMsg: 'Enter password.'}));
@@ -52,18 +52,18 @@ const Login = () => {
       // Clear previus state
       setErrorMessage((prev) => ({
         ...prev,
-        txtEmailErrorMsg: '',
+        txtUsernameErrorMsg: '',
         txtPasswordErrorMsg: '',
       }));
       // Signin functionality 
       const response  = await signIn('credentials', {
-        txtEmail : formFields.txtEmail,
+        txtUserName : formFields.txtUsername,
         txtPassWord : formFields.txtPassWord,
         redirect : false
       })
       if (response?.error) {
           // Clear previous error messages
-          setErrorMessage((prev)=>({...prev, txtEmailErrorMsg: ''}));
+          setErrorMessage((prev)=>({...prev, txtUsernameErrorMsg: ''}));
           setErrorMessage((prev)=>({...prev, txtPasswordErrorMsg: ''}));
 
           setErrorMessage((prev)=>({...prev,apiErrorMsg : response?.error}));
@@ -90,13 +90,13 @@ const Login = () => {
             <div className={Styles.mrgb10}>
               <input
                 type="text"
-                name="txtEmail"
+                name="txtUsername"
                 className={Styles.inputtxt}
-                placeholder="Email"
+                placeholder="User Name"
                 onChange={handleChange}
               />   
             </div>
-            {errorMessage.txtEmailErrorMsg !=='' &&<span style={{color : 'red'}}>{errorMessage.txtEmailErrorMsg}</span>}
+            {errorMessage.txtUsernameErrorMsg !=='' &&<span style={{color : 'red'}}>{errorMessage.txtUsernameErrorMsg}</span>}
             <div>
               <input
                 type="password"

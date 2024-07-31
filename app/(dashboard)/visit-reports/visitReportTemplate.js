@@ -1,71 +1,69 @@
-'use client'
-import React, { useMemo, useState } from 'react';
+'use client';
+
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import { Button } from 'react-bootstrap';
-// Pages
-import { TextBox, ListBox } from '../../components/commen/FormElements/FormElements';
-import DynamicForm from '../../components/commen/FormElements/dynamicForm';
+// Utils
+import { handleHTMLContent } from '../../utils/htmlUtils';
+// Components
+import CustomButton from '../../components/commen/FormElements/Button';
+// Styles
 import Styles from './visitreport.module.scss';
 
 const VisitReportTemplate = ({ selectedVisitReportData }) => {
+  // State to manage visibility of image popup
   const [imagePopupVisible, setImagePopupVisible] = useState(false);
-  const [formValues, setFormValues] = useState({
-    txtDealershipName : selectedVisitReportData?.formName,
-    txtDateTime : new Date().toISOString().slice(0, 19).replace('T', ' ')
-  });
+  // Ref to track if HTML content has been handled
+  const testRef = useRef(false);
 
+  // Toggle the display of the image popup
   const menuClick = () => {
-    var imagepopup = document.getElementById("addimagepopup");
-    if (imagepopup.style.display === "block") {
-      imagepopup.style.display = "none";
+    const imagePopup = document.getElementById('addimagepopup');
+    if (imagePopup.style.display === 'block') {
+      imagePopup.style.display = 'none';
       document.body.classList.remove(Styles.bodyOverlayActive);
     } else {
-      imagepopup.style.display = "block";
+      imagePopup.style.display = 'block';
       document.body.classList.add(Styles.bodyOverlayActive);
     }
-  }
+  };
 
+  // Toggle the display of the search popup
   const btnClick = () => {
-    var searchpopup = document.getElementById("searchboxpopup");
-    if (searchpopup.style.display === "none") {
-      searchpopup.style.display = "block";
+    const searchPopup = document.getElementById('searchboxpopup');
+    if (searchPopup.style.display === 'none') {
+      searchPopup.style.display = 'block';
     } else {
-      searchpopup.style.display = "none";
+      searchPopup.style.display = 'none';
     }
-  }
+  };
 
+  // Hide the image options and close the image popup
   const cancel = () => {
-    document.getElementsByClassName("imageoption").style.display = "none";
+    document.getElementsByClassName('imageoption').style.display = 'none';
     setImagePopupVisible(false);
-  }
-
-  const initialValues = {
-    1: 'Existing Value 1' || "",
-    2: "",
-    3: "Existing Value3" || ""
   };
 
-  const formData = useMemo(() => {
-    return selectedVisitReportData.formInfo.form_data;
-  }, [selectedVisitReportData.formInfo.form_data]);
+  // Memoize formData to avoid unnecessary re-renders
+  const formData = useMemo(() => selectedVisitReportData, [selectedVisitReportData]);
 
-  const handleFormChange = (id, value) => {
-    setFormValues(prevValues => ({
-      ...prevValues,
-      [id]: value
-    }));
-  };
-
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted: ", formValues);
   };
-  console.log("formValues",formValues);
+
+  // Handle HTML content injection on formData change
+  useEffect(() => {
+    if (formData?.formInfo && !testRef.current) {
+      testRef.current = true;
+      handleHTMLContent(formData.formInfo, 'root');
+    }
+  }, [formData?.formInfo]);
 
   return (
     <div className={Styles.bgcolor}>
       <div className={`${Styles.container} ${Styles.innerpgcntnt}`}>
+        {/* Visit Name Section */}
         <div className={Styles.visitnamebx}>
           <div className={Styles.titlebx}>My Dealer</div>
           <div className={Styles.listitems}>
@@ -78,251 +76,231 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
             </ul>
           </div>
         </div>
+
+        {/* Form Detail Section */}
         <div className={Styles.detailbx}>
           <div className={Styles.titlebx}>{selectedVisitReportData?.formName}</div>
           <div className={`${Styles.contentwhtbx} ${Styles.contentwhtbxfooter}`}>
             <form onSubmit={handleSubmit}>
-              <table className={Styles.detailtbl}>
-                <tbody>
-                  {selectedVisitReportData.flagTabbedView === 'N' && (
-                    <>
-                      <tr>
-                        <td>Date and Time</td>
-                        <td>
-                          <TextBox
-                            name={'txtDateTime'}
-                            className={Styles.tblinputbx}
-                            placeholder={'dd/mm/yyyy 00:00:00'}
-                            value={new Date().toISOString().slice(0, 19).replace('T', ' ')}
-                            readonly={true}
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Dealership Name</td>
-                        <td>
-                          <TextBox
-                            name={'txtDealershipName'}
-                            className={Styles.tblinputbx}
-                            readonly={true}
-                            value={selectedVisitReportData?.formName}
-                          />
-                        </td>
-                      </tr>
-                      {selectedVisitReportData?.formInfo?.status === 'Y' && Object.keys(selectedVisitReportData?.formInfo?.dealership_status ?? {}).length !== 0 && (
-                        <tr>
-                          <td>Status</td>
-                          <td>
-                            <ListBox
-                              name={'lstDealershipStatus'}
-                              options={Object.values(selectedVisitReportData?.formInfo?.dealership_status)}
-                              className={Styles.tblinputbx}
-                              onChange={(e) => handleFormChange('lstDealershipStatus', e.target.value)}
-                            />
-                          </td>
-                        </tr>
-                      )}
-                      {selectedVisitReportData.formInfo.flpackexpirydate === 'Y' && (
-                        <tr>
-                          <td>Completion Date</td>
-                          <td>
-                            <TextBox
-                              name={'txtCompletionDate'}
-                              className={Styles.tblinputbx}
-                              onChange={(e) => handleFormChange('txtCompletionDate', e.target.value)}
-                            />
-                          </td>
-                        </tr>
-                      )}
-                      <tr>
-                        <td>Attendees</td>
-                        <td>
-                          <TextBox
-                            className={Styles.tblinputbx}
-                            name={'txtAttendees'}
-                            onChange={(e) => handleFormChange('txtAttendees', e.target.value)}
-                          />
-                        </td>
-                      </tr>
-                    </>
-                  )}
-                </tbody>
-              </table>
+              {/* Placeholder for dynamic HTML content */}
+              <div id="root"></div>
 
-              {selectedVisitReportData.flagTabbedView === 'N' && <div className={Styles.cntnttitle}>Areas for discussion</div>}
-
-              <DynamicForm formDetails={formData} initialValues={initialValues} formValues={formValues} handleFormChange={handleFormChange} />
-
+              {/* Footer with Buttons */}
               <div className={Styles.mainboxfooter}>
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
-                    <div className={Styles.imageaddoption}>
-                        <>
-                            <button 
-                                type="button" 
-                                onClick={() => menuClick()} 
-                                className={`${Styles.imagechoosebtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
-                            >
-                                Add Images <img src="../../addimage.svg" alt="message.svg" />
-                            </button>
-                        </>
-                        <div id="addimagepopup" className={Styles.addimagepopup}>
-                            <div className={`${Styles.flex} ${Styles.imageoption}`}>
-                                <>
-                                    {['top', 'top', 'top'].map((placement) => (
-                                        <OverlayTrigger
-                                            trigger="click"
-                                            key={placement}
-                                            placement={placement}
-                                            overlay={
-                                                <Popover id={`popover-positioned-${placement}`}>
-                                                    <Popover.Body>
-                                                        <div>
-                                                            <button id="addimagecntntlink">Camera Roll</button>
-                                                        </div>
-                                                        <div>
-                                                            <button id="addimagecntntlink">Take A Photo</button>
-                                                        </div>
-                                                        <div>
-                                                            <button 
-                                                                id="addimagecntntlink" 
-                                                                className={Styles.addimagecntntlink} 
-                                                                onClick={() => cancel()}
-                                                            >
-                                                                Cancel
-                                                            </button>
-                                                        </div>
-                                                    </Popover.Body>
-                                                </Popover>
-                                            }
-                                        >
-                                            <Button variant="secondary">
-                                                <img src="../../addmedia.svg" alt="" />
-                                            </Button>
-                                        </OverlayTrigger>
-                                    ))}
-                                </>
-                            </div>
-                        </div>
+                  {/* Image Add Option */}
+                  <div className={Styles.imageaddoption}>
+                    <CustomButton
+                      type="button" 
+                      onClick={menuClick}
+                      className={`${Styles.imagechoosebtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
+                    >
+                      Add Images <img src="../../addimage.svg" alt="message.svg" />
+                    </CustomButton>
+                    <div id="addimagepopup" className={Styles.addimagepopup}>
+                      <div className={`${Styles.flex} ${Styles.imageoption}`}>
+                        {['top', 'top', 'top'].map((placement) => (
+                          <OverlayTrigger
+                            trigger="click"
+                            key={placement}
+                            placement={placement}
+                            overlay={
+                              <Popover id={`popover-positioned-${placement}`}>
+                                <Popover.Body>
+                                  <div>
+                                    <CustomButton
+                                      id="addimagecntntlink"
+                                      type="button"
+                                    >
+                                      Camera Roll
+                                    </CustomButton>
+                                  </div>
+                                  <div>
+                                    <CustomButton
+                                      id="addimagecntntlink"
+                                      type="button"
+                                    >
+                                      Take A Photo
+                                    </CustomButton>
+                                  </div>
+                                  <div>
+                                    <CustomButton
+                                      id="addimagecntntlink"
+                                      className={Styles.addimagecntntlink}
+                                      onClick={cancel}
+                                    >
+                                      Cancel
+                                    </CustomButton>
+                                  </div>
+                                </Popover.Body>
+                              </Popover>
+                            }
+                          >
+                            <CustomButton type='button'>
+                              <img src="../../addmedia.svg" alt="" />
+                            </CustomButton>
+                          </OverlayTrigger>
+                        ))}
+                      </div>
                     </div>
-                    <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                        <button type="submit" className={Styles.mainboxfooterbtn}>Save</button>
-                        <button type="button" className={Styles.mainboxfooterbtn}>Cancel</button>
-                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
+                    <CustomButton
+                      type="submit"
+                      className={Styles.mainboxfooterbtn}
+                    >
+                      Save
+                    </CustomButton>
+                    <CustomButton
+                      type="button"
+                      className={Styles.mainboxfooterbtn}
+                    >
+                      Cancel
+                    </CustomButton>
+                  </div>
                 </div>
+
+                {/* Recipient Options */}
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
-                    <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                        <div className={Styles.searchbox}>
-                            {['top'].map((placement) => (
-                                <OverlayTrigger
-                                    trigger="click"
-                                    key={placement}
-                                    placement={placement}
-                                    overlay={
-                                        <Popover id={`searchpopover-positioned`}>
-                                            <Popover.Body>
-                                                <div className={`${Styles.flex} ${Styles.addsearchrow}`}>
-                                                    <div className={Styles.searchrow}>
-                                                        <input type="search" placeholder='Search' />
-                                                    </div>
-                                                    <button className={Styles.addbtn}>Add</button>
-                                                </div>
-                                                <div className={Styles.boxmailcontent}>
-                                                    <div className={`${Styles.flex} ${Styles.mailtext}`}>
-                                                        <div>babyruwqivrpqbhzme@cwmxc.com</div>
-                                                        <button>
-                                                            <img src="../../close-border.svg" alt="close" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </Popover.Body>
-                                        </Popover>
-                                    }
-                                >
-                                    <Button 
-                                        variant="secondary" 
-                                        className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
-                                    >
-                                        Add Recipients <img src="../../message.svg" alt="message.svg" />
-                                    </Button>
-                                </OverlayTrigger>
-                            ))}
-                        </div>
-                        <div className={Styles.searchbox}>
-                            {['top'].map((placement) => (
-                                <OverlayTrigger
-                                    trigger="click"
-                                    key={placement}
-                                    placement={placement}
-                                    overlay={
-                                        <Popover id={`searchpopover-positioned`}>
-                                            <Popover.Body>
-                                                <div className={`${Styles.flex} ${Styles.addsearchrow}`}>
-                                                    <div className={Styles.searchrow}>
-                                                        <input type="search" placeholder='Search' />
-                                                    </div>
-                                                    <button className={Styles.addbtn}>Add</button>
-                                                </div>
-                                                <div className={Styles.boxmailcontent}>
-                                                    <div className={`${Styles.flex} ${Styles.mailtext}`}>
-                                                        <div>babyruwqivrpqbhzme@cwmxc.com</div>
-                                                        <button>
-                                                            <img src="../../close-border.svg" alt="close" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </Popover.Body>
-                                        </Popover>
-                                    }
-                                >
-                                    <Button 
-                                        variant="secondary" 
-                                        className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
-                                    >
-                                        Add Bcc <img src="../../message.svg" alt="message.svg" />
-                                    </Button>
-                                </OverlayTrigger>
-                            ))}
-                        </div>
-                        <div className={Styles.searchbox}>
-                            {['top'].map((placement) => (
-                                <OverlayTrigger
-                                    trigger="click"
-                                    key={placement}
-                                    placement={placement}
-                                    overlay={
-                                        <Popover id={`searchpopover-positioned`}>
-                                            <Popover.Body>
-                                                <div className={`${Styles.flex} ${Styles.addsearchrow}`}>
-                                                    <div className={Styles.searchrow}>
-                                                        <input type="search" placeholder='Search' />
-                                                    </div>
-                                                    <button className={Styles.addbtn}>Add</button>
-                                                </div>
-                                                <div className={Styles.boxmailcontent}>
-                                                    <div className={`${Styles.flex} ${Styles.mailtext}`}>
-                                                        <div>babyruwqivrpqbhzme@cwmxc.com</div>
-                                                        <button>
-                                                            <img src="../../close-border.svg" alt="close" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </Popover.Body>
-                                        </Popover>
-                                    }
-                                >
-                                    <Button 
-                                        variant="secondary" 
-                                        className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
-                                    >
-                                        Add Cc <img src="../../message.svg" alt="message.svg" />
-                                    </Button>
-                                </OverlayTrigger>
-                            ))}
-                        </div>
+                  <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
+                    {/* Add Recipients Button */}
+                    <div className={Styles.searchbox}>
+                      {['top'].map((placement) => (
+                        <OverlayTrigger
+                          trigger="click"
+                          key={placement}
+                          placement={placement}
+                          overlay={
+                            <Popover id={`searchpopover-positioned`}>
+                              <Popover.Body>
+                                <div className={`${Styles.flex} ${Styles.addsearchrow}`}>
+                                  <div className={Styles.searchrow}>
+                                    <input type="search" placeholder='Search' />
+                                  </div>
+                                  <CustomButton
+                                    type="button"
+                                    className={Styles.addbtn}
+                                  >
+                                    Add
+                                  </CustomButton>
+                                </div>
+                                <div className={Styles.boxmailcontent}>
+                                  <div className={`${Styles.flex} ${Styles.mailtext}`}>
+                                    <div>babyruwqivrpqbhzme@cwmxc.com</div>
+                                    <CustomButton type="button">
+                                      <img src="../../close-border.svg" alt="close" />
+                                    </CustomButton>
+                                  </div>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }
+                        >
+                          <CustomButton
+                            type="button"
+                            className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
+                          >
+                            Add Recipients <img src="../../message.svg" alt="message.svg" />
+                          </CustomButton>
+                        </OverlayTrigger>
+                      ))}
                     </div>
-                    <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                        <button type="submit" className={Styles.mainboxfooterbtn}>Submit</button>
+
+                    {/* Add Bcc Button */}
+                    <div className={Styles.searchbox}>
+                      {['top'].map((placement) => (
+                        <OverlayTrigger
+                          trigger="click"
+                          key={placement}
+                          placement={placement}
+                          overlay={
+                            <Popover id={`searchpopover-positioned`}>
+                              <Popover.Body>
+                                <div className={`${Styles.flex} ${Styles.addsearchrow}`}>
+                                  <div className={Styles.searchrow}>
+                                    <input type="search" placeholder='Search' />
+                                  </div>
+                                  <CustomButton
+                                    type="button"
+                                    className={Styles.addbtn}
+                                  >
+                                    Add
+                                  </CustomButton>
+                                </div>
+                                <div className={Styles.boxmailcontent}>
+                                  <div className={`${Styles.flex} ${Styles.mailtext}`}>
+                                    <div>babyruwqivrpqbhzme@cwmxc.com</div>
+                                    <CustomButton type="button">
+                                      <img src="../../close-border.svg" alt="close" />
+                                    </CustomButton>
+                                  </div>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }
+                        >
+                          <CustomButton
+                            type="button"
+                            className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
+                          >
+                            Add Bcc <img src="../../message.svg" alt="message.svg" />
+                          </CustomButton>
+                        </OverlayTrigger>
+                      ))}
                     </div>
+
+                    {/* Add Cc Button */}
+                    <div className={Styles.searchbox}>
+                      {['top'].map((placement) => (
+                        <OverlayTrigger
+                          trigger="click"
+                          key={placement}
+                          placement={placement}
+                          overlay={
+                            <Popover id={`searchpopover-positioned`}>
+                              <Popover.Body>
+                                <div className={`${Styles.flex} ${Styles.addsearchrow}`}>
+                                  <div className={Styles.searchrow}>
+                                    <input type="search" placeholder='Search' />
+                                  </div>
+                                  <CustomButton
+                                    type="button"
+                                    className={Styles.addbtn}
+                                  >
+                                    Add
+                                  </CustomButton>
+                                </div>
+                                <div className={Styles.boxmailcontent}>
+                                  <div className={`${Styles.flex} ${Styles.mailtext}`}>
+                                    <div>babyruwqivrpqbhzme@cwmxc.com</div>
+                                    <CustomButton type="button">
+                                      <img src="../../close-border.svg" alt="close" />
+                                    </CustomButton>
+                                  </div>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }
+                        >
+                          <CustomButton
+                            type="button"
+                            className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
+                          >
+                            Add Cc <img src="../../message.svg" alt="message.svg" />
+                          </CustomButton>
+                        </OverlayTrigger>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
+                    <CustomButton type="submit" className={Styles.mainboxfooterbtn}>
+                      Submit
+                    </CustomButton>
+                  </div>
                 </div>
               </div>
             </form>

@@ -9,11 +9,11 @@ const Forgotpassword = () => {
     const router = useRouter();
     // States
     const [formFields, setFormFields] = useState({
-        txtFEmail: '',
+        txtFUsername: '',
       });
     const [errorMessage, setErrorMessage] = useState({
         apiErrorMsg : '',
-        txtFEmailErrorMsg : '',
+        txtFUsernameErrorMsg : '',
       });
 
     // Actions
@@ -27,22 +27,22 @@ const Forgotpassword = () => {
 
     // Cancel btn
     const handleCancelbtn = () =>{
-        setErrorMessage((prev)=>({...prev, txtFEmailErrorMsg: ''}));
+        setErrorMessage((prev)=>({...prev, txtFUsernameErrorMsg: ''}));
         router.push('/login');
     }
     // Form submit
     const handleSubmit = async(e) =>{
         e.preventDefault();
         try{
-            if(formFields.txtFEmail == ''){
+            if(formFields.txtFUsername == ''){
                 // Clear previous error messages
                 setErrorMessage((prev)=>({...prev, apiErrorMsg : ''}));
 
-                setErrorMessage((prev)=>({...prev, txtFEmailErrorMsg: 'Enter email'}));
+                setErrorMessage((prev)=>({...prev, txtFUsernameErrorMsg: 'Enter User Name'}));
                 return;
             }else{
                 // Clear previous error messages
-                setErrorMessage((prev)=>({...prev, txtFEmailErrorMsg: ''}));
+                setErrorMessage((prev)=>({...prev, txtFUsernameErrorMsg: ''}));
             }
             // ${process.env.NEXT_PUBLIC_APP_ENDPOINT}
             const response = await axios.post(`/api/auth/forgotPassword`,formFields);
@@ -51,9 +51,9 @@ const Forgotpassword = () => {
                 if(responseData.root?.status !== '0'){
                     // Clear previous error messages
                     setErrorMessage((prev)=>({...prev, apiErrorMsg : ''}));
-                    // Send email
+                    // Send Username
                 }else{
-                    setErrorMessage((prev)=>({...prev, txtFEmailErrorMsg: ''}));
+                    setErrorMessage((prev)=>({...prev, txtFUsernameErrorMsg: ''}));
                     setErrorMessage((prev)=>({...prev, apiErrorMsg : responseData?.root?.message}));
                 }
             }
@@ -72,13 +72,13 @@ const Forgotpassword = () => {
                     <div className={Styles.mrgb10}>
                         <input
                         type="text" 
-                        name="txtFEmail" 
+                        name="txtFUsername" 
                         className={Styles.inputtxt} 
-                        placeholder="Email" 
+                        placeholder="User Name"
                         onChange={handleChange}
                         />
                     </div>
-                    {errorMessage.txtFEmailErrorMsg !=='' &&<span style={{color : 'red'}}>{errorMessage.txtFEmailErrorMsg}</span>}
+                    {errorMessage.txtFUsernameErrorMsg !=='' &&<span style={{color : 'red'}}>{errorMessage.txtFUsernameErrorMsg}</span>}
                     <div className={Styles.mrgT40} >
                         <button className={Styles.loginbtn}  type='submit'>Send</button>
                     </div>
