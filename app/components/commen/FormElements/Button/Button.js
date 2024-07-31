@@ -3,6 +3,7 @@
 //-----------------------------------------------------------------------------------------//
 import React from 'react';
 import PropTypes from 'prop-types';
+import Styles from './Button.module.scss'
 
 const Button = ({id, children, onClick, type = 'button', className = '' }) => {
   return (
@@ -10,7 +11,7 @@ const Button = ({id, children, onClick, type = 'button', className = '' }) => {
       id={id}
       type={type}
       onClick={onClick}
-      className={className}
+      className={`${Styles.button} ${className}`}
     >
       {children}
     </button>

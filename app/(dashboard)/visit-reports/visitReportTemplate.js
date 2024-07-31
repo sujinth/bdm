@@ -6,13 +6,14 @@ import Popover from 'react-bootstrap/Popover';
 // Utils
 import { handleHTMLContent } from '../../utils/htmlUtils';
 // Components
-import CustomButton from '../../components/commen/FormElements/Button';
+import CustomButton from '../../components/commen/FormElements/Button/Button';
 // Styles
 import Styles from './visitreport.module.scss';
 
 const VisitReportTemplate = ({ selectedVisitReportData }) => {
-  // State to manage visibility of image popup
+  // State 
   const [imagePopupVisible, setImagePopupVisible] = useState(false);
+  const [isLastTabSelected, setIsLastTabSelected] = useState(false);
   // Ref to track if HTML content has been handled
   const testRef = useRef(false);
 
@@ -50,7 +51,36 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Retrieve the input value
+    let formInputValue = document.getElementById('strFormControlInfo').value;
+    let elementIds = formInputValue.split(',');
+    console.log("arr",elementIds);
+    // Split the input string at '@@' to get an array of IDs without suffixes
+    let cleanIds = elementIds.map(item => item.split('@@')[0]);
+  
+    let valuesArray = [];
+    let elementContent = '';
+  
+    // Iterate through the filtered list of IDs
+    for (let i = 0; i < cleanIds.length; i++) {
+      // Trim any spaces from the ID
+      const elementId = cleanIds[i].trim();
+      
+      // Check if the ID starts with 'spn'
+      if (elementId.substring(0, 3) === 'spn') {
+          elementContent = document.getElementById(elementId)?.textContent || '';
+      } else {
+          elementContent = document.getElementById(elementId)?.value || '';
+      }
+      
+      valuesArray.push(elementContent);
+    }
+  
+    // Log the resulting array
+    console.log("valuesArray", valuesArray);
   };
+  
 
   // Handle HTML content injection on formData change
   useEffect(() => {
@@ -59,6 +89,42 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
       handleHTMLContent(formData.formInfo, 'root');
     }
   }, [formData?.formInfo]);
+
+
+  useEffect(() => {
+    // Check if the flagTabbedView in formData is 'Y'
+    if (formData?.flagTabbedView === 'Y') {
+  
+      const handleTabClick = (event) => {
+        event.preventDefault(); 
+        const target = event.target.closest('a'); // Find the closest 'a' element (tab link)
+        if (target) {
+          const rel = target.getAttribute('rel'); 
+          // Get all tab links from the DOM
+          const tabs = Array.from(document.querySelectorAll('#tb2 li a'));
+          // Find the last tab link in the list
+          const lastTab = tabs[tabs.length - 1];
+  
+          // Check if the clicked tab is the last tab
+          setIsLastTabSelected(lastTab.getAttribute('rel') === rel);
+        }
+      };
+  
+      // Select all tab links initially
+      const tabs = document.querySelectorAll('#tb2 li a');
+      // Add the click event listener to each tab link
+      tabs.forEach(tab => tab.addEventListener('click', handleTabClick));
+  
+      // Cleanup function to remove the event listeners when the component unmounts or dependencies change
+      return () => {
+        tabs.forEach(tab => tab.removeEventListener('click', handleTabClick));
+      };
+    }else{
+      setIsLastTabSelected(true)
+    }
+  }, [formData]); 
+  
+
 
   return (
     <div className={Styles.bgcolor}>
@@ -81,19 +147,18 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
         <div className={Styles.detailbx}>
           <div className={Styles.titlebx}>{selectedVisitReportData?.formName}</div>
           <div className={`${Styles.contentwhtbx} ${Styles.contentwhtbxfooter}`}>
-            <form onSubmit={handleSubmit}>
               {/* Placeholder for dynamic HTML content */}
               <div id="root"></div>
 
               {/* Footer with Buttons */}
-              <div className={Styles.mainboxfooter}>
+              {isLastTabSelected && <div className={Styles.mainboxfooter}>
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
                   {/* Image Add Option */}
                   <div className={Styles.imageaddoption}>
                     <CustomButton
                       type="button" 
                       onClick={menuClick}
-                      className={`${Styles.imagechoosebtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
+                      className={`${Styles.imagechoosebtn}  ${Styles.flex}`}
                     >
                       Add Images <img src="../../addimage.svg" alt="message.svg" />
                     </CustomButton>
@@ -108,37 +173,37 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
                               <Popover id={`popover-positioned-${placement}`}>
                                 <Popover.Body>
                                   <div>
-                                    <CustomButton
+                                    <button
                                       id="addimagecntntlink"
                                       type="button"
                                     >
                                       Camera Roll
-                                    </CustomButton>
+                                    </button>
                                   </div>
                                   <div>
-                                    <CustomButton
+                                    <button
                                       id="addimagecntntlink"
                                       type="button"
                                     >
                                       Take A Photo
-                                    </CustomButton>
+                                    </button>
                                   </div>
                                   <div>
-                                    <CustomButton
+                                    <button
                                       id="addimagecntntlink"
                                       className={Styles.addimagecntntlink}
                                       onClick={cancel}
                                     >
                                       Cancel
-                                    </CustomButton>
+                                    </button>
                                   </div>
                                 </Popover.Body>
                               </Popover>
                             }
                           >
-                            <CustomButton type='button'>
+                            <button type='button'>
                               <img src="../../addmedia.svg" alt="" />
-                            </CustomButton>
+                            </button>
                           </OverlayTrigger>
                         ))}
                       </div>
@@ -148,14 +213,13 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
                   {/* Action Buttons */}
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
                     <CustomButton
-                      type="submit"
-                      className={Styles.mainboxfooterbtn}
+                      type="button"
+                      onClick={handleSubmit}
                     >
                       Save
                     </CustomButton>
                     <CustomButton
                       type="button"
-                      className={Styles.mainboxfooterbtn}
                     >
                       Cancel
                     </CustomButton>
@@ -179,28 +243,28 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
                                   <div className={Styles.searchrow}>
                                     <input type="search" placeholder='Search' />
                                   </div>
-                                  <CustomButton
+                                  <button
                                     type="button"
                                     className={Styles.addbtn}
                                   >
                                     Add
-                                  </CustomButton>
+                                  </button>
                                 </div>
                                 <div className={Styles.boxmailcontent}>
                                   <div className={`${Styles.flex} ${Styles.mailtext}`}>
                                     <div>babyruwqivrpqbhzme@cwmxc.com</div>
-                                    <CustomButton type="button">
+                                    <button type="button">
                                       <img src="../../close-border.svg" alt="close" />
-                                    </CustomButton>
+                                    </button>
                                   </div>
                                 </div>
                               </Popover.Body>
                             </Popover>
                           }
-                        >
+                        >  
                           <CustomButton
                             type="button"
-                            className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
+                            className={`${Styles.recipientsbtn}  ${Styles.flex}`}
                           >
                             Add Recipients <img src="../../message.svg" alt="message.svg" />
                           </CustomButton>
@@ -222,19 +286,19 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
                                   <div className={Styles.searchrow}>
                                     <input type="search" placeholder='Search' />
                                   </div>
-                                  <CustomButton
+                                  <button
                                     type="button"
                                     className={Styles.addbtn}
                                   >
                                     Add
-                                  </CustomButton>
+                                  </button>
                                 </div>
                                 <div className={Styles.boxmailcontent}>
                                   <div className={`${Styles.flex} ${Styles.mailtext}`}>
                                     <div>babyruwqivrpqbhzme@cwmxc.com</div>
-                                    <CustomButton type="button">
+                                    <button type="button">
                                       <img src="../../close-border.svg" alt="close" />
-                                    </CustomButton>
+                                    </button>
                                   </div>
                                 </div>
                               </Popover.Body>
@@ -243,7 +307,7 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
                         >
                           <CustomButton
                             type="button"
-                            className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
+                            className={`${Styles.recipientsbtn}  ${Styles.flex}`}
                           >
                             Add Bcc <img src="../../message.svg" alt="message.svg" />
                           </CustomButton>
@@ -265,19 +329,19 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
                                   <div className={Styles.searchrow}>
                                     <input type="search" placeholder='Search' />
                                   </div>
-                                  <CustomButton
+                                  <button
                                     type="button"
                                     className={Styles.addbtn}
                                   >
                                     Add
-                                  </CustomButton>
+                                  </button>
                                 </div>
                                 <div className={Styles.boxmailcontent}>
                                   <div className={`${Styles.flex} ${Styles.mailtext}`}>
                                     <div>babyruwqivrpqbhzme@cwmxc.com</div>
-                                    <CustomButton type="button">
+                                    <button type="button">
                                       <img src="../../close-border.svg" alt="close" />
-                                    </CustomButton>
+                                    </button>
                                   </div>
                                 </div>
                               </Popover.Body>
@@ -286,7 +350,7 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
                         >
                           <CustomButton
                             type="button"
-                            className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex}`}
+                            className={`${Styles.recipientsbtn}  ${Styles.flex}`}
                           >
                             Add Cc <img src="../../message.svg" alt="message.svg" />
                           </CustomButton>
@@ -297,13 +361,12 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
 
                   {/* Submit Button */}
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                    <CustomButton type="submit" className={Styles.mainboxfooterbtn}>
+                    <CustomButton type="submit" >
                       Submit
                     </CustomButton>
                   </div>
                 </div>
-              </div>
-            </form>
+              </div>}
           </div>
         </div>
       </div>

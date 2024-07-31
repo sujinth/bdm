@@ -175,20 +175,7 @@ ul.listiconhide li::after {
 .rowrhtbtn {
   column-gap: 10px;
 }
-.mainboxfooterbtn:hover {
-  background-color: #d01a24 !important;
-  border: 1px solid  #d01a24 !important;
-}
-.mainboxfooterbtn {
-  background-color: #e51b24;
-  border: 1px solid  #e51b24;
-  color: #fff;
-  height: 40px;
-  padding: 10px;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: 600;
-}
+
 .imagechoosebtn {
   width: 170px;
   justify-content: space-between;
@@ -318,9 +305,6 @@ ul.listiconhide li::after {
   .detailbx {
     width: 65%;
   }
-  .mainboxfooterbtn{
-    padding: 5px;
-  }
 }
 @media (max-width: 768px) {
   .visitnamebx {
@@ -346,9 +330,6 @@ ul.listiconhide li::after {
   flex-wrap: wrap;
   row-gap: 10px;
   margin-bottom: 0px;
- }
- .mainboxfooterbtn{
-  width: max-content;
  }
 .btnrow:not(:last-child){
   margin-bottom: 10px;
