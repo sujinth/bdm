@@ -5,7 +5,7 @@
             //////////////////////////////////////////////////////////////////////////////////
 
 'use client'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Styles from './Action.module.scss';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -13,6 +13,8 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { useDashboard } from '../../contexts/layoutContext';
 import Button from '../../components/commen/FormElements/Button/Button';
+import { useRouter } from 'next/navigation';// Utils
+import { handleHTMLContent } from '../../utils/htmlUtils';
 
 // Action component
 const Action = () => {
@@ -30,11 +32,8 @@ const Action = () => {
     const [cartId, setCartId] = useState();
     const { setGoBackToPage, goBackToPage } = useDashboard();
     const session = useSession();
-
-    // Function for render at ṭhe time of change in session value and at the time of change in page name.
-    useEffect(()=>{
-        getVisitName();
-    },[pageName, session.data?.user?.id])
+    const router = useRouter();
+    const htmlContentRef = useRef(false);
 
     // Function for render at the time of change in goBackToPage state.
     useEffect(()=>{
@@ -45,11 +44,19 @@ const Action = () => {
         } else if(goBackToPage.pageThree && pageName != 'Visit Reports'){
             setPageName('Visit Reports');
         }
+        getVisitName();
     },[goBackToPage])
+
+    // Handle HTML content injection on formData change
+    useEffect(() => {
+        if (incompleteActions[currentIncompleteAction]?.formdata && !htmlContentRef.current) {
+            htmlContentRef.current = true;
+            handleHTMLContent(incompleteActions[currentIncompleteAction]?.formdata, 'root');
+        }
+    }, [incompleteActions[currentIncompleteAction]?.formdata]);
 
     // Function for fetching visit name
     async function getVisitName(){
-        console.log("pageName",pageName)
         try{
             let userId = session.data?.user?.id;
             if (!userId) {
@@ -60,9 +67,6 @@ const Action = () => {
             switch(pageName){
 
                 case 'Visit Name':
-                    
-                    // Set page number for back button
-                    setGoBackToPage(()=>({pageOne : true, pageTwo : false, pageThree : false}));
 
                     // API call to next server for delearship visit report
                     const visitNameResponse = await axios.post(`/api/actions/dealershipVisitReports`,{
@@ -78,9 +82,6 @@ const Action = () => {
                     break;
 
                 case 'Dealer Groups':
-
-                    // Set page number for back button
-                    setGoBackToPage(()=>({pageOne : false, pageTwo : true, pageThree : false}));
 
                     // API call to next server for incomplete delearship report
                     const dealerGroupResponse = await axios.post(`/api/actions/incompleteDealership`,{
@@ -106,9 +107,6 @@ const Action = () => {
                     setIncompleteActions([]);
                     setCurrentIncompleteAction();
 
-                    // Set page number for back button
-                    setGoBackToPage(()=>({pageOne : false, pageTwo : false, pageThree : true}));
-
                     // API call to next server for incompleted actions report
                     const incompleteActions = await axios.post(`/api/actions/incompleteActions`,{
                         userId,
@@ -125,7 +123,9 @@ const Action = () => {
                     if (incompleteActions?.data?.result?.root?.reportLists && Array.isArray(incompleteActions?.data?.result?.root?.reportLists)) {
                         setIncompleteActions(incompleteActions.data.result.root.reportLists);
                     }
-                    console.log(incompleteActions.data.result.root.reportLists[0])
+                    
+                    break;
+                default :
                     break;
             }
 
@@ -144,7 +144,7 @@ const Action = () => {
     };
 
     // Function for submit data
-    function submitData(){
+    function submitData(flagSave){
         try{
             let stringFieldValues = document.getElementById('strFormControlInfo')?.value || "";
             let fieldValuesArray = [];
@@ -170,14 +170,14 @@ const Action = () => {
             }
 
             // Data submit in to api
-            dataPostInToApi(stringFieldValues, strPostData);
+            dataPostInToApi(stringFieldValues, strPostData, flagSave);
         } catch(error){
             console.log("error : ",error);
         }
     }
     
     // Function for data submit in to api
-    async function dataPostInToApi(stringFieldValues, strPostData){
+    async function dataPostInToApi(stringFieldValues, strPostData, flagSave){
         try{
             let userId = session.data?.user?.id;
             if (!userId) {
@@ -191,12 +191,14 @@ const Action = () => {
                 formId : selectedFormId,
                 dealershipId : dealerGroupId,
                 strFormControlInfo : stringFieldValues,
-                postData : strPostData
+                postData : strPostData,
+                flagSave
             });
-
             // Setting response to the state
             if (visitNameResponse?.data?.result?.status) {
-                getVisitName();
+                setPageName("Visit Name"); 
+                setGoBackToPage({pageOne : true, pageTwo : false, pageThree : false});
+                router.push('/home');
             }
         } catch(error){
             console.log("error in api call : ",error);
@@ -216,6 +218,7 @@ const Action = () => {
                                 <ul className={Styles.listcntnt}>
                                     {delearshipVisitReport.map((item)=>(
                                         <li onClick={()=> {
+                                            setGoBackToPage({pageOne : false, pageTwo : true, pageThree : false});
                                             setPageName("Dealer Groups"); 
                                             setFlagTabbedView(item?.flagTabbedView);
                                             setFlagHealthCheck(item?.flagHealthCheck);
@@ -241,7 +244,13 @@ const Action = () => {
                                             <div className={Styles.listtoptitle}>My Dealers Group</div>
                                             <ul className={Styles.listcntnt}>
                                                 {dealerGroup.map((item)=>(
-                                                    <li onClick={(e)=> {setPageName("Visit Reports"); setDealerGroupId(e?.target?.value)}} value={item?.dealerGroupId}>{item?.dealerGroupName}</li>
+                                                    <li onClick={(e)=> {
+                                                            setGoBackToPage({pageOne : false, pageTwo : false, pageThree : true})
+                                                            setPageName("Visit Reports");
+                                                            setDealerGroupId(e?.target?.value)}
+                                                        } value={item?.dealerGroupId}>
+                                                            {item?.dealerGroupName}
+                                                    </li>
                                                 ))}
                                             </ul>
                                         </div>
@@ -251,7 +260,13 @@ const Action = () => {
                                             <div className={Styles.listtoptitle}>My Dealers</div>
                                             <ul className={Styles.listcntnt}>
                                                 {dealership.map((item)=>(
-                                                    <li onClick={(e)=> {setPageName("Visit Reports"); setDealerGroupId(e?.target?.value)}} value={item?.id}>{item?.name}</li>
+                                                    <li onClick={(e)=> {
+                                                        setGoBackToPage({pageOne : false, pageTwo : false, pageThree : true})
+                                                        setPageName("Visit Reports"); 
+                                                        setDealerGroupId(e?.target?.value)
+                                                        }} value={item?.id}>
+                                                            {item?.name}
+                                                    </li>
                                                 ))}
                                             </ul>
                                         </div>
@@ -275,13 +290,12 @@ const Action = () => {
                     {/* Content need to show under details */}
                     <div className={Styles.detailbx}>
                         <div className={Styles.titlebx}>Details</div>
-                        <div className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}>
-
+                        <div className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}>{/* Placeholder for dynamic HTML content */}
                             {pageName == "Visit Reports" && incompleteActions[currentIncompleteAction]?.formdata ?
                                 <div>
-                                    <div dangerouslySetInnerHTML={{ __html: incompleteActions[currentIncompleteAction]?.formdata }} />
-                                    <Button onClick={()=>alert("Save functionality not added.")} children="Save" />
-                                    <Button onClick={submitData} children="Submit" />
+                                    <div id="root"></div>
+                                    <Button onClick={()=>submitData("Y")} children="Save" />
+                                    <Button onClick={()=>submitData("N")} children="Submit" />
                                 </div>
                             :
                                 <div>

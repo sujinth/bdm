@@ -15,27 +15,31 @@ const agent = new https.Agent({
 // Function for incomplete update action status
 export async function POST(request) {
     try {
-        const {userId, cartId, formId, dealershipId, strFormControlInfo, postData} = await request.json();
+        const { userId, cartId, formId, dealershipId, strFormControlInfo, postData, flagSave } = await request.json();
 
-        // If no userId in request this will throw error
+        // Create a new FormData instance
+        const formData = new FormData();
+        formData.append('userid', userId);
+        formData.append('cartid', cartId);
+        formData.append('formid', formId);
+        formData.append('dealershipid', dealershipId);
+        formData.append('strFormControlInfo', strFormControlInfo);
+        formData.append('postdata', postData);
+        formData.append('flag_save', flagSave);
+
+        // If no userId in request, return an error response
         if (!userId) {
-            return new Response(JSON.stringify({message :"userId parameter is required."}), {status : 400});
+            return new Response(JSON.stringify({ message: "userId parameter is required." }), { status: 400 });
         }
 
         // API request and response sending
-        const response = await axios.post(`
-            ${config.INCOMPLETE_UPDATEACTION_STATUS}?
-            userid=${userId}&
-            cartid=${cartId}&
-            formid=${formId}&
-            dealershipid=${dealershipId}&
-            strFormControlInfo=${strFormControlInfo}&
-            postdata=${postData}
-        `,
-        {},
-        {
-            httpsAgent: agent
-        });
+        const response = await axios.post(
+            `${config.INCOMPLETE_UPDATEACTION_STATUS}`,
+            formData,
+            { 
+                httpsAgent: agent
+            }
+        );
         
         return new Response(JSON.stringify(
             { message: "success", result: response.data }
