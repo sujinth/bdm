@@ -5,7 +5,7 @@ import axios from 'axios';
 // Pages
 import Styles from './visitreport.module.scss';
 import VisitReportTemplate from './visitReportTemplate';
-import { useDashboard } from '../../contexts/dashboardContext';
+import { useDashboard } from '../../contexts/layoutContext';
 
 const VisitReport = () => {
     const session = useSession();

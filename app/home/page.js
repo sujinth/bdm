@@ -1,18 +1,14 @@
 
 'use client'
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import Link from 'next/link'
-import { signOut ,useSession} from 'next-auth/react'
-import { useRouter } from 'next/navigation';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import InnerHeader from '../components/commen/InnerHeader/Header';
 // Style
 import Styles from './home.module.scss';
 
 const Home = () => {        
-    const session = useSession();
-    const router = useRouter();
-    const loggedIn = !!session.data;
+
     //Variable to show or hide modal
     const [show, setShow] = useState(false);
     //Functionn to hide modal
@@ -20,47 +16,10 @@ const Home = () => {
     //Functionn to show modal
     const handleShow = () => setShow(true);
 
-    useEffect(()=>{
-        document.body.style.overflow = "auto";
-    },[])
-
-    const menuClick = ()=>{
-        document.getElementById("menupopup").style.display = "block";
-        document.body.style.overflow = "hidden";
-    }
-    const menuClose = ()=>{
-        document.getElementById("menupopup").style.display = "none";
-        document.body.style.overflow = "auto";
-    }
-    const logOut = () =>{
-        signOut();
-        router.push('/home');
-    }
     return (
         <> 
-        <div className={Styles.header}> 
-            <div className={Styles.container}> 
-                <div className={Styles.flex}> 
-                    <div><a href="#"><img className={Styles.logoimage} src="/logo.png" alt="logo" /></a></div> 
-                    <div className={`${Styles.flex} ${Styles.colgp15} `}> 
-                        <div className={Styles.whttxt}>MI Business App</div>
-                        <div ><img className={Styles.logoimage} src="/user.svg" alt="user" onClick={() => menuClick()} />
-                            <div id="menupopup" className={Styles.headermenu}><button type="button" className={Styles.btncancel}  onClick={() => menuClose()}><img className={Styles.logoimage} src="/closelight.svg" alt="close" /></button>
-                            <div className={`${Styles.pd20} ${Styles.sidebarmenu} `}>
-                                <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><Link href="/home">Home</Link></div>
-                                <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><Link href="/visit-reports">Visit Reports</Link></div>
-                                <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><Link href="/actions">Actions</Link></div>
-                                <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><Link href="/coaching">Coaching</Link></div>
-                                <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><Link href="/resources">Resources</Link></div>
-                                <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><Link href="/update-password">Change password</Link></div>
-                            </div>
-                            </div>
-                        </div>
-                         {loggedIn && <Button onClick={logOut} variant="light">Logout</Button>}
-                    </div> 
-                </div>
-            </div>
-        </div>
+        {/* Header */}
+        <InnerHeader />
         <div className={Styles.container}> 
             <div className={Styles.pd10}>Welcome to MI Business App</div>
         </div>

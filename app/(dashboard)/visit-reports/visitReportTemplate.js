@@ -47,7 +47,38 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
 
   // Memoize formData to avoid unnecessary re-renders
   const formData = useMemo(() => selectedVisitReportData, [selectedVisitReportData]);
+  
+  const formatDynamicOutput = (arr) => {
+    const result = [];
+    let currentGroup = [];
+    let groupStarted = false;
 
+    arr.forEach(item => {
+        // Check if the item indicates the start of a new group or is empty
+        if (item === '' || /^[A-Za-z]/.test(item)) {
+            // If a group was being built, finalize it
+            if (currentGroup.length > 0) {
+                result.push(currentGroup.join('^@^'));
+                currentGroup = [];
+            }
+            // If item is not an empty string, start a new group
+            if (item !== '') {
+                currentGroup.push(item);
+                groupStarted = true;
+            }
+        } else {
+            // Collect items for the current group
+            currentGroup.push(item);
+        }
+    });
+
+    // Finalize the last group if it exists
+    if (currentGroup.length > 0) {
+        result.push(currentGroup.join('^@^'));
+    }
+
+    return result.join('^@^');
+};
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,8 +86,8 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
     // Retrieve the input value
     let formInputValue = document.getElementById('strFormControlInfo').value;
     let elementIds = formInputValue.split(',');
-    console.log("arr",elementIds);
-    // Split the input string at '@@' to get an array of IDs without suffixes
+
+    // Split the input string at '@@1' to get an array of IDs without suffixes
     let cleanIds = elementIds.map(item => item.split('@@')[0]);
   
     let valuesArray = [];
@@ -76,8 +107,9 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
       
       valuesArray.push(elementContent);
     }
-  
-    // Log the resulting array
+    console.log("output",formatDynamicOutput(valuesArray));
+    console.log('formInputValue',formInputValue);
+
     console.log("valuesArray", valuesArray);
   };
   
@@ -90,7 +122,7 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
     }
   }, [formData?.formInfo]);
 
-
+  // Handle footer submit buttons case of TAB
   useEffect(() => {
     // Check if the flagTabbedView in formData is 'Y'
     if (formData?.flagTabbedView === 'Y') {
@@ -104,9 +136,14 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
           const tabs = Array.from(document.querySelectorAll('#tb2 li a'));
           // Find the last tab link in the list
           const lastTab = tabs[tabs.length - 1];
-  
+          const isSelected = lastTab.classList.contains('selected');
           // Check if the clicked tab is the last tab
-          setIsLastTabSelected(lastTab.getAttribute('rel') === rel);
+          if(lastTab.getAttribute('rel') === rel && isSelected){
+            setIsLastTabSelected(isSelected);
+          }else{
+            setIsLastTabSelected(isSelected);
+          }
+          
         }
       };
   
@@ -124,7 +161,6 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
     }
   }, [formData]); 
   
-
 
   return (
     <div className={Styles.bgcolor}>

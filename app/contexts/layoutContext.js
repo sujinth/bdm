@@ -1,9 +1,9 @@
 'use client'
 import React, { createContext, useContext, useState } from 'react';
 import { useRouter } from 'next/navigation' 
-const DashboardContext = createContext();
+const LayoutContext = createContext();
 
-export const DashboardProvider = ({ children }) => {
+export const LayoutProvider = ({ children }) => {
     const router = useRouter();
     const [goBackToPage, setGoBackToPage] = useState({
             pageOne : false,
@@ -26,9 +26,9 @@ export const DashboardProvider = ({ children }) => {
       };
  
     return (
-        <DashboardContext.Provider value={{ setGoBackToPage,goBackToPage,handleGoBack }}>
+        <LayoutContext.Provider value={{ setGoBackToPage,goBackToPage,handleGoBack }}>
             {children}
-        </DashboardContext.Provider>
+        </LayoutContext.Provider>
     );
 };
-export const useDashboard = () => useContext(DashboardContext);
+export const useDashboard = () => useContext(LayoutContext);

@@ -11,7 +11,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
-import { useDashboard } from '../../contexts/dashboardContext';
+import { useDashboard } from '../../contexts/layoutContext';
 import Button from '../../components/commen/FormElements/Button/Button';
 
 // Action component

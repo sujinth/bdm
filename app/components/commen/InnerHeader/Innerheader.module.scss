@@ -55,3 +55,317 @@
     letter-spacing: 0.2px;
   }
 }
+
+
+/////////
+.header {
+  background-color:#e51b24;
+  width: 100%;
+  text-align: center;
+  .whttxt{
+    font-size: 16px;
+  }
+}
+.logoimage{
+  text-align: left;
+  cursor: pointer;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.flex{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  row-gap: 15px;
+}
+.colgp15{
+  column-gap: 15px;
+}
+.bgcolor{
+  background-color: #f3f3f3;
+}
+.whtbg{
+  background-color: #fff;
+}
+.whttxt{
+  font-size: 14px;
+    font-weight: normal;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #fff;
+}
+.pd10{
+  padding: 10px;
+}
+.pdTB10{
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.pdTB20{
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.pdT10{
+  padding-top: 10px;
+
+}
+.pdTB5{
+  padding-bottom:5px;
+  padding-top: 5px;
+}
+.pdTB5{
+  padding-bottom:10px;
+  padding-top: 10px;
+}
+.pdB10{
+  padding-bottom: 10px;
+}
+.pd20{
+  padding: 20px;
+}
+.pdTB70{
+  padding: 70px 0px;
+}
+.pd15{
+  padding: 15px;
+}
+.pdT50{
+  padding-top: 50px;
+
+}
+.mrgT15{
+  margin-top:15px;
+}
+.brdradius{
+  border-radius: 10px;
+}
+.notificationtitle{
+  position: relative;
+  padding-left: 30px;
+  font-weight: 500;
+  border-bottom: 1px dashed #d6cbcb;
+}
+.notificationtitle::before{
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0px;
+  background-image: url(/announcement.svg);
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+}
+.lftbxcntnt{
+  width: 75%;
+}
+.rghtbxcntnt{
+  width: 25%;
+  height: 343px;
+}
+.fntw700{
+  font-weight: 700;
+}
+.fntw600{
+  font-weight: 600;
+}
+.fnt13{
+  font-size: 13px;
+}
+.fntclgry{
+  color: #938e8e;
+}
+.brdgry{
+  border: 1px solid #989898;
+}
+.fntclrd{
+  color: #e51b24;
+}
+.readmorepopup{
+  
+  position: absolute;
+ top: 0;
+ bottom: 0;
+ left: 0;
+ right: 0;
+ margin: auto;
+ display: none;
+ justify-content: center;
+ align-items: center;
+ background-color:#0000006b;
+
+}
+.popupcntnt{
+  background-color: #fff;
+  width: 500px;
+  padding: 20px;
+}
+.btncancel{
+  width: 100%;
+  text-align: end;
+}
+.btncancel img{
+  text-align: end;
+  display: inline-block;
+}
+.tabbanner{
+  display: none;
+}
+.lftbxcntnt img{
+  cursor: auto;
+}
+.borderdrk{
+  border: 1px solid #000;
+}
+.iconbrborderradius{
+  border-radius: 10px 0px 0px 10px;
+}
+.bgwht{
+  background-color: #fff;
+}
+.bgred{
+background-color: #e51b24;
+}
+.cntntbox{
+  width: 20%;
+}
+.clgp20{
+  column-gap: 20px;
+}
+.clgp10{
+  column-gap: 10px;
+  justify-content: normal;
+}
+.cntntbox .boxtxt{
+  height: 110px;
+}
+.headermenu{
+  display: none;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: #fff;
+  height: 110vh;
+  width: 25%;
+  z-index: 9;
+  padding: 20px;
+  box-shadow: 10px 10px 10px 10px #000;
+}
+.clrgry{
+  color: #b9baba;
+}
+.menulist{
+  border-bottom: 1px solid #b9baba;
+  font-weight: 600;
+}
+.alignlft{
+  text-align: left;
+}
+.sidebarmenu{
+  overflow-y: scroll;
+  height: 600px;
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background:#aaaaaa;
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #aaaaaa;
+  }
+}
+.cntntbox a{
+  .brdradius{
+    position: relative;
+    border: 1px solid #9c4041;
+  }
+  div.iconbrborderradius{
+    position: absolute;
+    top: -1px;
+    left: -1px;
+  }
+  img.iconbrborderradius{
+    padding: 11px 10px 10px;
+  }
+  .whttxt{
+    padding-left: 55px;
+  }
+}
+@media( max-width:1199px){
+.lftbxcntnt{
+  width: 100%;
+}
+.cntntbox .boxtxt{
+  height: 140px;
+}
+.lftbxcntnt img{
+ margin: auto;
+}
+.desktopbanner{
+  display: none;
+}
+.tabbanner{
+  display: block;
+}
+.rghtbxcntnt{
+  margin-top: 20px;
+  width: 100%;
+  height: auto;
+}
+.tabbanner{
+  width: 100%;
+}
+.pdTB70{
+  padding: 50px 0px;
+}
+.pdT50{
+  padding-top: 30px;
+
+}
+}
+@media( max-width:992px){
+  .cntntbox{
+    width: 30%;
+  }
+}
+@media( max-width:620px){
+.popupcntnt{
+  width: 80%;
+}
+.cntntbox{
+  width: 100%;
+  margin: auto;
+}
+.cntntbox .boxtxt{
+  height: auto;
+}
+.headermenu{
+  width: 75%;
+  .flex{
+    justify-content: center;
+  }
+}
+.header{
+  .flex{
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+  .whttxt{
+    display: none;
+  }
+}
+}

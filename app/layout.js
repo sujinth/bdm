@@ -1,5 +1,6 @@
 
 import { getServerSession } from 'next-auth';
+import { LayoutProvider } from './contexts/layoutContext';
 import Wrapper from './sessionWrapper'
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,7 +27,9 @@ export default async  function RootLayout({ children }) {
     </head>
     <body>
         <Wrapper session={session}>
-          {children}
+          <LayoutProvider>
+              {children}
+          </LayoutProvider>
         </Wrapper>
     </body>
     </html>
