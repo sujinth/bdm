@@ -1,8 +1,8 @@
-                //////////////////////////////////////////////////////////////////////////////////       
-                //                                                                              //           
-                //                       File for showing action functionality                  //
-                //                                                                              //
-                //////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////       
+            //                                                                              //           
+            //                       File for showing action functionality                  //
+            //                                                                              //
+            //////////////////////////////////////////////////////////////////////////////////
 
 'use client'
 import { useEffect, useState } from 'react';
@@ -27,8 +27,6 @@ const Action = () => {
     const [selectedFormId, setSelectedFormId] = useState("");
     const [dealerGroupId, setDealerGroupId] = useState();
     const [dealership, setDealership] = useState([]);
-    const [strFormControlData, setStrFormControlData] = useState("");
-    const [postData, setPostData] = useState("")
     const [cartId, setCartId] = useState();
     const { setGoBackToPage, goBackToPage } = useDashboard();
     const session = useSession();
@@ -51,6 +49,7 @@ const Action = () => {
 
     // Function for fetching visit name
     async function getVisitName(){
+        console.log("pageName",pageName)
         try{
             let userId = session.data?.user?.id;
             if (!userId) {
@@ -148,7 +147,6 @@ const Action = () => {
     function submitData(){
         try{
             let stringFieldValues = document.getElementById('strFormControlInfo')?.value || "";
-            setStrFormControlData(stringFieldValues);
             let fieldValuesArray = [];
             let strPostData = "";
             if(stringFieldValues){
@@ -170,7 +168,6 @@ const Action = () => {
                     } 
                 });
             }
-            setPostData(strPostData);
 
             // Data submit in to api
             dataPostInToApi(stringFieldValues, strPostData);
@@ -286,7 +283,6 @@ const Action = () => {
                                     <Button onClick={()=>alert("Save functionality not added.")} children="Save" />
                                     <Button onClick={submitData} children="Submit" />
                                 </div>
-                                
                             :
                                 <div>
                                     <img className={Styles.logoimage} src="/logo.png" alt="logo" />
