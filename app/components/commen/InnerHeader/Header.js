@@ -56,7 +56,7 @@ const InnerHeader = () => {
                         </div>
                         </div>
                     </div>
-                     {(loggedIn && isHomePage) && <Button onClick={logOut} variant="light">Logout</Button>}
+                     {loggedIn && <Button onClick={logOut} variant="light">Logout</Button>}
                      {!isHomePage && <button onClick={handleGoBack}>Back</button>}
                 </div> 
             </div>
