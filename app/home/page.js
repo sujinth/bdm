@@ -9,7 +9,7 @@ import Styles from './home.module.scss';
 
 const Home = () => {        
 
-    //Variable to show or hide modal
+    //Variable to show or hide modal 
     const [show, setShow] = useState(false);
     //Functionn to hide modal
     const handleClose = () => setShow(false);
