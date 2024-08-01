@@ -12,7 +12,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { useDashboard } from '../../contexts/dashboardContext';
-import Button from '../../components/commen/FormElements/Button';
+import Button from '../../components/commen/FormElements/Button/Button';
 
 // Action component
 const Action = () => {
