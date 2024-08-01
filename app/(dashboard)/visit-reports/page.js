@@ -53,7 +53,7 @@ const VisitReport = () => {
     useEffect(() => {
         setGoBackToPage((prev) => ({ ...prev, pageOne: true }));
         getVisitReports();
-    }, [session]);
+    }, [session.data?.user?.id]);
 
     useEffect(() => {
         if (goBackToPage.pageTwo) {
@@ -109,6 +109,7 @@ const VisitReport = () => {
                                 {(!isReportsSelected && goBackToPage.pageOne) ? 'Details' : 'Account Closure Form'}
                             </div>
                             <div className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx}`}>
+                                {/* Body */}
                                 <div>
                                     <img className={Styles.logoimage} src="/logo.png" alt="logo" />
                                     <div className={`${Styles.textcntr} ${Styles.logobottomtext} ${Styles.pdT20} ${Styles.ftw600}`}>

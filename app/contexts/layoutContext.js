@@ -8,23 +8,23 @@ export const LayoutProvider = ({ children }) => {
     const [goBackToPage, setGoBackToPage] = useState({
             pageOne : false,
             pageTwo : false,
-            pageThree : false
+            pageThree : false,
+            pageFour : false
     });
     
 
     // Go back to url
     const handleGoBack = () => {
         if(goBackToPage.pageTwo){
-            setGoBackToPage((prev)=>({...prev,pageOne : true,pageTwo : false}))
-        }else if(goBackToPage.pageThree){
-            setGoBackToPage((prev)=>({...prev,pageTwo : true,pageThree : false}))
+            setGoBackToPage((prev)=>({...prev,pageOne : true,pageTwo : false}));
+        }else if(goBackToPage.pageThree && !goBackToPage.pageFour){
+            setGoBackToPage((prev)=>({...prev,pageTwo : true,pageThree : false}));
+        }else if(goBackToPage.pageFour){
+            setGoBackToPage((prev)=>({...prev,pageFour : false}));
         }else{
             router.back();
         }
-        
-        
       };
- 
     return (
         <LayoutContext.Provider value={{ setGoBackToPage,goBackToPage,handleGoBack }}>
             {children}

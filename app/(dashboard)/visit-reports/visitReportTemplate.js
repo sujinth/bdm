@@ -3,8 +3,12 @@
 import React, { useMemo, useState, useRef, useEffect } from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+
 // Utils
 import { handleHTMLContent } from '../../utils/htmlUtils';
+import { formatDynamicOutput } from '../../utils/commenController'
+
+import { useDashboard } from '../../contexts/layoutContext';
 // Components
 import CustomButton from '../../components/commen/FormElements/Button/Button';
 // Styles
@@ -14,8 +18,9 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
   // State 
   const [imagePopupVisible, setImagePopupVisible] = useState(false);
   const [isLastTabSelected, setIsLastTabSelected] = useState(false);
-  // Ref to track if HTML content has been handled
-  const testRef = useRef(false);
+  // Ref handling hrml render
+  const htmlContentRef = useRef(false);
+  const { setGoBackToPage, goBackToPage } = useDashboard();
 
   // Toggle the display of the image popup
   const menuClick = () => {
@@ -48,45 +53,14 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
   // Memoize formData to avoid unnecessary re-renders
   const formData = useMemo(() => selectedVisitReportData, [selectedVisitReportData]);
   
-  const formatDynamicOutput = (arr) => {
-    const result = [];
-    let currentGroup = [];
-    let groupStarted = false;
-
-    arr.forEach(item => {
-        // Check if the item indicates the start of a new group or is empty
-        if (item === '' || /^[A-Za-z]/.test(item)) {
-            // If a group was being built, finalize it
-            if (currentGroup.length > 0) {
-                result.push(currentGroup.join('^@^'));
-                currentGroup = [];
-            }
-            // If item is not an empty string, start a new group
-            if (item !== '') {
-                currentGroup.push(item);
-                groupStarted = true;
-            }
-        } else {
-            // Collect items for the current group
-            currentGroup.push(item);
-        }
-    });
-
-    // Finalize the last group if it exists
-    if (currentGroup.length > 0) {
-        result.push(currentGroup.join('^@^'));
-    }
-
-    return result.join('^@^');
-};
+  
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     
     // Retrieve the input value
     let formInputValue = document.getElementById('strFormControlInfo').value;
     let elementIds = formInputValue.split(',');
-
     // Split the input string at '@@1' to get an array of IDs without suffixes
     let cleanIds = elementIds.map(item => item.split('@@')[0]);
   
@@ -104,20 +78,76 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
       } else {
           elementContent = document.getElementById(elementId)?.value || '';
       }
-      
+        
       valuesArray.push(elementContent);
     }
-    console.log("output",formatDynamicOutput(valuesArray));
-    console.log('formInputValue',formInputValue);
+    // flagTabbedView === 'N'
+    let txtDateTimeElement = '';
+    let txtDealershipNameElement = '';
+    let lstDealershipStatus ='';
+    let packExpiryDate = '';
+    let txtAttendees = '';
 
-    console.log("valuesArray", valuesArray);
+    // flagTabbedView === 'Y'
+    let txtDealerSignature = '';
+    let txtScfSignature = '';
+    let nextReviewDate = '';
+
+
+    // Case  flagTabbedView === 'N'
+    if(formData?.flagTabbedView === 'N'){
+        txtDateTimeElement = document.querySelector('input[name="txtDateTime"]').value || '';
+        txtDealershipNameElement = document.querySelector('input[name="txtDealershipName"]').value || '';
+        lstDealershipStatus = document.getElementById('lstDealershipStatus').value || '';
+        packExpiryDate  = document.getElementById('txtPackExpiryDate').value || '';
+        txtAttendees = document.getElementById('txtAttendees').value || ''
+        console.log("txtDateTimeElement",txtDateTimeElement);
+        console.log("txtDealershipNameElement",txtDealershipNameElement);
+        console.log("lstDealershipStatus",lstDealershipStatus);
+        console.log("packExpiryDate",packExpiryDate);
+        console.log("txtAttendees",txtAttendees  );
+    }
+
+    // Case  flagTabbedView === 'Y' Last tab compleated report section 
+    if(formData?.flagTabbedView === 'Y'){
+        txtDealerSignature = document.getElementById('txtDealerSignature').value || '';
+        txtScfSignature = document.getElementById('txtScfSignature').value || '';
+        nextReviewDate = document.getElementById('nextReviewDate').value || '';
+        // console.log("txtDealerSignature",txtDealerSignature);
+        // console.log("txtScfSignature",txtScfSignature);
+        // console.log("nextReviewDate",nextReviewDate);
+    }
+
+    const formControlListId = formInputValue
+    // Join the items with `^@^` as the separator
+    const formControlResult  = await formatDynamicOutput(valuesArray)
+    // output
+    console.log('formControlListId',formControlListId);
+    console.log("formControlResult",formControlResult);
+    
   };
   
-
+  useEffect(()=>{
+    if(formData?.flagTabbedView === 'N'){
+        // Get the input element by its name attribute
+        const txtDateTimeElement = document.querySelector('input[name="txtDateTime"]');
+        const txtDealershipNameElement = document.querySelector('input[name="txtDealershipName"]');   
+        if (txtDateTimeElement) {
+          // Create a new Date object
+          const now = new Date();
+          // Format the date as YYYY-MM-DD 
+          const formattedDate = now.toISOString().split('T')[0];
+          txtDateTimeElement.value = formattedDate;
+        }
+        if(txtDealershipNameElement){
+          txtDealershipNameElement.value = formData?.formName;
+        }
+    }
+  },[formData])
   // Handle HTML content injection on formData change
   useEffect(() => {
-    if (formData?.formInfo && !testRef.current) {
-      testRef.current = true;
+    if (formData?.formInfo && !htmlContentRef.current) {
+      htmlContentRef.current = true;
       handleHTMLContent(formData.formInfo, 'root');
     }
   }, [formData?.formInfo]);
@@ -169,13 +199,17 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
         <div className={Styles.visitnamebx}>
           <div className={Styles.titlebx}>My Dealer</div>
           <div className={Styles.listitems}>
-            <ul className={`${Styles.listcntnt} ${Styles.listiconhide}`}>
+            {!goBackToPage.pageFour && <ul className={`${Styles.listcntnt} ${Styles.listiconhide}`}>
+              <li className={Styles.listhead}><a>New Form</a></li>
+            </ul>}
+
+            {goBackToPage.pageFour && <ul className={`${Styles.listcntnt} ${Styles.listiconhide}`}>
               <li className={Styles.listhead}><a>New Form</a></li>
               <li><a href="#">14/12/2023 16:11:04 - Sent</a></li>
               <li><a href="#">21/12/2023 13:11:04 - Sent</a></li>
               <li><a href="#">02/08/2023 01:11:04 - Sent</a></li>
               <li><a href="#">18/12/2023 15:11:04 - Sent</a></li>
-            </ul>
+            </ul>}
           </div>
         </div>
 
@@ -183,6 +217,10 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
         <div className={Styles.detailbx}>
           <div className={Styles.titlebx}>{selectedVisitReportData?.formName}</div>
           <div className={`${Styles.contentwhtbx} ${Styles.contentwhtbxfooter}`}>
+
+            {/* Visit report form */}
+            {!goBackToPage.pageFour && <VisitReportForm setGoBackToPage={setGoBackToPage}/>}
+            {goBackToPage.pageFour && <>
               {/* Placeholder for dynamic HTML content */}
               <div id="root"></div>
 
@@ -403,6 +441,8 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
                   </div>
                 </div>
               </div>}
+            </>}
+          
           </div>
         </div>
       </div>
@@ -411,3 +451,68 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
 };
 
 export default VisitReportTemplate;
+
+
+function VisitReportForm({setGoBackToPage}){
+
+  return(
+    <>
+        <form >
+          <table className={Styles.detailtbl}>
+            <tbody>
+              <tr>
+                <td>Review Date</td>
+                <td>
+                   <input className={Styles.tblinputbx} type="date" />
+                </td>
+              </tr>
+              <tr>
+                <td>Dealer</td>
+                <td>
+                   <input className={Styles.tblinputbx} type="text" />
+                </td>
+              </tr>
+              <tr>
+                <td>Dealer Attendees</td>
+                <td>
+                  <textarea className={Styles.tblinputbx} type="text"/>     
+                </td>
+              </tr>
+              <tr>
+                <td>SCUK Attendees</td>
+                <td>
+                <textarea className={Styles.tblinputbx} type="text"/>
+                </td>
+              </tr>
+              {/* Footer */}
+              <div className={Styles.mainboxfooter}>
+                <div className={`${Styles.flex} ${Styles.btnrow}`}>
+                  {/* Action Buttons */}
+                  <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
+                    <CustomButton
+                      type="button"
+                      // onClick={handleSubmit}
+                    >
+                      Save
+                    </CustomButton>
+                    <CustomButton
+                      type="button"
+                    >
+                      Cancel
+                    </CustomButton>
+                    <CustomButton
+                      type="button"
+                      onClick={()=>setGoBackToPage((prev)=>({...prev,pageFour : true}))}
+                    >
+                      Continue
+                    </CustomButton>
+                  </div>
+                </div>
+              </div>
+            </tbody>
+          </table>
+        </form>
+
+    </>
+  )
+}
