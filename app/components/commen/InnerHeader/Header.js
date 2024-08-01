@@ -31,7 +31,6 @@ const InnerHeader = () => {
     }
     const logOut = () =>{
         signOut();
-        router.push('/home');
     }
     let isHomePage = false
     if(pathName == '/home' || pathName == '/'){
