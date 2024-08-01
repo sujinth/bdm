@@ -40,8 +40,8 @@
     padding: 0 15px;
   }
   .loginboxcntnt{
-    display: flex;
-    justify-content: center;
+    // display: flex;
+    // justify-content: center;
     padding: 70px 70px;
     border:1px solid #000;
     width: 400px;
@@ -50,7 +50,18 @@
     .loginbox{
       width: 100%;
     }
-  
+  }
+  .forgotboxcntnt{
+    padding: 30px 70px 70px;
+    .logintitle{
+      font-family:'SantanderHead-Bold';
+    font-size: 18px;
+    letter-spacing: 0.2px;
+    color: #EC0000;
+    padding-bottom: 30px;
+    text-align: center;
+    position: relative;
+    }
   }
   .errortext{
     font-family:'SantanderText-Regular';

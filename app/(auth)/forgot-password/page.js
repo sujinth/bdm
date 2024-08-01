@@ -66,7 +66,8 @@ const Forgotpassword = () => {
     return (
         <div className={Styles.bgcolor}>
         <div  className={`${Styles.container} ${Styles.loginpg}`}>
-            <div className={Styles.loginboxcntnt}>
+            <div className={`${Styles.loginboxcntnt} ${Styles.forgotboxcntnt}`}>
+                <div className={Styles.logintitle}>Forgot password</div>
                 <form className={Styles.loginbox} onSubmit={handleSubmit}>
                 {errorMessage.apiErrorMsg !=='' &&<span style={{color : 'red'}}>{errorMessage.apiErrorMsg}</span>}
                     <div className={Styles.mrgb10}>

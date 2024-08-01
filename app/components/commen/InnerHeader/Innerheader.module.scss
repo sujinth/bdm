@@ -121,11 +121,11 @@
   padding: 15px 0px;
   .container{
     position: relative;
-    padding: 0px;
+   
   }
  
   .innerheadertxt{
-    color: #fff;
+    color: #DEEDF2;
     font-weight: 600;
     font-family: SantanderHead-Bold;
     font-size: 16px;
@@ -134,7 +134,7 @@
   .backbtn{
     position: absolute;
    top:0px;
-   left: 10px;
+   left: 22px;
    height: 31px;
   }
   button{
@@ -343,6 +343,7 @@ background-color: #EC0000;
 .clrgry{
   color: #b9baba;
 }
+
 .menulist{
   border-bottom: 1px solid #b9baba;
   font-weight: 500;
@@ -352,6 +353,9 @@ background-color: #EC0000;
   a{
     display: block;
   }
+}
+.menulist:last-child{
+  border-bottom: 0px solid #b9baba;
 }
 .alignlft{
   text-align: left;

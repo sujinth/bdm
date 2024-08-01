@@ -4,6 +4,7 @@ import {  useState } from 'react';
 import Link from 'next/link'
 import Modal from 'react-bootstrap/Modal';
 import InnerHeader from '../components/commen/InnerHeader/Header';
+import Footer from '../components/commen/Footer/Footer';
 // Style
 import Styles from './home.module.scss';
 
@@ -35,8 +36,8 @@ const Home = () => {
                 <div >
                     <div className={`${Styles.notificationtitle} ${Styles.pdB10} `}>Notifications</div>
                     <div className={`${Styles.fntw700} ${Styles.pdTB10}  ${Styles.subtitle} `}>Visit Reports</div>
-                    <div className={`${Styles.fntclgry} ${Styles.pdT10} ${Styles.fnt14}`}>Submit in the app only</div>
-                    <div className={`${Styles.fntclrd} ${Styles.pdTB5} ${Styles.fnt13}`}>
+                    {/* <div className={`${Styles.fntclgry} ${Styles.pdT10} ${Styles.fnt14}`}>Submit in the app only</div> */}
+                    <div className={`${Styles.fntclrd} ${Styles.pdB10} ${Styles.fnt13}`}>
                         <button onClick={() => handleShow()}  className={`${Styles.fntclrd} ${Styles.readmorebtn}`}>[Tap to read more]</button>                   
                     </div>
                     <Modal show={show} onHide={handleClose} 
@@ -57,7 +58,7 @@ const Home = () => {
                             </div>
                         </Modal.Body>            
                     </Modal>
-                    <div className={Styles.fntclgry}>22/11/2023</div>
+                    <div className={Styles.fntclgry}>15/07/2024</div>
                     
                 </div>
             </div>
@@ -102,15 +103,12 @@ const Home = () => {
         </div>
         </div>
         </div>
-      
+        <Footer/>
         
          </>
 
          
-        // <div className={Styles.bgcolor}>
-        //     <div  className={`${Styles.container} ${Styles.loginpg}`}>
-        //     </div>
-        // </div>
+
     );
 };
 

@@ -47,8 +47,8 @@
   flex-wrap: wrap;
   row-gap: 15px;
   column-gap: 15px;
-  padding: 20px 0px;
-  justify-content: center;
+  padding: 20px 20px 50px;
+  justify-content: space-between;
 }
 .visitnamebx {
   width: 28%;
@@ -164,7 +164,8 @@
 .innercontentwhtbx {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: 15%;
   min-height: 750px;
 }
 .textcntr {
