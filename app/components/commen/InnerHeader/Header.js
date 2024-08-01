@@ -64,7 +64,7 @@ const InnerHeader = () => {
             </div>
         </div>
     </div>
-    {!isHomePage &&<div className={Styles.headerbottom}>
+    {(!isHomePage && pathName !=='/login') &&<div className={Styles.headerbottom}>
     <div className={Styles.container}>
         <div >
             <div className={Styles.backbtn}><button onClick={handleGoBack}>Back</button></div>
