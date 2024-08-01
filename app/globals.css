@@ -107,7 +107,7 @@ body {
     background-color: #067cfe;
   }
   .nav-link.active{
-    background-color: #e51b24;
+    background-color: #EC0000;
         color: #fff;
   }
 }
@@ -143,7 +143,7 @@ body {
     color: #000;
   }
   .nav-link.active {
-    background-color: #e51b24;
+    background-color: #EC0000;
     color: #fff;
   }
   .nav-link {
@@ -313,8 +313,8 @@ body::-webkit-scrollbar-thumb {
 .submitbtn {
   justify-content: center;
   button {
-    background-color: #e51b24;
-    border: 0px solid #e51b24;
+    background-color: #EC0000;
+    border: 0px solid #EC0000;
     margin-top: 10px;
     width: 100px;
   }
@@ -448,9 +448,9 @@ body::-webkit-scrollbar-thumb {
     position: absolute;
     top: 15px;
     right: 20px;
-    background-color: #e51b24;
+    background-color: #EC0000;
     color: #fff;
-    border: 1px solid  #e51b24;
+    border: 1px solid  #EC0000;
     text-transform: uppercase;
   }
   .btn.btn-primary:hover{

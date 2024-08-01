@@ -1,11 +1,55 @@
+@font-face {
+	font-family:'SantanderHead-Bold';
+	src: url(../../public/SantanderHeadline-Bold.woff2) format('woff2'),
+         url(../../public/SantanderHeadline-Bold.woff2) format('woff');
+    font-style: normal;
+}
+@font-face {
+	font-family:'SantanderHead-Regular';
+	src: url(../../public/SantanderHeadline-Regular.woff2) format('woff2'),
+         url(../../public/SantanderHeadline-Regular.woff) format('woff');
+    font-style: normal;
+}
+@font-face {
+	font-family:'SantanderText-Bold';
+	src: url(../../public/SantanderText-Bold.woff2) format('woff2'),
+         url(../../public/SantanderText-Bold.woff) format('woff');
+    font-style: normal;
+}
+@font-face {
+	font-family:'SantanderText-Light';
+	src: url(../../public/SantanderText-Light.woff2) format('woff2'),
+         url(../../public/SantanderText-Light.woff) format('woff');
+    font-style: normal;
+}
+@font-face {
+	font-family:'SantanderText-Regular';
+	src: url(../../public/SantanderText-Regular.woff2) format('woff2'),
+         url(../../public/SantanderText-Regular.woff) format('woff');
+    font-style: normal;
+}
+@font-face {
+	font-family:'SantanderText-Italic';
+	src: url(../../public/SantanderText-Italic.woff2) format('woff2'),
+         url(../../public/SantanderText-Italic.woff) format('woff');
+    font-style: normal;
+}
 .header {
-  background-color:#e51b24;
+  background-color:#EC0000;
   width: 100%;
   text-align: center;
   .whttxt{
-    font-size: 16px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
   }
+  
 }
+.headersubtitle{
+  font-family: SantanderText-Regular;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
 .logoimage{
   text-align: left;
   cursor: pointer;
@@ -26,16 +70,17 @@
   column-gap: 15px;
 }
 .bgcolor{
-  background-color: #f3f3f3;
+  background-color: #DEEDF2;
 }
 .whtbg{
   background-color: #fff;
 }
 .whttxt{
-  font-size: 14px;
+  font-size: 16px;
     font-weight: normal;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: SantanderText-Bold;
     color: #fff;
+    letter-spacing: 0.3px;
 }
 .pd10{
   padding: 10px;
@@ -87,6 +132,15 @@
   padding-left: 30px;
   font-weight: 500;
   border-bottom: 1px dashed #d6cbcb;
+  font-family: SantanderHead-Bold;
+    font-size: 17px;
+    letter-spacing: 0.3px;
+
+}
+.subtitle{
+  font-family: SantanderHead-Bold;
+  font-size: 18px;
+  letter-spacing: 0.3px;
 }
 .notificationtitle::before{
   content: '';
@@ -115,14 +169,18 @@
 .fnt13{
   font-size: 13px;
 }
+.fnt14{
+  font-size: 14px;
+}
 .fntclgry{
   color: #938e8e;
+  font-family: SantanderText-Regular;
 }
 .brdgry{
   border: 1px solid #989898;
 }
 .fntclrd{
-  color: #e51b24;
+  color: #EC0000;
 }
 .readmorepopup{
   
@@ -167,7 +225,7 @@
   background-color: #fff;
 }
 .bgred{
-background-color: #e51b24;
+background-color: #EC0000;
 }
 .cntntbox{
   width: 20%;
@@ -181,6 +239,9 @@ background-color: #e51b24;
 }
 .cntntbox .boxtxt{
   height: 110px;
+  font-family: SantanderText-Regular;
+  font-size: 15px;
+  letter-spacing: 0.3px;
 }
 .headermenu{
   display: none;
@@ -239,10 +300,46 @@ background-color: #e51b24;
     left: -1px;
   }
   img.iconbrborderradius{
-    padding: 11px 10px 10px;
+    padding: 2px 4px;
+    width: 40px;
+    height: 46px;
+  }
+  img.iconbrborderradius.test{
+    padding: 2px 7px;
   }
   .whttxt{
     padding-left: 55px;
+  }
+  .bgred:hover{
+    background-color: #000000;
+    border:1px solid #000000;
+  }
+}
+.readbtn{
+  button{
+    border: 0px;
+    background-color: transparent;
+    color: #EC0000;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    font-family: 'SantanderText-Bold';
+  }
+  button:hover{
+    color: #000000;
+  }
+}
+.homeheader{
+  background-color: #EC0000;
+  button{
+    border: 0px;
+    background-color: transparent;
+    color: #fff;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    font-weight: normal;
+    font-family: SantanderText-Bold;
+    padding: 0px;
   }
 }
 @media( max-width:1199px){

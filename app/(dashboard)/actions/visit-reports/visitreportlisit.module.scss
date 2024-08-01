@@ -4,7 +4,7 @@
   padding: 0 15px;
 }
 .bgcolor {
-  background-color: #f3f3f3;
+  background-color: #DEEDF2;
 }
 .innerpgcntnt {
   display: flex;
@@ -21,7 +21,7 @@
   width: 70%;
 }
 .titlebx {
-  background-color: #e51b24;
+  background-color: #EC0000;
   height: 50px;
   padding: 10px;
   text-align: center;
@@ -32,6 +32,8 @@
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 20px;
+  font-family: SantanderHead-Bold;
+  letter-spacing: 0.4px;
 }
 .contentwhtbx {
   background-color: #fff;
@@ -69,8 +71,12 @@
     align-items: center;
     position: relative;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 16px;
     text-transform: capitalize;
+    padding-left: 10px;
+    font-family:SantanderHead-Bold;
+    color: #000000;
+    letter-spacing: 0.4px;
   }
   li:nth-child(odd) {
     background: #fff;
