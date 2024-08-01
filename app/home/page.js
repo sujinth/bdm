@@ -21,7 +21,7 @@ const Home = () => {
         {/* Header */}
         <InnerHeader />
         <div className={Styles.container}> 
-            <div className={Styles.pd10}>Welcome to MI Business App</div>
+            <div className={`${Styles.pd10} ${Styles.headersubtitle}`}>Welcome to MI Business App</div>
         </div>
         <div className={Styles.bgcolor}>
         <div className={Styles.container}> 
@@ -34,10 +34,10 @@ const Home = () => {
             <div className={`${Styles.whtbg} ${Styles.pd20} ${Styles.rghtbxcntnt} ${Styles.brdgry} ${Styles.brdradius}`}>
                 <div >
                     <div className={`${Styles.notificationtitle} ${Styles.pdB10} `}>Notifications</div>
-                    <div className={`${Styles.fntw700} ${Styles.pdTB10} `}>Visit Reports</div>
-                    <div className={`${Styles.fntclgry} ${Styles.pdT10} ${Styles.fnt13}`}>Submit in the app only</div>
+                    <div className={`${Styles.fntw700} ${Styles.pdTB10}  ${Styles.subtitle} `}>Visit Reports</div>
+                    <div className={`${Styles.fntclgry} ${Styles.pdT10} ${Styles.fnt14}`}>Submit in the app only</div>
                     <div className={`${Styles.fntclrd} ${Styles.pdTB5} ${Styles.fnt13}`}>
-                        <button onClick={() => handleShow()}  className={Styles.fntclrd}>[Tap to read more]</button>                   
+                        <button onClick={() => handleShow()}  className={`${Styles.fntclrd} ${Styles.readmorebtn}`}>[Tap to read more]</button>                   
                     </div>
                     <Modal show={show} onHide={handleClose} 
                         aria-labelledby="contained-modal-title-vcenter"

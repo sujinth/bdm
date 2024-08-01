@@ -1,10 +1,46 @@
+@font-face {
+	font-family:'SantanderHead-Bold';
+	src: url(../../../public/SantanderHeadline-Bold.woff2) format('woff2'),
+         url(../../../public/SantanderHeadline-Bold.woff) format('woff');
+    font-style: normal;
+}
+@font-face {
+	font-family:'SantanderHead-Regular';
+	src: url(../../../public/SantanderHeadline-Regular.woff2) format('woff2'),
+         url(../../../public/SantanderHeadline-Regular.woff) format('woff');
+    font-style: normal;
+}
+@font-face {
+	font-family:'SantanderText-Bold';
+	src: url(../../../public/SantanderText-Bold.woff2) format('woff2'),
+         url(../../../public/SantanderText-Bold.woff) format('woff');
+    font-style: normal;
+}
+@font-face {
+	font-family:'SantanderText-Light';
+	src: url(../../../public/SantanderText-Light.woff2) format('woff2'),
+         url(../../../public/SantanderText-Light.woff) format('woff');
+    font-style: normal;
+}
+@font-face {
+	font-family:'SantanderText-Regular';
+	src: url(../../../public/SantanderText-Regular.woff2) format('woff2'),
+         url(../../../public/SantanderText-Regular.woff) format('woff');
+    font-style: normal;
+}
+@font-face {
+	font-family:'SantanderText-Italic';
+	src: url(../../../public/SantanderText-Italic.woff2) format('woff2'),
+         url(../../../public/SantanderText-Italic.woff) format('woff');
+    font-style: normal;
+}
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 15px;
 }
 .bgcolor {
-  background-color: #f3f3f3;
+  background-color: #DEEDF2;
 }
 .innerpgcntnt {
   display: flex;
@@ -21,7 +57,7 @@
   width: 70%;
 }
 .titlebx {
-  background-color: #e51b24;
+  background-color: #EC0000;
   height: 50px;
   padding: 10px;
   text-align: center;
@@ -32,6 +68,13 @@
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 20px;
+  font-family:SantanderHead-Bold ;
+  letter-spacing: 0.3px;
+}
+.logobottomtext{
+  font-family:SantanderHead-Bold ;
+  letter-spacing: 0.3px;
+  font-size: 16px;
 }
 .contentwhtbx {
   background-color: #fff;
@@ -71,8 +114,12 @@
     align-items: center;
     position: relative;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 16px;
     text-transform: capitalize;
+    padding-left: 10px;
+    font-family:SantanderHead-Bold;
+    color: #000000;
+    letter-spacing: 0.4px;
   }
   li:nth-child(odd) {
     background: #fff;
@@ -150,7 +197,7 @@ ul.listiconhide li::after {
   }
 }
 .cntnttitle {
-  color: #e51b24;
+  color: #EC0000;
   font-size: 24px;
   font-weight: 600;
 }
@@ -238,7 +285,7 @@ ul.listiconhide li::after {
   }
   .searchrow{
     width: 70%;
-    background-color: #e51b24;
+    background-color: #EC0000;
     color: #fff;
     padding: 15px;
     text-align: end;

@@ -111,7 +111,7 @@ const VisitReport = () => {
                             <div className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx}`}>
                                 <div>
                                     <img className={Styles.logoimage} src="/logo.png" alt="logo" />
-                                    <div className={`${Styles.textcntr} ${Styles.pdT20} ${Styles.ftw600}`}>
+                                    <div className={`${Styles.textcntr} ${Styles.logobottomtext} ${Styles.pdT20} ${Styles.ftw600}`}>
                                         {(!isReportsSelected && goBackToPage.pageOne) ? 'Select a report from the left' : 'Select a dealership from the left'}
                                     </div>
                                 </div>
