@@ -14,14 +14,15 @@ import CustomButton from '../../components/commen/FormElements/Button/Button';
 // Styles
 import Styles from './visitreport.module.scss';
 
-const VisitReportTemplate = ({ selectedVisitReportData }) => {
+const VisitReportTemplate = ({ selectedData }) => {
+  const { selectedReportData, selectedDealer } = selectedData;
   // State 
   const [imagePopupVisible, setImagePopupVisible] = useState(false);
   const [isLastTabSelected, setIsLastTabSelected] = useState(false);
   // Ref handling hrml render
   const htmlContentRef = useRef(false);
   const { setGoBackToPage, goBackToPage } = useDashboard();
-
+  const inputTxtDateRef = useRef(null);
   // Toggle the display of the image popup
   const menuClick = () => {
     const imagePopup = document.getElementById('addimagepopup');
@@ -51,7 +52,7 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
   };
 
   // Memoize formData to avoid unnecessary re-renders
-  const formData = useMemo(() => selectedVisitReportData, [selectedVisitReportData]);
+  const formData = useMemo(() => selectedReportData, [selectedReportData]);
   
   
   // Handle form submission
@@ -146,11 +147,11 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
   },[formData])
   // Handle HTML content injection on formData change
   useEffect(() => {
-    if (formData?.formInfo && !htmlContentRef.current) {
+    if (formData?.formInfo && !htmlContentRef.current && goBackToPage.pageFour) {
       htmlContentRef.current = true;
       handleHTMLContent(formData.formInfo, 'root');
     }
-  }, [formData?.formInfo]);
+  }, [formData?.formInfo,goBackToPage.pageFour]);
 
   // Handle footer submit buttons case of TAB
   useEffect(() => {
@@ -190,7 +191,19 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
       setIsLastTabSelected(true)
     }
   }, [formData]); 
-  
+console.log("formData?.formInfo",formData.formInfo);
+  useEffect(() => {
+    // Create a new Date object
+    const now = new Date();
+    
+    // Format the date as YYYY-MM-DD (or other desired format)
+    const formattedDate = now.toISOString().split('T')[0];
+    
+    // Set the value of the input field to the current date
+    if (inputTxtDateRef.current) {
+      inputTxtDateRef.current.value = formattedDate;
+    }
+  }, [goBackToPage.pageFour]); 
 
   return (
     <div className={Styles.bgcolor}>
@@ -215,11 +228,12 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
 
         {/* Form Detail Section */}
         <div className={Styles.detailbx}>
-          <div className={Styles.titlebx}>{selectedVisitReportData?.formName}</div>
+          <div className={Styles.titlebx}>{selectedReportData?.formName}</div>
           <div className={`${Styles.contentwhtbx} ${Styles.contentwhtbxfooter}`}>
 
             {/* Visit report form */}
-            {!goBackToPage.pageFour && <VisitReportForm setGoBackToPage={setGoBackToPage}/>}
+            {!goBackToPage.pageFour && <VisitReportForm setGoBackToPage={setGoBackToPage} selectedDealer={selectedDealer} inputTxtDateRef={inputTxtDateRef}/>}
+            
             {goBackToPage.pageFour && <>
               {/* Placeholder for dynamic HTML content */}
               <div id="root"></div>
@@ -453,7 +467,7 @@ const VisitReportTemplate = ({ selectedVisitReportData }) => {
 export default VisitReportTemplate;
 
 
-function VisitReportForm({setGoBackToPage}){
+function VisitReportForm({setGoBackToPage, selectedDealer, inputTxtDateRef}){
 
   return(
     <>
@@ -463,13 +477,13 @@ function VisitReportForm({setGoBackToPage}){
               <tr>
                 <td>Review Date</td>
                 <td>
-                   <input className={Styles.tblinputbx} type="date" />
+                   <input className={Styles.tblinputbx} type="date"  ref={inputTxtDateRef} />
                 </td>
               </tr>
               <tr>
                 <td>Dealer</td>
                 <td>
-                   <input className={Styles.tblinputbx} type="text" />
+                   <input className={Styles.tblinputbx} value={selectedDealer.name} readOnly type="text" />
                 </td>
               </tr>
               <tr>

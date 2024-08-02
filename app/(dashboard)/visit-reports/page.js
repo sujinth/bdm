@@ -32,7 +32,9 @@ const VisitReport = () => {
         }
     }
 
-    const selectedVisitReportData = useMemo(() => selectedReportData, [selectedReportData]);
+    const selectedData = useMemo(() => {
+     return { selectedReportData, selectedDealer}
+    }, [selectedReportData,selectedDealer]);;
 
     // Fetch visit reports based on user ID
     async function getVisitReports() {
@@ -77,7 +79,7 @@ const VisitReport = () => {
     return (
         <>
             {Object.keys(selectedDealer).length !== 0 && goBackToPage.pageThree ? (
-                <VisitReportTemplate selectedVisitReportData={selectedVisitReportData} />
+                <VisitReportTemplate selectedData={selectedData} />
             ) : (
                 <div className={Styles.bgcolor}>
                     <div className={`${Styles.container} ${Styles.innerpgcntnt}`}>
