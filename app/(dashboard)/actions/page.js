@@ -33,7 +33,6 @@ const Action = () => {
     const { setGoBackToPage, goBackToPage } = useDashboard();
     const session = useSession();
     const router = useRouter();
-    const htmlContentRef = useRef(false);
 
     // Function for render at the time of change in goBackToPage state.
     useEffect(()=>{
@@ -49,8 +48,7 @@ const Action = () => {
 
     // Handle HTML content injection on formData change
     useEffect(() => {
-        if (incompleteActions[currentIncompleteAction]?.formdata && !htmlContentRef.current) {
-            htmlContentRef.current = true;
+        if (incompleteActions[currentIncompleteAction]?.formdata) {
             handleHTMLContent(incompleteActions[currentIncompleteAction]?.formdata, 'root');
         }
     }, [incompleteActions[currentIncompleteAction]?.formdata]);
