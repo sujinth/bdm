@@ -1,21 +1,42 @@
 
 'use client'
-import {  useState } from 'react';
+import {  useEffect, useState } from 'react';
 import Link from 'next/link'
 import Modal from 'react-bootstrap/Modal';
 import InnerHeader from '../components/commen/InnerHeader/Header';
 import Footer from '../components/commen/Footer/Footer';
 // Style
 import Styles from './home.module.scss';
+import axios from 'axios';
 
 const Home = () => {        
 
     //Variable to show or hide modal 
     const [show, setShow] = useState(false);
+    const [imageUrl, setImageUrl] = useState(null)
     //Functionn to hide modal
     const handleClose = () => setShow(false);
     //Functionn to show modal
     const handleShow = () => setShow(true);
+
+    // Function for fetch image url
+    async function fetchImagUrlForHomePage(){
+        try{
+            const response =  await axios.get('api/homePageImage');
+            console.log("response",response.data);
+            
+            if(response.data.result.status !== 0){
+                setImageUrl(response.data.result.data.content1)
+            }
+        }catch(error){
+            console.log("error ->",error.message);
+            
+        }
+    }
+    
+    useEffect(()=>{
+        fetchImagUrlForHomePage();
+    },[])
 
     return (
         <> 
@@ -28,10 +49,11 @@ const Home = () => {
         <div className={Styles.container}> 
         <div className={Styles.pdTB70}> 
         <div className={Styles.flex}>
-            <div className={Styles.lftbxcntnt}>
+            {/* <div className={Styles.lftbxcntnt}>
                 <img className={`${Styles.logoimage} ${Styles.brdradius} ${Styles.brdgry} ${Styles.desktopbanner}`} src="/midbar.jpg" alt="banner" />
                 <img className={`${Styles.logoimage} ${Styles.brdradius} ${Styles.brdgry} ${Styles.tabbanner}`} src="/tabbanner.jpg" alt="banner" />
-            </div>
+            </div> */}
+             <div dangerouslySetInnerHTML={{ __html: imageUrl }} />
             <div className={`${Styles.whtbg} ${Styles.pd20} ${Styles.rghtbxcntnt} ${Styles.brdgry} ${Styles.brdradius}`}>
                 <div >
                     <div className={`${Styles.notificationtitle} ${Styles.pdB10} `}>Notifications</div>
@@ -113,3 +135,6 @@ const Home = () => {
 };
 
 export default Home;
+
+
+

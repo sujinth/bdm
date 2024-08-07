@@ -1,14 +1,17 @@
 'use client'
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import { signOut ,useSession} from 'next-auth/react'
 import { useRouter } from 'next/navigation';
 import { usePathname } from "next/navigation";
 import Link from 'next/link'
+import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+
 import { useDashboard } from '../../../contexts/layoutContext';
 import Styles from './Innerheader.module.scss';
 
 const InnerHeader = () => {
+    const [show, setShow] = useState(false);
     const session = useSession();
     const router = useRouter();
     const pathName  = usePathname();
@@ -30,7 +33,7 @@ const InnerHeader = () => {
         document.body.classList.remove("menuopen");
     }
     const logOut = () =>{
-        signOut();
+        signOut({ callbackUrl: '/login' , redirect:true});
     }
     let isHomePage = false
     if(pathName == '/home' || pathName == '/'){
@@ -56,7 +59,9 @@ const InnerHeader = () => {
                             <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><Link href="/coaching">Coaching</Link></div>
                             <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><Link href="/resources">Resources</Link></div>
                             <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><Link href="/update-password">Change password</Link></div>
-                            <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><Link href="#">User guide</Link></div>
+                            
+                            <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}><button className={Styles.userGuideBtn} type='button' onClick={() => setShow(true)}>User guide</button></div>
+                            <UserGuide show={show} setShow={setShow} />
                         </div>
                         </div>
                     </div>
@@ -78,3 +83,29 @@ const InnerHeader = () => {
 };
 
 export default InnerHeader;
+
+// User guide
+function UserGuide({show, setShow}) {
+
+    return (
+      <>
+        <Modal
+          show={show}
+          onHide={() => setShow(false)}
+          dialogClassName="modal-90w"
+          aria-labelledby="example-custom-modal-styling-title"
+        >
+          <Modal.Header closeButton>
+            
+          </Modal.Header>
+          <Modal.Body>
+          <iframe 
+            src='/santander.pdf'
+            style={{ width: '100%', height: '600px', border: 'none' }} 
+
+            ></iframe>
+          </Modal.Body>
+        </Modal>
+      </>
+    );
+  }
