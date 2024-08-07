@@ -24,6 +24,7 @@ export default async  function RootLayout({ children }) {
       <Script src="https://www.scmibusiness.co.uk/js/jquery-1.10.2.js" strategy='afterInteractive' />
       <Script src="https://www.scmibusiness.co.uk/js/jquery-ui.js"/>
       <Script src="https://www.scmibusiness.co.uk/js/tabcontent.js" strategy='afterInteractive'/>
+      <Script src="https://www.scmibusiness.co.uk/js/jquery.ui.touch-punch.min.js"/>
     </head>
     <body>
         <Wrapper session={session}>

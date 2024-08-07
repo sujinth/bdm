@@ -27,6 +27,7 @@ const VisitReportTemplate = ({ selectedData }) => {
   const [isLastTabSelected, setIsLastTabSelected] = useState(false);
   const [visitReportList, setVisitReportList] = useState([])
   const [selectedElement, setSelectedElement] = useState(null);
+
   const [formValues, setFormValues] = useState({
     txtDealershipName : selectedDealer.name,
   });
@@ -38,7 +39,7 @@ const VisitReportTemplate = ({ selectedData }) => {
     visitReportList : false
   })
   const { setGoBackToPage, goBackToPage } = useDashboard();
-  const inputTxtDateRef = useRef(null);
+
   // Toggle the display of the image popup
   const menuClick = () => {
     const imagePopup = document.getElementById('addimagepopup');
@@ -73,24 +74,75 @@ const VisitReportTemplate = ({ selectedData }) => {
   // Handle form submission
   const handleSubmit = async(e) => {
     e.preventDefault();
-    
+    let formInputValue = 'txt1@@1,ta2@@,chk3@@1,chk3@@2,chk3@@3,rd4@@2,lst5@@1,lbl6@@1'
     // Retrieve the input value
-    let formInputValue = document.getElementById('strFormControlInfo').value;
+    // let formInputValue = document.getElementById('strFormControlInfo').value;
     let elementIds = formInputValue.split(',');
     // Split the input string at '@@1' to get an array of IDs without suffixes
-    let cleanIds = elementIds.map(item => item.split('@@')[0]);
+    // let cleanIds = elementIds.map(item => item.split('@@'));
+    let cleanIds = [
+      [
+          "txt1",
+          "1"
+      ],
+      [
+          "ta2",
+          ""
+      ],
+      [
+          "chk3",
+          "1"
+      ],
+      [
+        "chk3",
+        "2"
+      ],
+       [
+        "chk3",
+        "3"
+      ],
+      [
+          "rd4",
+          "2"
+      ],
+      [
+          "lst5",
+          "1"
+      ],
+      [
+          "lbl6",
+          "1"
+      ]
+  ]
   
+    
     let valuesArray = [];
     let elementContent = '';
   
     // Iterate through the filtered list of IDs
     for (let i = 0; i < cleanIds.length; i++) {
       // Trim any spaces from the ID
-      const elementId = cleanIds[i].trim();
+      const elementId = cleanIds[i][0].trim();
+      console.log("elementId",elementId);
       
       // Check if the ID starts with 'spn'
       if (elementId.substring(0, 3) === 'spn') {
           elementContent = document.getElementById(elementId)?.textContent || '';
+      }else if(elementId.substring(0, 3) === 'chk'){
+        let arrLength = cleanIds[i][1];
+        for(let i=1; i<=arrLength ; i++){
+          let chkBox = document.getElementById(`${elementId}${i}`)?.checked || false;
+          if(chkBox){
+            elementContent = 1;
+          }else{
+            elementContent = 0;
+          }
+        }
+      }else if(elementId.substring(0, 2) === 'rd'){
+          let arrLength = cleanIds[i][1];
+          for(let i=1; i<=arrLength ; i++){
+            elementContent = document.getElementById(`${elementId}${i}`)?.value || '';
+          }
       } else {
           elementContent = document.getElementById(elementId)?.value || '';
       }
@@ -217,24 +269,22 @@ const VisitReportTemplate = ({ selectedData }) => {
     const now = new Date();
     // Format the date as YYYY-MM-DD (or other desired format)
     const formattedDate = now.toISOString().split('T')[0];
-    console.log("formattedDate",formattedDate);
-    
     // Set the value of the input field to the current date
-    if (inputTxtDateRef.current && Object.keys(selectedExistingVisitReportData).length ==0) {
-      inputTxtDateRef.current.value = formattedDate;
+    if (Object.keys(selectedExistingVisitReportData).length ==0) {
+      setFormValues((prev)=>({...prev, reviewDate : formattedDate}))
     }
   }, [goBackToPage.pageFour]); 
 
-  // Function for handle onchngFunctionality
+  // Function for handle onchangFunctionality
   const handleFormChange = (name, value) => {
     setFormValues(prevValues => ({
       ...prevValues,
       [name]: value
     }));
   };
-  const handleSaveButton = (e) => {
+  const handleVisitReortFormSaveButton = (e) => {
     e.preventDefault();
-    console.log("Form Submitted: ", formValues);
+    localStorage.setItem('visitReportForm',JSON.stringify(formValues))
   };
   // For fetching the visit report list
   async function getVisitReportList(){
@@ -321,20 +371,29 @@ const VisitReportTemplate = ({ selectedData }) => {
       liTagNewFormRef.current.classList.add(Styles.listhead);
       setSelectedElement(liTagNewFormRef.current);
     }
-  }, []);
 
+    // Fetch saved form data from the local storage
+    let getFormData = JSON.parse(localStorage.getItem('visitReportForm'));
+    setFormValues((prev) => ({
+      ...prev,
+      reviewDate: getFormData?.reviewDate,
+      dealerAttendees: getFormData?.dealerAttendees,
+      scukAttendees: getFormData?.scukAttendees,
+      txtDealershipName: getFormData?.txtDealershipName
+    }));
+    
+    
+  }, []);
+  // Continue button
   const handleContinueButton = () =>{
     setGoBackToPage((prev)=>({...prev,pageFour : true}));
     if(Object.keys(selectedExistingVisitReportData).length !==0){
-      console.log('+++++++++++++++++++++++');
       handleHTMLContent(selectedExistingVisitReportData.formdata, 'root');
     }else{
-      console.log("------------------------",formData.formInfo);
       handleHTMLContent(formData.formInfo, 'root');
     }
   }
 
- 
 
   return (
     <div className={Styles.bgcolor}>
@@ -370,8 +429,7 @@ const VisitReportTemplate = ({ selectedData }) => {
             {(!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'Y') && 
             <VisitReportForm 
               handleContinueButton={handleContinueButton}  
-              inputTxtDateRef={inputTxtDateRef} 
-              handleSaveButton={handleSaveButton}
+              handleSaveButton={handleVisitReortFormSaveButton}
               handleFormChange={handleFormChange}
               formValues={formValues} 
               formData={formData}
@@ -582,7 +640,6 @@ const VisitReportTemplate = ({ selectedData }) => {
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
                   <CustomButton
                       type="button"
-                      onClick={handleSubmit}
                     >
                       Save
                     </CustomButton>
@@ -591,7 +648,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                     >
                       Cancel
                     </CustomButton>
-                    <CustomButton type="submit" >
+                    <CustomButton type="submit"      onClick={handleSubmit}>
                       Submit
                     </CustomButton>
                   </div>
@@ -609,7 +666,7 @@ const VisitReportTemplate = ({ selectedData }) => {
 export default VisitReportTemplate;
 
 
-function VisitReportForm({handleContinueButton, inputTxtDateRef,handleSaveButton,
+function VisitReportForm({handleContinueButton, handleSaveButton,
 handleFormChange,formValues,formData,isReadOnly}){
 
   return(
@@ -624,8 +681,8 @@ handleFormChange,formValues,formData,isReadOnly}){
                       className={Styles.tblinputbx} 
                       type="date"  
                       value={formValues.reviewDate}
-                      ref={inputTxtDateRef}
                       readOnly={isReadOnly}
+                      min={new Date().toISOString().split('T')[0]}
                       onChange={(e) => handleFormChange('reviewDate', e.target.value)}
                    />
                 </td>

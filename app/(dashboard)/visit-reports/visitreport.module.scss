@@ -152,7 +152,19 @@
   li.listhead {
     background-color: #aaaaaa;
   }
+  .listtoptitle{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 15px;
+    text-transform: capitalize;
+    padding: 10px;
+    background-color: #EC0000;
+    color: #fff;
+  }
 }
+
 .listhead {
   a {
     font-weight: 500;
