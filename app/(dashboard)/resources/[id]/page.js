@@ -19,6 +19,7 @@ import ExcelViewer from './ExcelViewer';
 import Wordviewer from './WordViewer';
 import Styles from '../resources.module.scss';
 
+
 const AddonProducts = () => {
     const session = useSession();
     const params = useParams();
@@ -205,7 +206,7 @@ const AddonProducts = () => {
                                                     // type="application/pdf"
                                                     // />
                                                     <iframe 
-                                                    src="https://192.168.200.6:11443/~sangeeth/santenderbdm/sysimgdocs/docs/027-Digital-Opt-in-aid_rs474_1.pdf" 
+                                                    src='/santander.pdf'
                                                     style={{ width: '100%', height: '600px', border: 'none' }} 
                                                     frameBorder="0"
                                                   ></iframe>

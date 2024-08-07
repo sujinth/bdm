@@ -3,7 +3,9 @@
 import React, { useMemo, useState, useRef, useEffect } from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import moment from 'moment';
 // Utils
 import { handleHTMLContent } from '../../utils/htmlUtils';
 import { formatDynamicOutput } from '../../utils/commenController'
@@ -15,12 +17,26 @@ import CustomButton from '../../components/commen/FormElements/Button/Button';
 import Styles from './visitreport.module.scss';
 
 const VisitReportTemplate = ({ selectedData }) => {
+  // session
+  const session = useSession();
   const { selectedReportData, selectedDealer } = selectedData;
+  console.log("selected data",selectedData);
+  
   // State 
   const [imagePopupVisible, setImagePopupVisible] = useState(false);
   const [isLastTabSelected, setIsLastTabSelected] = useState(false);
-  // Ref handling hrml render
-  const htmlContentRef = useRef(false);
+  const [visitReportList, setVisitReportList] = useState([])
+  const [selectedElement, setSelectedElement] = useState(null);
+  const [formValues, setFormValues] = useState({
+    txtDealershipName : selectedDealer.name,
+  });
+  const liTagNewFormRef = useRef(null);
+  const [selectedExistingVisitReportData, setSelectedExistingVisitReportData] = useState({})
+  const [isReadOnly, setIsReadOnly] = useState(false);
+  // Handle api call 
+  const apiHandleRef = useRef({
+    visitReportList : false
+  })
   const { setGoBackToPage, goBackToPage } = useDashboard();
   const inputTxtDateRef = useRef(null);
   // Toggle the display of the image popup
@@ -53,8 +69,7 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Memoize formData to avoid unnecessary re-renders
   const formData = useMemo(() => selectedReportData, [selectedReportData]);
-  
-  
+
   // Handle form submission
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -133,31 +148,37 @@ const VisitReportTemplate = ({ selectedData }) => {
         // Get the input element by its name attribute
         const txtDateTimeElement = document.querySelector('input[name="txtDateTime"]');
         const txtDealershipNameElement = document.querySelector('input[name="txtDealershipName"]');   
+        
         if (txtDateTimeElement) {
           // Create a new Date object
           const now = new Date();
           // Format the date as YYYY-MM-DD 
           const formattedDate = now.toISOString().split('T')[0];
           txtDateTimeElement.value = formattedDate;
+
         }
         if(txtDealershipNameElement){
           txtDealershipNameElement.value = formData?.formName;
         }
     }
-  },[formData])
+  })
+
   // Handle HTML content injection on formData change
   useEffect(() => {
-    if (formData?.formInfo && !htmlContentRef.current && goBackToPage.pageFour) {
-      htmlContentRef.current = true;
-      handleHTMLContent(formData.formInfo, 'root');
+    if (formData?.formInfo && (!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'N')) {
+        handleHTMLContent(formData.formInfo, 'root');
     }
+    if((!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'Y')){
+      let rootId  =  document.getElementById('root')
+      rootId.innerHTML = ''
+    }
+
   }, [formData?.formInfo,goBackToPage.pageFour]);
 
   // Handle footer submit buttons case of TAB
   useEffect(() => {
     // Check if the flagTabbedView in formData is 'Y'
     if (formData?.flagTabbedView === 'Y') {
-  
       const handleTabClick = (event) => {
         event.preventDefault(); 
         const target = event.target.closest('a'); // Find the closest 'a' element (tab link)
@@ -190,39 +211,153 @@ const VisitReportTemplate = ({ selectedData }) => {
     }else{
       setIsLastTabSelected(true)
     }
-  }, [formData]); 
-console.log("formData?.formInfo",formData.formInfo);
+  }, [formData,goBackToPage.pageFour]); 
+
   useEffect(() => {
-    // Create a new Date object
     const now = new Date();
-    
     // Format the date as YYYY-MM-DD (or other desired format)
     const formattedDate = now.toISOString().split('T')[0];
+    console.log("formattedDate",formattedDate);
     
     // Set the value of the input field to the current date
-    if (inputTxtDateRef.current) {
+    if (inputTxtDateRef.current && Object.keys(selectedExistingVisitReportData).length ==0) {
       inputTxtDateRef.current.value = formattedDate;
     }
   }, [goBackToPage.pageFour]); 
+
+  // Function for handle onchngFunctionality
+  const handleFormChange = (name, value) => {
+    setFormValues(prevValues => ({
+      ...prevValues,
+      [name]: value
+    }));
+  };
+  const handleSaveButton = (e) => {
+    e.preventDefault();
+    console.log("Form Submitted: ", formValues);
+  };
+  // For fetching the visit report list
+  async function getVisitReportList(){
+      try {
+        const userId = session.data?.user?.id;
+        if (!userId) {
+            throw new Error('User ID not found');
+        }
+        // await new Promise(resolve => setTimeout(resolve,3000))
+        const response = await axios.post(`/api/visitReportsList`,{userId : userId});
+       
+
+        if (response.data.result.status == '1') {
+            setVisitReportList(response.data.result.reportLists)
+          }
+      } catch (error) {
+          console.log("Error:->", error.message);
+      }
+  }
+
+  // Visit report lists
+  useEffect(()=>{
+    if(session.data?.user?.id && !apiHandleRef.current.visitReportList){
+      apiHandleRef.current.visitReportList = true;
+      getVisitReportList()
+    }
+  },[session.data?.user?.id])
+
+  // Fuction for handle exisiting visit report data 
+  const handleSelectExistingVisitReportData = (e,item) =>{
+    // Add class 
+    if (selectedElement) {
+      selectedElement.classList.remove(Styles.listhead);
+    }
+    e.currentTarget.classList.add(Styles.listhead);
+    setSelectedElement(e.currentTarget);
+
+    if(goBackToPage.pageFour){
+      handleHTMLContent(item.formdata, 'root');
+    }else{
+        let formattedReviewDate = item.reviewdate ? moment(item.reviewdate,'DD/MM/YYYY').format('YYYY-MM-DD') : '';
+        if(Object.keys(item).length !== 0){
+          setSelectedExistingVisitReportData(item);
+          setIsReadOnly(true)
+          setFormValues((prev) =>({
+            ...prev,
+            reviewDate : formattedReviewDate,
+            txtDealershipName : item.dealershipname || '',
+            dealerAttendees : item.dealerattendees || '',
+            scukAttendees : item.scukattendees || ''
+          }))
+        }
+    }
+  
+  }
+  const handleClickNewForm = (e) =>{
+    // Handle li click selected style
+    if (selectedElement) {
+      selectedElement.classList.remove(Styles.listhead);
+    }
+    liTagNewFormRef.current.classList.add(Styles.listhead);
+    setSelectedElement(liTagNewFormRef.current);
+
+    if(goBackToPage.pageFour && formData?.formInfo ){
+      handleHTMLContent(formData?.formInfo , 'root');
+    }else{
+      const now = new Date();
+      // Format the date as YYYY-MM-DD (or other desired format)
+      const formattedDate = now.toISOString().split('T')[0];
+      setSelectedExistingVisitReportData({});
+      setIsReadOnly(false);
+      setFormValues((prev) =>({
+        ...prev,
+        reviewDate : formattedDate,
+        txtDealershipName :  selectedDealer.name,
+        dealerAttendees :  '',
+        scukAttendees :  ''
+      }))  
+    }
+  }
+  useEffect(() => {
+    // Select "New  Form li tag" by default
+    if (liTagNewFormRef.current) {
+      liTagNewFormRef.current.classList.add(Styles.listhead);
+      setSelectedElement(liTagNewFormRef.current);
+    }
+  }, []);
+
+  const handleContinueButton = () =>{
+    setGoBackToPage((prev)=>({...prev,pageFour : true}));
+    if(Object.keys(selectedExistingVisitReportData).length !==0){
+      console.log('+++++++++++++++++++++++');
+      handleHTMLContent(selectedExistingVisitReportData.formdata, 'root');
+    }else{
+      console.log("------------------------",formData.formInfo);
+      handleHTMLContent(formData.formInfo, 'root');
+    }
+  }
+
+ 
 
   return (
     <div className={Styles.bgcolor}>
       <div className={`${Styles.container} ${Styles.innerpgcntnt}`}>
         {/* Visit Name Section */}
         <div className={Styles.visitnamebx}>
-          <div className={Styles.titlebx}>My Dealer</div>
+          <div className={Styles.titlebx}>Visit Name</div>
           <div className={Styles.listitems}>
-            {!goBackToPage.pageFour && <ul className={`${Styles.listcntnt} ${Styles.listiconhide}`}>
+            {/* Tabbed view */}
+            <ul className={`${Styles.listcntnt} ${Styles.listiconhide}`}>
+              <li onClick={((e)=>handleClickNewForm(e))} ref={liTagNewFormRef} className={Styles.listhead}><a>New Form</a></li>
+              {visitReportList?.map((item,index)=>(
+                <li onClick={(e) => handleSelectExistingVisitReportData(e,item)}>{item.dateandtime} - Sent</li>
+              ))}
+            </ul>
+            {/* Form view */}
+            {/* {(goBackToPage.pageFour || selectedReportData.flagTabbedView == 'N') && <ul className={`${Styles.listcntnt} ${Styles.listiconhide}`}>
               <li className={Styles.listhead}><a>New Form</a></li>
-            </ul>}
-
-            {goBackToPage.pageFour && <ul className={`${Styles.listcntnt} ${Styles.listiconhide}`}>
-              <li className={Styles.listhead}><a>New Form</a></li>
-              <li><a href="#">14/12/2023 16:11:04 - Sent</a></li>
-              <li><a href="#">21/12/2023 13:11:04 - Sent</a></li>
-              <li><a href="#">02/08/2023 01:11:04 - Sent</a></li>
-              <li><a href="#">18/12/2023 15:11:04 - Sent</a></li>
-            </ul>}
+              {visitReportList?.map((item,index)=>(
+                <li><a href="#">{item.dateandtime} - Sent</a></li>
+                
+              ))}
+            </ul>} */}
           </div>
         </div>
 
@@ -232,17 +367,26 @@ console.log("formData?.formInfo",formData.formInfo);
           <div className={`${Styles.contentwhtbx} ${Styles.contentwhtbxfooter}`}>
 
             {/* Visit report form */}
-            {!goBackToPage.pageFour && <VisitReportForm setGoBackToPage={setGoBackToPage} selectedDealer={selectedDealer} inputTxtDateRef={inputTxtDateRef}/>}
-            
-            {goBackToPage.pageFour && <>
+            {(!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'Y') && 
+            <VisitReportForm 
+              handleContinueButton={handleContinueButton}  
+              inputTxtDateRef={inputTxtDateRef} 
+              handleSaveButton={handleSaveButton}
+              handleFormChange={handleFormChange}
+              formValues={formValues} 
+              formData={formData}
+              isReadOnly={isReadOnly}
+            />}
+            <div id="root"></div>
+            {(goBackToPage.pageFour || (!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'N')) && <>
               {/* Placeholder for dynamic HTML content */}
-              <div id="root"></div>
+          
 
               {/* Footer with Buttons */}
               {isLastTabSelected && <div className={Styles.mainboxfooter}>
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
                   {/* Image Add Option */}
-                  <div className={Styles.imageaddoption}>
+                  {formData.flagImage == 'Y' && <div className={Styles.imageaddoption}>
                     <CustomButton
                       type="button" 
                       onClick={menuClick}
@@ -296,29 +440,16 @@ console.log("formData?.formInfo",formData.formInfo);
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </div>}
 
-                  {/* Action Buttons */}
-                  <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                    <CustomButton
-                      type="button"
-                      onClick={handleSubmit}
-                    >
-                      Save
-                    </CustomButton>
-                    <CustomButton
-                      type="button"
-                    >
-                      Cancel
-                    </CustomButton>
-                  </div>
+          
                 </div>
 
                 {/* Recipient Options */}
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
                     {/* Add Recipients Button */}
-                    <div className={Styles.searchbox}>
+                    {formData.flagRecipient == 'Y' && <div className={Styles.searchbox}>
                       {['top'].map((placement) => (
                         <OverlayTrigger
                           trigger="click"
@@ -350,7 +481,7 @@ console.log("formData?.formInfo",formData.formInfo);
                             </Popover>
                           }
                         >  
-                          <CustomButton
+                           <CustomButton
                             type="button"
                             className={`${Styles.recipientsbtn}  ${Styles.flex}`}
                           >
@@ -358,10 +489,10 @@ console.log("formData?.formInfo",formData.formInfo);
                           </CustomButton>
                         </OverlayTrigger>
                       ))}
-                    </div>
+                    </div>}
 
                     {/* Add Bcc Button */}
-                    <div className={Styles.searchbox}>
+                    {formData.flagRecipient == 'Y' &&<div className={Styles.searchbox}>
                       {['top'].map((placement) => (
                         <OverlayTrigger
                           trigger="click"
@@ -393,7 +524,7 @@ console.log("formData?.formInfo",formData.formInfo);
                             </Popover>
                           }
                         >
-                          <CustomButton
+                           <CustomButton
                             type="button"
                             className={`${Styles.recipientsbtn}  ${Styles.flex}`}
                           >
@@ -401,10 +532,10 @@ console.log("formData?.formInfo",formData.formInfo);
                           </CustomButton>
                         </OverlayTrigger>
                       ))}
-                    </div>
+                    </div>}
 
                     {/* Add Cc Button */}
-                    <div className={Styles.searchbox}>
+                    {formData.flagRecipient == 'Y' &&<div className={Styles.searchbox}>
                       {['top'].map((placement) => (
                         <OverlayTrigger
                           trigger="click"
@@ -436,7 +567,7 @@ console.log("formData?.formInfo",formData.formInfo);
                             </Popover>
                           }
                         >
-                          <CustomButton
+                           <CustomButton
                             type="button"
                             className={`${Styles.recipientsbtn}  ${Styles.flex}`}
                           >
@@ -444,11 +575,22 @@ console.log("formData?.formInfo",formData.formInfo);
                           </CustomButton>
                         </OverlayTrigger>
                       ))}
-                    </div>
+                    </div>}
                   </div>
 
-                  {/* Submit Button */}
+                  {/* Action Buttons */}
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
+                  <CustomButton
+                      type="button"
+                      onClick={handleSubmit}
+                    >
+                      Save
+                    </CustomButton>
+                    <CustomButton
+                      type="button"
+                    >
+                      Cancel
+                    </CustomButton>
                     <CustomButton type="submit" >
                       Submit
                     </CustomButton>
@@ -467,7 +609,8 @@ console.log("formData?.formInfo",formData.formInfo);
 export default VisitReportTemplate;
 
 
-function VisitReportForm({setGoBackToPage, selectedDealer, inputTxtDateRef}){
+function VisitReportForm({handleContinueButton, inputTxtDateRef,handleSaveButton,
+handleFormChange,formValues,formData,isReadOnly}){
 
   return(
     <>
@@ -477,25 +620,49 @@ function VisitReportForm({setGoBackToPage, selectedDealer, inputTxtDateRef}){
               <tr>
                 <td>Review Date</td>
                 <td>
-                   <input className={Styles.tblinputbx} type="date"  ref={inputTxtDateRef} />
+                   <input 
+                      className={Styles.tblinputbx} 
+                      type="date"  
+                      value={formValues.reviewDate}
+                      ref={inputTxtDateRef}
+                      readOnly={isReadOnly}
+                      onChange={(e) => handleFormChange('reviewDate', e.target.value)}
+                   />
                 </td>
               </tr>
               <tr>
-                <td>Dealer</td>
+                <td>{formData.flagHealthCheck == 'Y' ? 'Dealer' : 'Review Period'}</td>
                 <td>
-                   <input className={Styles.tblinputbx} value={selectedDealer.name} readOnly type="text" />
+                   <input 
+                      className={Styles.tblinputbx} 
+                      value={formValues.txtDealershipName} 
+                      readOnly 
+                      type="text" 
+                    />
                 </td>
               </tr>
               <tr>
                 <td>Dealer Attendees</td>
                 <td>
-                  <textarea className={Styles.tblinputbx} type="text"/>     
+                  <textarea 
+                    className={Styles.tblinputbx} 
+                    type="text"
+                    value={formValues.dealerAttendees}
+                    readOnly={isReadOnly}
+                    onChange={(e) => handleFormChange('dealerAttendees', e.target.value)}
+                  />     
                 </td>
               </tr>
               <tr>
                 <td>SCUK Attendees</td>
                 <td>
-                <textarea className={Styles.tblinputbx} type="text"/>
+                <textarea 
+                  className={Styles.tblinputbx} 
+                  type="text"
+                  value={formValues.scukAttendees}
+                  readOnly={isReadOnly}
+                  onChange={(e) => handleFormChange('scukAttendees', e.target.value)}
+                />
                 </td>
               </tr>
               {/* Footer */}
@@ -505,7 +672,7 @@ function VisitReportForm({setGoBackToPage, selectedDealer, inputTxtDateRef}){
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
                     <CustomButton
                       type="button"
-                      // onClick={handleSubmit}
+                      onClick={handleSaveButton}
                     >
                       Save
                     </CustomButton>
@@ -516,7 +683,7 @@ function VisitReportForm({setGoBackToPage, selectedDealer, inputTxtDateRef}){
                     </CustomButton>
                     <CustomButton
                       type="button"
-                      onClick={()=>setGoBackToPage((prev)=>({...prev,pageFour : true}))}
+                      onClick={handleContinueButton}
                     >
                       Continue
                     </CustomButton>

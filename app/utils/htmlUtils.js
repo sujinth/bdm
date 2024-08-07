@@ -11,6 +11,8 @@ export const handleHTMLContent = (htmlString, containerId) => {
     const root = document.getElementById(containerId);
   
     if (root) {
+      // Clear existing content in the root element
+      root.innerHTML = '';
       // Append non-script nodes to the root element
       nonScriptNodes.forEach(node => {
         root.appendChild(node);

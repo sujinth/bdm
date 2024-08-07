@@ -15,6 +15,7 @@ const VisitReport = () => {
     const [selectedDealer, setSelectedDealerData] = useState({});
     const [dealers, setDealers] = useState([]);
     const [isReportsSelected, setReportsSelected] = useState(false);
+    const [isLoaderActive , setIsLoaderActive] = useState(false);
 
     // Fetch dealers' details based on user ID
     async function getDealersDetails() {
@@ -23,6 +24,7 @@ const VisitReport = () => {
             if (!userId) {
                 throw new Error('User ID not found');
             }
+
             const response = await axios.get(`/api/dealers?userid=${userId}`);
             if (response.data.result?.length !== 0 && response.data.result.dealership[0]?.status !== '0') {
                 setDealers(response.data.result.dealership);
@@ -43,12 +45,15 @@ const VisitReport = () => {
             if (!userId) {
                 throw new Error('User ID not found');
             }
+            setIsLoaderActive(true)
+            // await new Promise(resolve => setTimeout(resolve,3000))
             const response = await axios.get(`/api/visitReports?userId=${userId}`);
             if (response.data.result?.length !== 0) {
                 setVisitReports(response.data.result.root);
+                setIsLoaderActive(false)
             }
         } catch (error) {
-            console.log("Error:", error.message);
+            console.log("Error:->", error.message);
         }
     }
 
@@ -88,6 +93,7 @@ const VisitReport = () => {
                                 {(!isReportsSelected && goBackToPage.pageOne) ? 'Visit Name' : 'My Dealer'}
                             </div>
                             <div className={Styles.listitems}>
+                      
                                 <ul className={Styles.listcntnt}>
                                     {!isReportsSelected && goBackToPage.pageOne && visitReports.length !== 0 &&
                                         visitReports.map((item, idx) => (
@@ -103,7 +109,9 @@ const VisitReport = () => {
                                             </li>
                                         ))
                                     }
+                            
                                 </ul>
+                   
                             </div>
                         </div>
                         <div className={Styles.detailbx}>
