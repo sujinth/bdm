@@ -5,7 +5,7 @@
             //////////////////////////////////////////////////////////////////////////////////
 
 'use client'
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Styles from './Action.module.scss';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -15,6 +15,7 @@ import { useDashboard } from '../../contexts/layoutContext';
 import Button from '../../components/commen/FormElements/Button/Button';
 import { useRouter } from 'next/navigation';
 import { handleHTMLContent } from '../../utils/htmlUtils';
+import { usePopupContent } from '@/app/contexts/popupContext';
 
 // Action component
 const Action = () => {
@@ -30,7 +31,8 @@ const Action = () => {
     const [dealerGroupId, setDealerGroupId] = useState();
     const [dealership, setDealership] = useState([]);
     const [cartId, setCartId] = useState();
-    const { setGoBackToPage, goBackToPage } = useDashboard();
+    const {setGoBackToPage, goBackToPage} = useDashboard();
+    const {setPopupContent} = usePopupContent();
     const session = useSession();
     const router = useRouter();
 
@@ -147,11 +149,13 @@ const Action = () => {
             let stringFieldValues = document.getElementById('strFormControlInfo')?.value || "";
             let fieldValuesArray = [];
             let strPostData = "";
+            let submitFlag = false;
             if(stringFieldValues){
                 fieldValuesArray = stringFieldValues.split("^@^");
                 fieldValuesArray.map((id, index)=>{
                     let idBasedPostData = document.getElementById(id);
                     if(idBasedPostData?.checked){
+                        submitFlag = true;
                         if(fieldValuesArray.length > index + 1){
                             strPostData +=  "true^@^";
                         } else {
@@ -167,8 +171,18 @@ const Action = () => {
                 });
             }
 
-            // Data submit in to api
-            dataPostInToApi(stringFieldValues, strPostData, flagSave);
+            if(submitFlag || flagSave == "Y"){
+                // Data submit in to api
+                dataPostInToApi(stringFieldValues, strPostData, flagSave);
+            } else {
+                setPopupContent(prevState => ({
+                    ...prevState,
+                    titleContent:"MI Business",
+                    detailContent:"Please Select At Least One Action",
+                    show: true,
+                }));
+            }
+            
         } catch(error){
             console.log("error : ",error);
         }
@@ -194,14 +208,47 @@ const Action = () => {
             });
             // Setting response to the state
             if (visitNameResponse?.data?.result?.status) {
-                setPageName("Visit Name"); 
-                setGoBackToPage({pageOne : true, pageTwo : false, pageThree : false});
-                router.push('/home');
+                if(flagSave == "N"){
+                    setPopupContent(prevState => ({
+                        ...prevState,
+                        titleContent:"MI Business",
+                        detailContent:"Actions Updated Successfilly",
+                        show: true,
+                        onClick: clickOk
+                    }));
+                }
             }
         } catch(error){
             console.log("error in api call : ",error);
         }
     }
+
+    // Function for set set default onclick value
+    const handleClick = () => {
+        setPopupContent({
+            titleContent : "",
+            detailContent : "",
+            responseValue : true,
+            duelOption : false,
+            show : false,
+            onClick : handleClick
+        });
+    };
+
+    // Function for set in modal ok button  
+    const clickOk = () => {
+        setPopupContent({
+            titleContent : "",
+            detailContent : "",
+            responseValue : true,
+            duelOption : false,
+            show : false,
+            onClick : handleClick
+        });
+        setPageName("Visit Name"); 
+        setGoBackToPage({pageOne : true, pageTwo : false, pageThree : false});
+        router.push('/home');
+    };
 
     return (   
         <>
@@ -214,8 +261,8 @@ const Action = () => {
                         {pageName == "Visit Name" ? 
                             <div className={Styles.listitems}>
                                 <ul className={Styles.listcntnt}>
-                                    {delearshipVisitReport.map((item)=>(
-                                        <li onClick={()=> {
+                                    {delearshipVisitReport.map((item, index)=>(
+                                        <li key={index + "visitName"} onClick={()=> {
                                             setGoBackToPage({pageOne : false, pageTwo : true, pageThree : false});
                                             setPageName("Dealer Groups"); 
                                             setFlagTabbedView(item?.flagTabbedView);
@@ -241,8 +288,8 @@ const Action = () => {
                                         <div className={`${Styles.listitems} ${Styles.tablist1} `}>
                                             <div className={Styles.listtoptitle}>My Dealers Group</div>
                                             <ul className={Styles.listcntnt}>
-                                                {dealerGroup.map((item)=>(
-                                                    <li onClick={(e)=> {
+                                                {dealerGroup.map((item, index)=>(
+                                                    <li key={index + "dealerGroup"} onClick={(e)=> {
                                                             setGoBackToPage({pageOne : false, pageTwo : false, pageThree : true})
                                                             setPageName("Visit Reports");
                                                             setDealerGroupId(e?.target?.value)}
@@ -257,8 +304,8 @@ const Action = () => {
                                         <div className={`${Styles.listitems} ${Styles.tablist2} `}> 
                                             <div className={Styles.listtoptitle}>My Dealers</div>
                                             <ul className={Styles.listcntnt}>
-                                                {dealership.map((item)=>(
-                                                    <li onClick={(e)=> {
+                                                {dealership.map((item, index)=>(
+                                                    <li key={index + "dealer"} onClick={(e)=> {
                                                         setGoBackToPage({pageOne : false, pageTwo : false, pageThree : true})
                                                         setPageName("Visit Reports"); 
                                                         setDealerGroupId(e?.target?.value)
@@ -278,7 +325,7 @@ const Action = () => {
                             <div className={Styles.listitems}>
                                 <ul className={Styles.listcntnt}>
                                     {incompleteActions.map((item, index)=>(
-                                        <li onClick={(e)=> {setCurrentIncompleteAction(e?.target?.value); setCartId(item.cartid)}} value={index}>{item?.dateandtime}</li>
+                                        <li key={index + "visitReports"} onClick={(e)=> {setCurrentIncompleteAction(e?.target?.value); setCartId(item.cartid)}} value={index}>{item?.dateandtime}</li>
                                     ))}
                                 </ul>
                             </div>
