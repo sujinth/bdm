@@ -1,25 +1,25 @@
 .button:hover {
-    background-color: #d01a24 !important;
-    border: 1px solid  #d01a24 !important;
-  }
-  .button {
-    background-color: #EC0000;
-    border: 1px solid  #EC0000;
-    color: #fff;
-    height: 40px;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: 600;
-  }
+  background-color: #d01a24 !important;
+  border: 1px solid #d01a24 !important;
+}
+.button {
+  background-color: #ec0000;
+  border: 1px solid #ec0000;
+  color: #fff;
+  height: 40px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
 
-  @media (max-width: 992px) {
-    .button{
-      padding: 5px;
-    }
+@media (max-width: 992px) {
+  .button {
+    padding: 5px;
   }
-  @media (max-width: 535px) {
-    .button{
-     width: max-content;
-    }
-   }
+}
+@media (max-width: 535px) {
+  .button {
+    width: max-content;
+  }
+}

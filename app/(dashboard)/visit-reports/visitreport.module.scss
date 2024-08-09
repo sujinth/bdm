@@ -1,38 +1,38 @@
 @font-face {
-	font-family:'SantanderHead-Bold';
-	src: url(../../../public/SantanderHeadline-Bold.woff2) format('woff2'),
-         url(../../../public/SantanderHeadline-Bold.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderHead-Bold";
+  src: url(../../../public/SantanderHeadline-Bold.woff2) format("woff2"),
+    url(../../../public/SantanderHeadline-Bold.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderHead-Regular';
-	src: url(../../../public/SantanderHeadline-Regular.woff2) format('woff2'),
-         url(../../../public/SantanderHeadline-Regular.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderHead-Regular";
+  src: url(../../../public/SantanderHeadline-Regular.woff2) format("woff2"),
+    url(../../../public/SantanderHeadline-Regular.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Bold';
-	src: url(../../../public/SantanderText-Bold.woff2) format('woff2'),
-         url(../../../public/SantanderText-Bold.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Bold";
+  src: url(../../../public/SantanderText-Bold.woff2) format("woff2"),
+    url(../../../public/SantanderText-Bold.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Light';
-	src: url(../../../public/SantanderText-Light.woff2) format('woff2'),
-         url(../../../public/SantanderText-Light.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Light";
+  src: url(../../../public/SantanderText-Light.woff2) format("woff2"),
+    url(../../../public/SantanderText-Light.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Regular';
-	src: url(../../../public/SantanderText-Regular.woff2) format('woff2'),
-         url(../../../public/SantanderText-Regular.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Regular";
+  src: url(../../../public/SantanderText-Regular.woff2) format("woff2"),
+    url(../../../public/SantanderText-Regular.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Italic';
-	src: url(../../../public/SantanderText-Italic.woff2) format('woff2'),
-         url(../../../public/SantanderText-Italic.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Italic";
+  src: url(../../../public/SantanderText-Italic.woff2) format("woff2"),
+    url(../../../public/SantanderText-Italic.woff) format("woff");
+  font-style: normal;
 }
 .container {
   max-width: 1200px;
@@ -40,7 +40,7 @@
   padding: 0 15px;
 }
 .bgcolor {
-  background-color: #DEEDF2;
+  background-color: #deedf2;
 }
 .innerpgcntnt {
   display: flex;
@@ -57,7 +57,7 @@
   width: 70%;
 }
 .titlebx {
-  background-color: #EC0000;
+  background-color: #ec0000;
   height: 50px;
   padding: 10px;
   text-align: center;
@@ -68,11 +68,11 @@
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 20px;
-  font-family:SantanderHead-Bold ;
+  font-family: SantanderHead-Bold;
   letter-spacing: 0.3px;
 }
-.logobottomtext{
-  font-family:SantanderHead-Bold ;
+.logobottomtext {
+  font-family: SantanderHead-Bold;
   letter-spacing: 0.3px;
   font-size: 16px;
 }
@@ -80,7 +80,7 @@
   background-color: #fff;
   height: 750px;
   padding: 20px 20px 20px 20px;
-  form{
+  form {
     overflow-y: scroll;
     // height: 720px;
     max-height: 563px;
@@ -89,19 +89,19 @@
   ::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 10px;
   }
-   
+
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background:#aaaaaa;
+    background: #aaaaaa;
     border-radius: 10px;
   }
-  
+
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #aaaaaa;
@@ -117,7 +117,7 @@
     font-size: 16px;
     text-transform: capitalize;
     padding-left: 10px;
-    font-family:SantanderHead-Bold;
+    font-family: SantanderHead-Bold;
     color: #000000;
     letter-spacing: 0.4px;
   }
@@ -152,7 +152,7 @@
   li.listhead {
     background-color: #aaaaaa;
   }
-  .listtoptitle{
+  .listtoptitle {
     height: 50px;
     display: flex;
     align-items: center;
@@ -160,7 +160,7 @@
     font-size: 15px;
     text-transform: capitalize;
     padding: 10px;
-    background-color: #EC0000;
+    background-color: #ec0000;
     color: #fff;
   }
 }
@@ -210,7 +210,7 @@ ul.listiconhide li::after {
   }
 }
 .cntnttitle {
-  color: #EC0000;
+  color: #ec0000;
   font-size: 24px;
   font-weight: 600;
 }
@@ -242,18 +242,17 @@ ul.listiconhide li::after {
   align-items: center;
 }
 
-.addimagepopup, .searchboxpopup{
+.addimagepopup,
+.searchboxpopup {
   display: none;
 }
-.recipientsbtn{
+.recipientsbtn {
   position: relative;
   align-items: center;
-  img{
+  img {
     margin-left: 7px;
   }
 }
-
-
 
 .imageaddoption {
   position: relative;
@@ -269,11 +268,11 @@ ul.listiconhide li::after {
     box-shadow: 0px 1px 25px -12px #999;
   }
 }
-.rowrhtbtn{
+.rowrhtbtn {
   margin-bottom: 10px;
 }
-.searchboxpopup{
-  .imageoption{
+.searchboxpopup {
+  .imageoption {
     position: absolute;
     bottom: 50%;
     left: 0px;
@@ -285,69 +284,67 @@ ul.listiconhide li::after {
     box-shadow: 0px 1px 25px -12px #999;
   }
 }
-.addsearchrow{
+.addsearchrow {
   align-items: center;
-  .addbtn{
+  .addbtn {
     background-color: #000;
     color: #fff;
     padding: 15px;
     width: 30%;
     font-weight: 600;
-    border-bottom:0px solid #cacaca !important;
+    border-bottom: 0px solid #cacaca !important;
     height: 50px;
   }
-  .searchrow{
+  .searchrow {
     width: 70%;
-    background-color: #EC0000;
+    background-color: #ec0000;
     color: #fff;
     padding: 15px;
     text-align: end;
     height: 50px;
     position: relative;
   }
-  .searchrow:after{
+  .searchrow:after {
     position: absolute;
     top: 15px;
     left: 5px;
     content: "";
     height: 20px;
     width: 20px;
-     background-image: url("/search-icon.svg");
+    background-image: url("/search-icon.svg");
   }
 }
-.searchrow{
-  input{
+.searchrow {
+  input {
     background-color: #ce131b;
     text-align: left;
     outline-offset: 0px;
     outline: 0px;
     margin-left: 15px;
     width: 90%;
-   
   }
- 
-  :focus-visible{
+
+  :focus-visible {
     border-bottom: 1px solid #eee;
   }
 
-  ::placeholder{
+  ::placeholder {
     color: #eee;
   }
 }
-.boxmailcontent{
-  .mailtext{
+.boxmailcontent {
+  .mailtext {
     align-items: center;
     column-gap: 5px;
     justify-content: space-between;
     padding: 10px 0px;
     border-bottom: 1px solid #bebbbb;
   }
-  button{
+  button {
     padding: 0px;
     width: auto;
     text-align: end;
   }
-  
 }
 
 @media (max-width: 1200px) {
@@ -386,12 +383,13 @@ ul.listiconhide li::after {
   }
 }
 @media (max-width: 535px) {
- .btnrow, .rowrhtbtn{
-  flex-wrap: wrap;
-  row-gap: 10px;
-  margin-bottom: 0px;
- }
-.btnrow:not(:last-child){
-  margin-bottom: 10px;
- }
+  .btnrow,
+  .rowrhtbtn {
+    flex-wrap: wrap;
+    row-gap: 10px;
+    margin-bottom: 0px;
+  }
+  .btnrow:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }

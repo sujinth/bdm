@@ -1,63 +1,62 @@
-            //////////////////////////////////////////////////////////////////////////////////       
-            //                                                                              //           
-            //                       File for styling home page                             //
-            //                                                                              //
-            //////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+//                                                                              //
+//                       File for styling home page                             //
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
 
 @font-face {
-	font-family:'SantanderHead-Bold';
-	src: url(../../public/SantanderHeadline-Bold.woff2) format('woff2'),
-         url(../../public/SantanderHeadline-Bold.woff2) format('woff');
-    font-style: normal;
+  font-family: "SantanderHead-Bold";
+  src: url(../../public/SantanderHeadline-Bold.woff2) format("woff2"),
+    url(../../public/SantanderHeadline-Bold.woff2) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderHead-Regular';
-	src: url(../../public/SantanderHeadline-Regular.woff2) format('woff2'),
-         url(../../public/SantanderHeadline-Regular.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderHead-Regular";
+  src: url(../../public/SantanderHeadline-Regular.woff2) format("woff2"),
+    url(../../public/SantanderHeadline-Regular.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Bold';
-	src: url(../../public/SantanderText-Bold.woff2) format('woff2'),
-         url(../../public/SantanderText-Bold.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Bold";
+  src: url(../../public/SantanderText-Bold.woff2) format("woff2"),
+    url(../../public/SantanderText-Bold.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Light';
-	src: url(../../public/SantanderText-Light.woff2) format('woff2'),
-         url(../../public/SantanderText-Light.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Light";
+  src: url(../../public/SantanderText-Light.woff2) format("woff2"),
+    url(../../public/SantanderText-Light.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Regular';
-	src: url(../../public/SantanderText-Regular.woff2) format('woff2'),
-         url(../../public/SantanderText-Regular.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Regular";
+  src: url(../../public/SantanderText-Regular.woff2) format("woff2"),
+    url(../../public/SantanderText-Regular.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Italic';
-	src: url(../../public/SantanderText-Italic.woff2) format('woff2'),
-         url(../../public/SantanderText-Italic.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Italic";
+  src: url(../../public/SantanderText-Italic.woff2) format("woff2"),
+    url(../../public/SantanderText-Italic.woff) format("woff");
+  font-style: normal;
 }
 .header {
-  background-color:#EC0000;
+  background-color: #ec0000;
   width: 100%;
   text-align: center;
-  .whttxt{
+  .whttxt {
     font-size: 18px;
     letter-spacing: 0.5px;
   }
-  
 }
-.headersubtitle{
+.headersubtitle {
   font-family: SantanderText-Regular;
   font-size: 16px;
   letter-spacing: 0.5px;
   color: #000000;
 }
 
-.logoimage{
+.logoimage {
   text-align: left;
   cursor: pointer;
 }
@@ -66,91 +65,88 @@
   margin: 0 auto;
   padding: 0 20px;
 }
-.flex{
+.flex {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   row-gap: 15px;
 }
-.colgp15{
+.colgp15 {
   column-gap: 15px;
 }
-.bgcolor{
-  background-color: #DEEDF2;
+.bgcolor {
+  background-color: #deedf2;
 }
-.whtbg{
+.whtbg {
   background-color: #fff;
 }
-.whttxt{
+.whttxt {
   font-size: 16px;
-    font-weight: normal;
-    font-family: SantanderText-Bold;
-    color: #fff;
-    letter-spacing: 0.3px;
+  font-weight: normal;
+  font-family: SantanderText-Bold;
+  color: #fff;
+  letter-spacing: 0.3px;
 }
-.pd10{
+.pd10 {
   padding: 10px;
 }
-.pdTB10{
+.pdTB10 {
   padding-bottom: 10px;
   padding-top: 10px;
 }
-.pdTB20{
+.pdTB20 {
   padding-bottom: 20px;
   padding-top: 20px;
 }
-.pdT10{
+.pdT10 {
   padding-top: 10px;
-
 }
-.pdTB5{
-  padding-bottom:5px;
+.pdTB5 {
+  padding-bottom: 5px;
   padding-top: 5px;
 }
-.pdTB5{
-  padding-bottom:10px;
+.pdTB5 {
+  padding-bottom: 10px;
   padding-top: 10px;
 }
-.pdB10{
+.pdB10 {
   padding-bottom: 10px;
 }
-.pd20{
+.pd20 {
   padding: 20px;
 }
-.pdTB70{
+.pdTB70 {
   padding: 70px 0px;
 }
-.pd15{
+.pd15 {
   padding: 15px;
 }
-.pdT50{
+.pdT50 {
   padding-top: 50px;
-
 }
-.mrgT15{
-  margin-top:15px;
+.mrgT15 {
+  margin-top: 15px;
 }
-.brdradius{
+.brdradius {
   border-radius: 10px;
 }
-.notificationtitle{
+.notificationtitle {
   position: relative;
   padding-left: 30px;
   font-weight: 500;
   border-bottom: 1px dashed #d6cbcb;
   font-family: SantanderHead-Bold;
-    font-size: 17px;
-    letter-spacing: 0.3px;
-
+  font-size: 17px;
+  letter-spacing: 0.3px;
 }
-.subtitle{
+.subtitle {
   font-family: SantanderHead-Bold;
   font-size: 18px;
   letter-spacing: 0.3px;
 }
-.notificationtitle::before{
-  content: '';
+.notificationtitle::before {
+  content: "";
   position: absolute;
   top: 5px;
   left: 0px;
@@ -160,97 +156,95 @@
   width: 15px;
   height: 15px;
 }
-.lftbxcntnt{
+.lftbxcntnt {
   width: 75%;
 }
-.rghtbxcntnt{
+.rghtbxcntnt {
   width: 25%;
   height: 343px;
 }
-.fntw700{
+.fntw700 {
   font-weight: 700;
 }
-.fntw600{
+.fntw600 {
   font-weight: 600;
 }
-.fnt13{
+.fnt13 {
   font-size: 13px;
 }
-.fnt14{
+.fnt14 {
   font-size: 14px;
 }
-.fntclgry{
+.fntclgry {
   color: #938e8e;
   font-family: SantanderText-Regular;
 }
-.brdgry{
+.brdgry {
   border: 1px solid #989898;
 }
-.fntclrd{
-  color: #EC0000;
+.fntclrd {
+  color: #ec0000;
 }
-.readmorepopup{
-  
+.readmorepopup {
   position: absolute;
- top: 0;
- bottom: 0;
- left: 0;
- right: 0;
- margin: auto;
- display: none;
- justify-content: center;
- align-items: center;
- background-color:#0000006b;
-
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: #0000006b;
 }
-.popupcntnt{
+.popupcntnt {
   background-color: #fff;
   width: 500px;
   padding: 20px;
 }
-.btncancel{
+.btncancel {
   width: 100%;
   text-align: end;
 }
-.btncancel img{
+.btncancel img {
   text-align: end;
   display: inline-block;
 }
-.tabbanner{
+.tabbanner {
   display: none;
 }
-.lftbxcntnt img{
+.lftbxcntnt img {
   cursor: auto;
 }
-.borderdrk{
+.borderdrk {
   border: 1px solid #000;
 }
-.iconbrborderradius{
+.iconbrborderradius {
   border-radius: 10px 0px 0px 10px;
 }
-.bgwht{
+.bgwht {
   background-color: #fff;
 }
-.bgred{
-background-color: #EC0000;
+.bgred {
+  background-color: #ec0000;
 }
-.cntntbox{
+.cntntbox {
   width: 20%;
 }
-.clgp20{
+.clgp20 {
   column-gap: 20px;
 }
-.clgp10{
+.clgp10 {
   column-gap: 10px;
   justify-content: normal;
 }
-.cntntbox .boxtxt{
+.cntntbox .boxtxt {
   height: 110px;
   font-family: SantanderText-Regular;
   font-size: 15px;
   letter-spacing: 0.3px;
 }
-.headermenu{
+.headermenu {
   display: none;
   position: absolute;
   top: 0px;
@@ -262,83 +256,83 @@ background-color: #EC0000;
   padding: 20px;
   box-shadow: 10px 10px 10px 10px #000;
 }
-.clrgry{
+.clrgry {
   color: #b9baba;
 }
-.menulist{
+.menulist {
   border-bottom: 1px solid #b9baba;
   font-weight: 600;
 }
-.alignlft{
+.alignlft {
   text-align: left;
 }
-.sidebarmenu{
+.sidebarmenu {
   overflow-y: scroll;
   height: 600px;
   ::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   /* Track */
   ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey; 
+    box-shadow: inset 0 0 5px grey;
     border-radius: 10px;
   }
-   
+
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background:#aaaaaa;
+    background: #aaaaaa;
     border-radius: 10px;
   }
-  
+
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #aaaaaa;
   }
 }
-.cntntbox a{
-  .brdradius{
+.cntntbox a {
+  .brdradius {
     position: relative;
-    border: 1px solid #CC0000;
+    border: 1px solid #cc0000;
   }
-  div.iconbrborderradius{
+  div.iconbrborderradius {
     position: absolute;
     top: -1px;
     left: -1px;
   }
-  img.iconbrborderradius{
+  img.iconbrborderradius {
     padding: 2px 4px;
     width: 40px;
     height: 46px;
   }
-  img.iconbrborderradius.test{
+  img.iconbrborderradius.test {
     padding: 2px 7px;
   }
-  .whttxt{
+  .whttxt {
     padding-left: 55px;
   }
-  .bgred:hover{
+  .bgred:hover {
     background-color: #000000;
-    border:1px solid #000000;
+    border: 1px solid #000000;
   }
 }
-.readbtn{
-  button{
+.readbtn {
+  button {
     border: 0px;
     background-color: transparent;
-    color: #EC0000;
+    color: #ec0000;
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0.5px;
-    font-family: 'SantanderText-Bold';
+    font-family: "SantanderText-Bold";
   }
-  button:hover{
+  button:hover {
     color: #000000;
   }
 }
-.homeheader{
-  background-color: #EC0000;
-  button{
+.homeheader {
+  background-color: #ec0000;
+  button {
     border: 0px;
     background-color: transparent;
     color: #fff;
@@ -349,79 +343,78 @@ background-color: #EC0000;
     padding: 0px;
   }
 }
-.rghtbxcntnt{
-  .readmorebtn{
+.rghtbxcntnt {
+  .readmorebtn {
     background-color: transparent;
     border: 0px;
     font-family: SantanderHead-Bold;
     font-size: 16px;
     letter-spacing: 0.3px;
   }
-  .readmorebtn:hover{
+  .readmorebtn:hover {
     color: #000000;
   }
 }
-@media( max-width:1199px){
-.lftbxcntnt{
-  width: 100%;
+@media (max-width: 1199px) {
+  .lftbxcntnt {
+    width: 100%;
+  }
+  .cntntbox .boxtxt {
+    height: 140px;
+  }
+  .lftbxcntnt img {
+    margin: auto;
+  }
+  .desktopbanner {
+    display: none;
+  }
+  .tabbanner {
+    display: block;
+  }
+  .rghtbxcntnt {
+    margin-top: 20px;
+    width: 100%;
+    height: auto;
+  }
+  .tabbanner {
+    width: 100%;
+  }
+  .pdTB70 {
+    padding: 50px 0px;
+  }
+  .pdT50 {
+    padding-top: 30px;
+  }
 }
-.cntntbox .boxtxt{
-  height: 140px;
-}
-.lftbxcntnt img{
- margin: auto;
-}
-.desktopbanner{
-  display: none;
-}
-.tabbanner{
-  display: block;
-}
-.rghtbxcntnt{
-  margin-top: 20px;
-  width: 100%;
-  height: auto;
-}
-.tabbanner{
-  width: 100%;
-}
-.pdTB70{
-  padding: 50px 0px;
-}
-.pdT50{
-  padding-top: 30px;
-
-}
-}
-@media( max-width:992px){
-  .cntntbox{
+@media (max-width: 992px) {
+  .cntntbox {
     width: 30%;
   }
 }
-@media( max-width:620px){
-.popupcntnt{
-  width: 80%;
-}
-.cntntbox{
-  width: 100%;
-  margin: auto;
-}
-.cntntbox .boxtxt{
-  height: auto;
-}
-.headermenu{
-  width: 75%;
-  .flex{
-    justify-content: center;
+@media (max-width: 620px) {
+  .popupcntnt {
+    width: 80%;
   }
-}
-.header{
-  .flex{
-    justify-content: space-between;
-    flex-wrap: nowrap;
+  .cntntbox {
+    width: 100%;
+    margin: auto;
   }
-  .whttxt{
-    display: none;
+  .cntntbox .boxtxt {
+    height: auto;
   }
-}
+  .headermenu {
+    width: 75%;
+    .flex {
+      justify-content: center;
+    }
+  }
+  .header {
+    .flex {
+      justify-content: space-between;
+      flex-wrap: nowrap;
+    }
+    .whttxt {
+      display: none;
+    }
+  }
 }

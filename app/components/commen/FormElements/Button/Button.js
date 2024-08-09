@@ -1,11 +1,11 @@
 //-----------------------------------------------------------------------------------------//
 //                             Reusable button components                                  //
 //-----------------------------------------------------------------------------------------//
-import React from 'react';
-import PropTypes from 'prop-types';
-import Styles from './Button.module.scss'
+import React from "react";
+import PropTypes from "prop-types";
+import Styles from "./Button.module.scss";
 
-const Button = ({id, children, onClick, type = 'button', className = '' }) => {
+const Button = ({ id, children, onClick, type = "button", className = "" }) => {
   return (
     <button
       id={id}
@@ -21,7 +21,7 @@ const Button = ({id, children, onClick, type = 'button', className = '' }) => {
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
-  type: PropTypes.oneOf(['button', 'submit', 'reset']),
+  type: PropTypes.oneOf(["button", "submit", "reset"]),
   className: PropTypes.string,
 };
 
