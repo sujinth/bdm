@@ -1,6 +1,6 @@
 import axios from "axios";
 import https from 'https';
-import config from '../../../config/config';
+import config from '../../../../config/config';
 
 const agent = new https.Agent({  
     rejectUnauthorized: false

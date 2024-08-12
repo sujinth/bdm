@@ -29,7 +29,7 @@ const VisitReport = () => {
 
             const response = await axios.get(`/api/dealers?userid=${userId}`);
             if (Object.keys(response.data.result).length !=0) {
-                delete response.data.result.dealergroup
+                // delete response.data.result.dealergroup
                 setDealers(response.data.result);
             }
         } catch (error) {
@@ -49,8 +49,8 @@ const VisitReport = () => {
                 throw new Error('User ID not found');
             }
             setIsLoaderActive(true)
-            // await new Promise(resolve => setTimeout(resolve,3000))
-            const response = await axios.get(`/api/visitReports?userId=${userId}`);
+            
+            const response = await axios.get(`/api/visitReports/dealershipVisitreportsTemplate?userId=${userId}`);
             if (response.data.result?.length !== 0) {
                 setVisitReports(response.data.result.root);
                 setIsLoaderActive(false)

@@ -11,8 +11,9 @@ const INCOMPLETE_ACTION = `${ABSPATH}incomplete_reportlist.php`;
 const INCOMPLETE_UPDATEACTION_STATUS = `${ABSPATH}incomplete_updateactionstatus.php`;
 const DEALERSHIP = `${ABSPATH}dealership.php`;
 const VISITREPORTS = `${ABSPATH}dealershipvisitreportstemplate.php`;
-const DEALERSHIP_VISIT_REPORT_LIST = `https://www.scmibusiness.co.uk/ipadapp/dealershipvisitreportresultlist.php`
+const DEALERSHIP_VISIT_REPORT_LIST = `${ABSPATH}dealershipvisitreportresultlist.php`
 const HOME_PAGE_IMG_URL = `${ABSPATH}midbar-image.php`;
+const POST_DEALERSHIP_VISIT_REPORT_RESPONSE = `${ABSPATH}dealershipvisitreportresponse.php`;
 
 module.exports = {
   LOGIN,
@@ -27,5 +28,6 @@ module.exports = {
   INCOMPLETE_ACTION,
   INCOMPLETE_UPDATEACTION_STATUS,
   DEALERSHIP_VISIT_REPORT_LIST,
-  HOME_PAGE_IMG_URL
+  HOME_PAGE_IMG_URL,
+  POST_DEALERSHIP_VISIT_REPORT_RESPONSE
 };

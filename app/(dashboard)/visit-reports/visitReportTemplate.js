@@ -73,47 +73,50 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Handle form submission
   const handleSubmit = async(e) => {
+    try{
+
+ 
     e.preventDefault();
-    let formInputValue = 'txt1@@1,ta2@@,chk3@@1,chk3@@2,chk3@@3,rd4@@2,lst5@@1,lbl6@@1'
+    // let formInputValue = 'txt1@@1,ta2@@,chk3@@1,chk3@@2,chk3@@3,rd4@@2,lst5@@1,lbl6@@1'
     // Retrieve the input value
-    // let formInputValue = document.getElementById('strFormControlInfo').value;
+    let formInputValue = document.getElementById('strFormControlInfo').value;
     let elementIds = formInputValue.split(',');
     // Split the input string at '@@1' to get an array of IDs without suffixes
-    // let cleanIds = elementIds.map(item => item.split('@@'));
-    let cleanIds = [
-      [
-          "txt1",
-          "1"
-      ],
-      [
-          "ta2",
-          ""
-      ],
-      [
-          "chk3",
-          "1"
-      ],
-      [
-        "chk3",
-        "2"
-      ],
-       [
-        "chk3",
-        "3"
-      ],
-      [
-          "rd4",
-          "2"
-      ],
-      [
-          "lst5",
-          "1"
-      ],
-      [
-          "lbl6",
-          "1"
-      ]
-  ]
+    let cleanIds = elementIds.map(item => item.split('@@'));
+  //   let cleanIds = [
+  //     [
+  //         "txt1",
+  //         "1"
+  //     ],
+  //     [
+  //         "ta2",
+  //         ""
+  //     ],
+  //     [
+  //         "chk3",
+  //         "1"
+  //     ],
+  //     [
+  //       "chk3",
+  //       "2"
+  //     ],
+  //      [
+  //       "chk3",
+  //       "3"
+  //     ],
+  //     [
+  //         "rd4",
+  //         "2"
+  //     ],
+  //     [
+  //         "lst5",
+  //         "1"
+  //     ],
+  //     [
+  //         "lbl6",
+  //         "1"
+  //     ]
+  // ]
   
     
     let valuesArray = [];
@@ -127,11 +130,11 @@ const VisitReportTemplate = ({ selectedData }) => {
       
       // Check if the ID starts with 'spn'
       if (elementId.substring(0, 3) === 'spn') {
-          elementContent = document.getElementById(elementId)?.textContent || '';
+          elementContent = document.getElementById(elementId)?.textContent ?? '';
       }else if(elementId.substring(0, 3) === 'chk'){
         let arrLength = cleanIds[i][1];
         for(let i=1; i<=arrLength ; i++){
-          let chkBox = document.getElementById(`${elementId}${i}`)?.checked || false;
+          let chkBox = document.getElementById(`${elementId}${i}`)?.checked ?? false;
           if(chkBox){
             elementContent = 1;
           }else{
@@ -143,8 +146,9 @@ const VisitReportTemplate = ({ selectedData }) => {
           for(let i=1; i<=arrLength ; i++){
             elementContent = document.getElementById(`${elementId}${i}`)?.value || '';
           }
-      } else {
+      } else {    
           elementContent = document.getElementById(elementId)?.value || '';
+
       }
         
       valuesArray.push(elementContent);
@@ -160,27 +164,27 @@ const VisitReportTemplate = ({ selectedData }) => {
     let txtDealerSignature = '';
     let txtScfSignature = '';
     let nextReviewDate = '';
-
+    let totalquestioncount = document.getElementById('totalquestioncount')?.value || ''
 
     // Case  flagTabbedView === 'N'
     if(formData?.flagTabbedView === 'N'){
-        txtDateTimeElement = document.querySelector('input[name="txtDateTime"]').value || '';
-        txtDealershipNameElement = document.querySelector('input[name="txtDealershipName"]').value || '';
-        lstDealershipStatus = document.getElementById('lstDealershipStatus').value || '';
-        packExpiryDate  = document.getElementById('txtPackExpiryDate').value || '';
-        txtAttendees = document.getElementById('txtAttendees').value || ''
-        console.log("txtDateTimeElement",txtDateTimeElement);
-        console.log("txtDealershipNameElement",txtDealershipNameElement);
-        console.log("lstDealershipStatus",lstDealershipStatus);
-        console.log("packExpiryDate",packExpiryDate);
-        console.log("txtAttendees",txtAttendees  );
+        txtDateTimeElement = document.querySelector('input[name="txtDateTime"]')?.value || '';
+        txtDealershipNameElement = document.querySelector('input[name="txtDealershipName"]')?.value || '';
+        lstDealershipStatus = document.getElementById('lstDealershipStatus')?.value || '';
+        packExpiryDate  = document.getElementById('txtPackExpiryDate')?.value || '';
+        txtAttendees = document.getElementById('txtAttendees')?.value || ''
+        // console.log("txtDateTimeElement",txtDateTimeElement);
+        // console.log("txtDealershipNameElement",txtDealershipNameElement);
+        // console.log("lstDealershipStatus",lstDealershipStatus);
+        // console.log("packExpiryDate",packExpiryDate);
+        // console.log("txtAttendees",txtAttendees  );
     }
 
     // Case  flagTabbedView === 'Y' Last tab compleated report section 
     if(formData?.flagTabbedView === 'Y'){
-        txtDealerSignature = document.getElementById('txtDealerSignature').value || '';
-        txtScfSignature = document.getElementById('txtScfSignature').value || '';
-        nextReviewDate = document.getElementById('nextReviewDate').value || '';
+        txtDealerSignature = document.getElementById('txtDealerSignature')?.value  || '';
+        txtScfSignature = document.getElementById('txtScfSignature')?.value || '';
+        nextReviewDate = document.getElementById('nextReviewDate')?.value || '';
         // console.log("txtDealerSignature",txtDealerSignature);
         // console.log("txtScfSignature",txtScfSignature);
         // console.log("nextReviewDate",nextReviewDate);
@@ -192,7 +196,52 @@ const VisitReportTemplate = ({ selectedData }) => {
     // output
     console.log('formControlListId',formControlListId);
     console.log("formControlResult",formControlResult);
+    const userId = session.data?.user?.id;
+    if (!userId) {
+        throw new Error('User ID not found');
+    }
+
+    let requestBodyObj = {
+      body : {
+        userid : userId,
+        formid1 : selectedReportData?.formId || '',
+        formname1  : selectedReportData?.formName || '',
+        dealershipid1 : selectedDealer?.id || '',
+        dealershipname1 : selectedDealer?.name || '',
+        lstDealershipStatus1 : lstDealershipStatus,
+        txtPackExpiryDate1 : packExpiryDate,
+        txtAttendees1 : txtAttendees,
+        dateandtime1 : txtDateTimeElement,
+        formresult1 : formControlResult,
+        emailaddresslist1 : '',
+        emailaddresslistbcc1 : '',
+        emailaddresslistcc1 : '',
+        flagtabbedview1 : selectedReportData?.flagTabbedView || '',
+        flagHealthCheck1 : selectedReportData?.flagHealthCheck || '',
+        txtDealerSignature1 : '',
+        txtRMSignature1 : '',
+        txtScfSignature1 : '',
+        nextReviewDate1 : '',
+        flagdealergroup1 : selectedReportData?.flagdealergroup || '',
+        reviewdate1 : '',
+        reviewperiod1 : '',
+        dealerattendees1 : '',
+        scukattendees1 : '',
+        supportStatus1 : '',
+        oemAttendees1 : '',
+        totalquestioncount1 : totalquestioncount,
+        strFormControlInfo1 : formControlListId || '',
+        emailContent : false,
+        totalresult : 1
+      }
     
+    }
+    let response = await axios.post('/api/visitReports/postDealershipVisitReport',requestBodyObj);
+
+    console.log("form submit respomnse",response.data);
+  }catch(error){
+    console.log("eroor ->",error);
+  }
   };
   
   useEffect(()=>{
@@ -203,10 +252,14 @@ const VisitReportTemplate = ({ selectedData }) => {
         
         if (txtDateTimeElement) {
           // Create a new Date object
-          const now = new Date();
-          // Format the date as YYYY-MM-DD 
-          const formattedDate = now.toISOString().split('T')[0];
-          txtDateTimeElement.value = formattedDate;
+          // const now = new Date();
+          // // Format the date as YYYY-MM-DD 
+          // const formattedDate = now.toISOString().split('T')[0];
+          const now = moment();
+
+          // Format the date and time as DD/MM/YYYY HH:mm:ss
+          const formattedDateTime = now.format('DD/MM/YYYY HH:mm:ss');
+          txtDateTimeElement.value = formattedDateTime;
 
         }
         if(txtDealershipNameElement){
@@ -294,7 +347,7 @@ const VisitReportTemplate = ({ selectedData }) => {
             throw new Error('User ID not found');
         }
         // await new Promise(resolve => setTimeout(resolve,3000))
-        const response = await axios.post(`/api/visitReportsList`,{userId : userId});
+        const response = await axios.post(`/api/visitReports/visitReportsList`,{userId : userId});
        
 
         if (response.data.result.status == '1') {
