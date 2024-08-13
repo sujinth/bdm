@@ -24,7 +24,13 @@ export async function POST(request) {
       postData,
       flagSave,
     } = await request.json();
-
+    // If no userId in request, return an error response
+    if (!userId) {
+      return new Response(
+        JSON.stringify({ message: "userId parameter is required." }),
+        { status: 400 }
+      );
+    }
     // Create a new FormData instance
     const formData = new FormData();
     formData.append("userid", userId);
@@ -35,14 +41,6 @@ export async function POST(request) {
     formData.append("postdata", postData);
     formData.append("flag_save", flagSave);
 
-    // If no userId in request, return an error response
-    if (!userId) {
-      return new Response(
-        JSON.stringify({ message: "userId parameter is required." }),
-        { status: 400 }
-      );
-    }
-
     // API request and response sending
     const response = await axios.post(
       `${config.INCOMPLETE_UPDATEACTION_STATUS}`,
@@ -51,7 +49,6 @@ export async function POST(request) {
         httpsAgent: agent,
       }
     );
-
     return new Response(
       JSON.stringify({ message: "success", result: response.data }),
       { status: 200 }

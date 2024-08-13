@@ -60,6 +60,12 @@
   text-align: left;
   cursor: pointer;
 }
+.homeImage{
+  width: 100%;
+  img{
+    width: 100%;
+  }
+}
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -160,8 +166,7 @@
   width: 75%;
 }
 .rghtbxcntnt {
-  width: 25%;
-  height: 343px;
+  width: 100%;
 }
 .fntw700 {
   font-weight: 700;
@@ -217,7 +222,7 @@
   cursor: auto;
 }
 .borderdrk {
-  border: 1px solid #000;
+  border: 1px solid #fff;
 }
 .iconbrborderradius {
   border-radius: 10px 0px 0px 10px;

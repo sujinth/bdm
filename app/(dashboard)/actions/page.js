@@ -244,9 +244,34 @@ const Action = () => {
             onClick: clickOk,
           }));
         }
+      } else {
+        if (flagSave == "N") {
+          setPopupContent((prevState) => ({
+            ...prevState,
+            titleContent: "MI Business",
+            detailContent: visitNameResponse?.data?.result?.message || "Something went wrong, please try again later.",
+            show: true,
+            onClick: clickOk,
+          }));
+        }
       }
     } catch (error) {
       console.log("error in api call : ", error);
+      let errorMessage
+      if(error?.response?.data?.message){
+        errorMessage = error.response.data.message;
+      } else {
+        errorMessage =  "Something went wrong, please try again later.";
+      }
+      if (flagSave == "N") {
+        setPopupContent((prevState) => ({
+          ...prevState,
+          titleContent: "MI Business",
+          detailContent: errorMessage,
+          show: true,
+          onClick: clickOk,
+        }));
+      }
     }
   }
 
@@ -319,54 +344,60 @@ const Action = () => {
                   onSelect={handleSelect}
                 >
                   <Tab eventKey="Dealer Group" title="Dealer Group">
-                    <div className={`${Styles.listitems} ${Styles.tablist1} `}>
-                      <div className={Styles.listtoptitle}>
-                        My Dealers Group
-                      </div>
-                      <ul className={Styles.listcntnt}>
-                        {dealerGroup.map((item, index) => (
-                          <li
-                            key={index + "dealerGroup"}
-                            onClick={(e) => {
-                              setGoBackToPage({
-                                pageOne: false,
-                                pageTwo: false,
-                                pageThree: true,
-                              });
-                              setPageName("Visit Reports");
-                              setDealerGroupId(e?.target?.value);
-                            }}
-                            value={item?.dealerGroupId}
-                          >
-                            {item?.dealerGroupName}
-                          </li>
-                        ))}
+                    { dealerGroup?.length ? 
+                      <div className={`${Styles.listitems} ${Styles.tablist1} `}>
+                        <div className={Styles.listtoptitle}>
+                          My Dealers Group
+                        </div>
+                        <ul className={Styles.listcntnt}>
+                          {dealerGroup.map((item, index) => (
+                            <li
+                              key={index + "dealerGroup"}
+                              onClick={(e) => {
+                                setGoBackToPage({
+                                  pageOne: false,
+                                  pageTwo: false,
+                                  pageThree: true,
+                                });
+                                setPageName("Visit Reports");
+                                setDealerGroupId(e?.target?.value);
+                              }}
+                              value={item?.dealerGroupId}
+                            >
+                              {item?.dealerGroupName}
+                            </li>
+                          ))
+                        }
                       </ul>
-                    </div>
+                    </div> :
+                    null }
                   </Tab>
                   <Tab eventKey="Dealer" title="Dealer">
-                    <div className={`${Styles.listitems} ${Styles.tablist2} `}>
-                      <div className={Styles.listtoptitle}>My Dealers</div>
-                      <ul className={Styles.listcntnt}>
-                        {dealership.map((item, index) => (
-                          <li
-                            key={index + "dealer"}
-                            onClick={(e) => {
-                              setGoBackToPage({
-                                pageOne: false,
-                                pageTwo: false,
-                                pageThree: true,
-                              });
-                              setPageName("Visit Reports");
-                              setDealerGroupId(e?.target?.value);
-                            }}
-                            value={item?.id}
-                          >
-                            {item?.name}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {dealership.length ? 
+                      <div className={`${Styles.listitems} ${Styles.tablist2} `}>
+                        <div className={Styles.listtoptitle}>My Dealers</div>
+                        <ul className={Styles.listcntnt}>
+                          {dealership.map((item, index) => (
+                            <li
+                              key={index + "dealer"}
+                              onClick={(e) => {
+                                setGoBackToPage({
+                                  pageOne: false,
+                                  pageTwo: false,
+                                  pageThree: true,
+                                });
+                                setPageName("Visit Reports");
+                                setDealerGroupId(e?.target?.value);
+                              }}
+                              value={item?.id}
+                            >
+                              {item?.name}
+                            </li>
+                          ))}
+                        </ul>
+                      </div> :
+                      null
+                    }
                   </Tab>
                 </Tabs>
               </>

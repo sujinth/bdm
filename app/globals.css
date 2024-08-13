@@ -17,10 +17,12 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 14px;
+  color: rgb(var(--foreground-rgb)) !important;
+  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+  font-size: 14px !important;
   position: relative;
+  background-color: #fff !important;
+  line-height: normal !important;
   /* background: linear-gradient(
       to bottom,
       transparent,

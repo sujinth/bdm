@@ -39,17 +39,12 @@ const Home = () => {
       {/* Header */}
       <InnerHeader />
 
-      <div className={Styles.container}>
-        <div className={`${Styles.pd10} ${Styles.headersubtitle}`}>
-          Welcome to MI Business App
-        </div>
-      </div>
+        <div className={Styles.homeImage} dangerouslySetInnerHTML={{ __html: imageUrl }} />
 
       <div className={Styles.bgcolor}>
         <div className={Styles.container}>
           <div className={Styles.pdTB70}>
             <div className={Styles.flex}>
-              <div dangerouslySetInnerHTML={{ __html: imageUrl }} />
               <div
                 className={`${Styles.whtbg} ${Styles.pd20} ${Styles.rghtbxcntnt} ${Styles.brdgry} ${Styles.brdradius}`}
               >
@@ -102,12 +97,6 @@ const Home = () => {
                     </div>
                   </div>
                 </Link>
-                <div
-                  className={`${Styles.whtbg} ${Styles.brdgry} ${Styles.boxtxt}  ${Styles.mrgT15}  ${Styles.brdradius} ${Styles.pd10}`}
-                >
-                  The standard chunk of Lorem Ipsum used since the 1500s is
-                  reproduced below for those interested.{" "}
-                </div>
               </div>
 
               <div className={Styles.cntntbox}>
@@ -131,12 +120,6 @@ const Home = () => {
                     </div>
                   </div>
                 </Link>
-                <div
-                  className={`${Styles.whtbg} ${Styles.brdgry} ${Styles.mrgT15} ${Styles.boxtxt} ${Styles.brdradius} ${Styles.pd10}`}
-                >
-                  The standard chunk of Lorem Ipsum used since the 1500s is
-                  reproduced below for those interested.
-                </div>
               </div>
 
               <div className={Styles.cntntbox}>
@@ -160,12 +143,6 @@ const Home = () => {
                     </div>
                   </div>
                 </Link>
-                <div
-                  className={`${Styles.whtbg} ${Styles.boxtxt}  ${Styles.mrgT15}  ${Styles.brdgry} ${Styles.brdradius} ${Styles.pd10}`}
-                >
-                  The standard chunk of Lorem Ipsum used since the 1500s is
-                  reproduced below for those interested.{" "}
-                </div>
               </div>
 
               <div className={Styles.cntntbox}>
@@ -189,12 +166,6 @@ const Home = () => {
                     </div>
                   </div>
                 </Link>
-                <div
-                  className={`${Styles.whtbg} ${Styles.boxtxt}  ${Styles.mrgT15}  ${Styles.brdgry} ${Styles.brdradius} ${Styles.pd10}`}
-                >
-                  The standard chunk of Lorem Ipsum used since the 1500s is
-                  reproduced below for those interested.{" "}
-                </div>
               </div>
             </div>
           </div>
