@@ -47,23 +47,31 @@
   flex-wrap: wrap;
   row-gap: 15px;
   column-gap: 15px;
-  padding: 20px 20px 50px;
+ // padding: 20px 20px 50px;
+  padding: 20px 0px 50px;
   justify-content: space-between;
 }
 .visitnamebx {
   width: 28%;
 }
 .detailbx {
-  width: 70%;
+  width: 68%;
+  .detailbximage{
+    text-align: center;
+    padding-top: 15px;
+  }
+  .logobottomtext{
+    font-size: 18px;
+  }
 }
 .titlebx {
   background-color: #ec0000;
   height: 50px;
-  padding: 10px;
-  text-align: center;
+  padding: 10px 20px;
+  text-align: left;
   color: #fff;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   font-size: 16px;
   font-weight: 600;
@@ -78,7 +86,7 @@
 }
 .contentwhtbx {
   background-color: #fff;
-  height: 750px;
+  //height: 750px;
   padding: 20px 20px 20px 20px;
   form {
     overflow-y: scroll;
@@ -106,10 +114,12 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #6F7779;
   }
+  
 }
 .listcntnt {
+  padding-left:25px !important;
   li {
-    height: 50px;
+    height:auto;
     display: flex;
     align-items: center;
     position: relative;
@@ -120,13 +130,20 @@
     font-family: SantanderHead-Bold;
     color: #000000;
     letter-spacing: 0.4px;
+    padding: 15px 0px 3px;
+    margin-bottom: 10px;
+    width: fit-content;
+    cursor: pointer;
+  }
+  li:hover {
+    border-bottom: 2px solid #ec0000;
   }
   li:nth-child(odd) {
     background: #fff;
   }
-  li:not(:last-child) {
-    border-bottom: 1px solid #989898;
-  }
+  // li:not(:last-child) {
+  //   border-bottom: 1px solid #989898;
+  // }
   li a {
     width: 100%;
     height: inherit;
@@ -135,20 +152,20 @@
     padding: 10px;
     padding-right: 20px;
   }
-  li::after {
-    content: "";
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background-image: url(/player.svg);
-    background-repeat: no-repeat;
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-  }
+  // li::after {
+  //   content: "";
+  //   position: absolute;
+  //   top: 15px;
+  //   right: 15px;
+  //   background-image: url(/player.svg);
+  //   background-repeat: no-repeat;
+  //   display: inline-block;
+  //   width: 20px;
+  //   height: 20px;
+  // }
 }
 .listitems {
-  border: 1px solid #989898;
+  // border: 1px solid #989898;
   li.listhead {
     background-color: #6F7779;
   }
@@ -177,8 +194,6 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 15%;
-  min-height: 750px;
 }
 .textcntr {
   text-align: center;
@@ -352,7 +367,7 @@ ul.listiconhide li::after {
     width: 25%;
   }
   .detailbx {
-    width: 70%;
+    width: 68%;
   }
 }
 @media (max-width: 992px) {
@@ -377,7 +392,6 @@ ul.listiconhide li::after {
     overflow: scroll;
   }
   .innercontentwhtbx {
-    min-height: 500px;
     height: auto;
     overflow-y: scroll;
   }

@@ -76,7 +76,7 @@ const InnerHeader = () => {
         <div>
             {/* {!isHomePage && pathName !== "/login" && ( */}
             <div className={Styles.headerbottom}>
-                <div className={Styles.container}>
+                <div className={`${Styles.container} ${Styles.innerheaderbottom} `}>
                     {!isHomePage && pathName !== "/login" && ( 
                         <>
                             <div className={Styles.backbtn}>
@@ -103,7 +103,15 @@ const InnerHeader = () => {
                                 alt="user"
                                 onClick={() => menuClick()}
                                 />
-                                <div id="menupopup" className={Styles.headermenu}>
+                            </div>
+
+                        </div>
+                    )}
+
+                </div>
+            </div>
+
+            <div id="menupopup" className={Styles.headermenu}>
                                 <div
                                     className={Styles.btncancel}
                                     onClick={() => menuClose()}
@@ -162,13 +170,6 @@ const InnerHeader = () => {
                                     <UserGuide show={show} setShow={setShow} />
                                 </div>
                                 </div>
-                            </div>
-
-                        </div>
-                    )}
-
-                </div>
-            </div>
             {/* )} */}
         </div>
     </>

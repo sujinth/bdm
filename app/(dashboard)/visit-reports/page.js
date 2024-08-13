@@ -209,11 +209,7 @@ const VisitReport = () => {
               >
                 {/* Body */}
                 <div>
-                  <img
-                    className={Styles.logoimage}
-                    src="/logo.png"
-                    alt="logo"
-                  />
+                  
                   <div
                     className={`${Styles.textcntr} ${Styles.logobottomtext} ${Styles.pdT20} ${Styles.ftw600}`}
                   >
@@ -223,6 +219,7 @@ const VisitReport = () => {
                   </div>
                 </div>
               </div>
+              <div className={Styles.detailbximage}><img src="/select-image.png" alt="Select a report" /></div>
             </div>
           </div>
         </div>

@@ -77,95 +77,87 @@ const Home = () => {
 
             <div className={`${Styles.flex} ${Styles.pdT50}  ${Styles.clgp20}`}>
               <div className={Styles.cntntbox}>
-                <Link href="/visit-reports">
                   <div
-                    className={`${Styles.flex} ${Styles.brdradius} ${Styles.bgred}  ${Styles.clgp10}`}
+                    className={`${Styles.boxtile} ${Styles.brdradius} `}
                   >
                     <div
-                      className={`${Styles.bgwht} ${Styles.iconbrborderradius} `}
-                    >
+                      className={Styles.iconbrborderradius}>
                       <img
-                        className={`${Styles.pd10} ${Styles.borderdrk} ${Styles.iconbrborderradius}`}
+                        className={Styles.pd10}
                         src="/report.svg"
                         alt="report"
                       />
                     </div>
-                    <div
-                      className={`${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
+                    <Link href="/visit-reports"
+                      className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
                     >
                       Visit Reports
-                    </div>
+                    </Link>
                   </div>
-                </Link>
+               
               </div>
 
               <div className={Styles.cntntbox}>
-                <Link href="/actions">
-                  <div
-                    className={`${Styles.flex} ${Styles.brdradius} ${Styles.bgred}  ${Styles.clgp10}`}
+                
+                <div
+                    className={`${Styles.boxtile} ${Styles.brdradius} `}
                   >
                     <div
-                      className={`${Styles.bgwht} ${Styles.iconbrborderradius} `}
-                    >
+                      className={Styles.iconbrborderradius}>
                       <img
-                        className={`${Styles.pd10} ${Styles.borderdrk} ${Styles.iconbrborderradius}`}
+                        className={Styles.pd10}
                         src="/action.png"
                         alt="Actions"
                       />
                     </div>
-                    <div
-                      className={`${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
+                    <Link href="/actions"
+                      className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
                     >
                       Actions
-                    </div>
+                    </Link>
                   </div>
-                </Link>
+                
               </div>
 
               <div className={Styles.cntntbox}>
-                <Link href="https://santander.learnondemand.co.uk/login/">
-                  <div
-                    className={`${Styles.flex} ${Styles.brdgry} ${Styles.brdradius} ${Styles.bgred} ${Styles.clgp10}`}
+                <div
+                    className={`${Styles.boxtile} ${Styles.brdradius} `}
                   >
                     <div
-                      className={`${Styles.bgwht} ${Styles.iconbrborderradius} `}
-                    >
+                      className={Styles.iconbrborderradius}>
                       <img
-                        className={`${Styles.pd10} ${Styles.borderdrk} ${Styles.iconbrborderradius}`}
+                        className={Styles.pd10}
                         src="/communication.svg"
                         alt="Coaching"
                       />
                     </div>
-                    <div
-                      className={`${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
+                    <Link href="https://santander.learnondemand.co.uk/login/"
+                      className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
                     >
                       Coaching
-                    </div>
+                    </Link>
                   </div>
-                </Link>
               </div>
 
               <div className={Styles.cntntbox}>
-                <Link href="/resources">
-                  <div
-                    className={`${Styles.flex} ${Styles.brdgry} ${Styles.brdradius} ${Styles.bgred} ${Styles.clgp10}`}
+                
+                <div
+                    className={`${Styles.boxtile} ${Styles.brdradius} `}
                   >
                     <div
-                      className={`${Styles.bgwht} ${Styles.iconbrborderradius} `}
-                    >
+                      className={Styles.iconbrborderradius}>
                       <img
-                        className={`${Styles.pd10} ${Styles.borderdrk} ${Styles.iconbrborderradius}`}
+                        className={Styles.pd10}
                         src="/resources.svg"
                         alt="report"
                       />
                     </div>
-                    <div
-                      className={`${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
+                    <Link href="/resources"
+                      className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
                     >
                       Resources
-                    </div>
+                    </Link>
                   </div>
-                </Link>
               </div>
             </div>
           </div>

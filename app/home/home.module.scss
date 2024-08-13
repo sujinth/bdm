@@ -235,6 +235,41 @@
 }
 .cntntbox {
   width: 20%;
+  .boxtile{
+    border: 1px solid #b2b3b6;
+    background-color: #fff;
+    padding: 15px;
+    .iconbrborderradius{
+      text-align: center;
+      height: 130px;
+    vertical-align: middle;
+    width: 105px;
+    border: 1px solid #b2b3b6;
+    border-radius: 4px;
+    margin: auto;
+    margin-bottom: 15px;
+    }
+    .iconbrborderradius img{
+      height: 130px;
+      vertical-align: middle;
+      width: 105px;
+      border-radius: 4px;
+    }
+    
+    .tilebtn{
+      background-color: #ec0000;
+      border-radius: 5px;
+      border: 0px;
+      min-width: 100%;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+    }
+    .tilebtn:hover{
+      background-color: #000;
+    }
+  }
 }
 .clgp20 {
   column-gap: 20px;

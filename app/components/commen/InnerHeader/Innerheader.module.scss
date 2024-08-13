@@ -105,6 +105,8 @@
   justify-content: flex-end;
   min-width: 100px;
   font-weight: 600;
+  position: absolute;
+  top: 0px;
   .logOut{
     cursor: pointer;
     margin-right: 50px;
@@ -147,24 +149,32 @@
   padding: 15px 0px;
   min-height: 55px;
   .container {
-    max-width: 95%;
+    //max-width: 95%;
+    max-width: 1200px;
     margin: auto;
   }
-
+.innerheaderbottom{
+  position: relative;
+}
   .innerheadertxt {
     // color: #deedf2;
     font-weight: 600;
     font-family: SantanderHead-Bold;
-    font-size: 16px;
+    font-size:20px;
     letter-spacing: 0.3px;
   }
   .backbtn {
     z-index: 10;
     position: absolute;
-    top: 0px;
+   top: 5px;
     // left: 70px;
-    height: 31px;
+    //height: 31px;
     font-weight: 600;
+  }
+  .backbtn span{
+    font-size: 17px;
+    display: flex;
+    align-items: center;
   }
   button {
     // background: transparent;
