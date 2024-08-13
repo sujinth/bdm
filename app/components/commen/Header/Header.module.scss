@@ -1,14 +1,25 @@
 .header {
   background-color: #ec0000;
   width: 100%;
-  text-align: center;
   .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
   }
-  .logoimage {
-    margin: auto;
+  .homeheader {
+    .whttxt {
+      font-family: SantanderHead-Bold;
+      letter-spacing: 0.3px;
+    }
+    .headertext {
+      font-size: 18px;
+    }
+  }
+  .whttxt{
+    font-family: SantanderHead-Bold;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    margin-right: 34px;
   }
 }
 @media (max-width: 992px) {

@@ -35,13 +35,15 @@
   font-style: normal;
 }
 .footer {
-  background-color: #000000;
+  background-color: #ec0000;
   width: 100%;
   text-align: center;
   padding: 10px 30px;
   display: flex;
   justify-content: end;
   align-items: center;
+  position: fixed;
+  bottom: 0;
   .copyright {
     text-align: right;
     font-family: "SantanderText-Regular";

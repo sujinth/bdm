@@ -6,6 +6,9 @@ const Header = () => {
     <div className={Styles.header}>
       <div className={Styles.container}>
         <img className={Styles.logoimage} src="/logo.png" alt="logo" />
+        <div className={`${Styles.whttxt} ${Styles.headertext} `}>
+          MI Business Portal
+        </div>
       </div>
     </div>
   );

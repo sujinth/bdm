@@ -30,7 +30,6 @@ const InnerHeader = () => {
   // Function for menu open
   const menuClick = () => {
     document.getElementById("menupopup").style.display = "block";
-    document.body.style.overflow = "hidden";
     document.body.classList.add("menuopen");
   };
 
@@ -60,107 +59,117 @@ const InnerHeader = () => {
           <div className={`${Styles.flex} ${Styles.homeheader}`}>
             <div>
               <a href="#">
-                <img className={Styles.logoimage} src="/logo.png" alt="logo" />
+                <img className={Styles.logoimage} src="/logo_transparent.png" alt="logo" />
               </a>
             </div>
 
             <div className={`${Styles.flex} ${Styles.colgp15} `}>
               <div className={`${Styles.whttxt} ${Styles.headertext} `}>
-                MI Business App
-              </div>
-
-              {loggedIn && (
-                <Button onClick={logOut} variant="light">
-                  Logout
-                </Button>
-              )}
-
-              <div>
-                <img
-                  title="Menu"
-                  className={Styles.logoimage}
-                  src="/menu.svg"
-                  alt="user"
-                  onClick={() => menuClick()}
-                />
-                <div id="menupopup" className={Styles.headermenu}>
-                  <button
-                    type="button"
-                    className={Styles.btncancel}
-                    onClick={() => menuClose()}
-                  >
-                    <img
-                      className={Styles.logoimage}
-                      src="/close.svg"
-                      alt="close"
-                    />
-                  </button>
-                  <div className={`${Styles.pd20} ${Styles.sidebarmenu} `}>
-                    <div
-                      className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
-                    >
-                      <Link href="/home">Home</Link>
-                    </div>
-                    <div
-                      className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
-                    >
-                      <Link href="/visit-reports">Visit Reports</Link>
-                    </div>
-                    <div
-                      className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
-                    >
-                      <Link href="/actions">Actions</Link>
-                    </div>
-                    <div
-                      className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
-                    >
-                      <Link href="https://santander.learnondemand.co.uk/login/">
-                        Coaching
-                      </Link>
-                    </div>
-                    <div
-                      className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
-                    >
-                      <Link href="/resources">Resources</Link>
-                    </div>
-                    <div
-                      className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
-                    >
-                      <Link href="/update-password">Change password</Link>
-                    </div>
-                    <div
-                      className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
-                    >
-                      <button
-                        className={Styles.userGuideBtn}
-                        type="button"
-                        onClick={() => setShow(true)}
-                      >
-                        User guide
-                      </button>
-                    </div>
-                    <UserGuide show={show} setShow={setShow} />
-                  </div>
-                </div>
+                MI Business Portal
               </div>
             </div>
+
           </div>
         </div>
       </div>
-      {!isHomePage && pathName !== "/login" && (
-        <div className={Styles.headerbottom}>
-          <div className={Styles.container}>
-            <div>
-              <div className={Styles.backbtn}>
-                <button onClick={handleGoBack}>Back</button>
-              </div>
+
+        <div>
+            {/* {!isHomePage && pathName !== "/login" && ( */}
+            <div className={Styles.headerbottom}>
+                <div className={Styles.container}>
+                    {!isHomePage && pathName !== "/login" && ( 
+                        <>
+                            <div className={Styles.backbtn}>
+                                <span onClick={handleGoBack}>Back</span>
+                            </div>
+
+                            <div className={Styles.innerheadertxt}>
+                                Visits Reports
+                            </div>
+                        </>
+                    )}
+
+                    {loggedIn && (
+                        <div className={Styles.menuRight}>
+                            <span onClick={logOut} className={Styles.logOut} >
+                                Logout
+                            </span>
+
+                            <div>
+                                <img
+                                title="Menu"
+                                className={Styles.menuImage}
+                                src="/menu.svg"
+                                alt="user"
+                                onClick={() => menuClick()}
+                                />
+                                <div id="menupopup" className={Styles.headermenu}>
+                                <div
+                                    className={Styles.btncancel}
+                                    onClick={() => menuClose()}
+                                >
+                                    <img
+                                    className={Styles.closeButton}
+                                    src="/close.svg"
+                                    alt="close"
+                                    />
+                                </div>
+                                <div className={`${Styles.pd20} ${Styles.sidebarmenu} `}>
+                                    <div
+                                    className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
+                                    >
+                                    <Link href="/home">Home</Link>
+                                    </div>
+                                    <div
+                                    className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
+                                    >
+                                    <Link href="/visit-reports">Visit Reports</Link>
+                                    </div>
+                                    <div
+                                    className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
+                                    >
+                                    <Link href="/actions">Actions</Link>
+                                    </div>
+                                    <div
+                                    className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
+                                    >
+                                    <Link href="https://santander.learnondemand.co.uk/login/">
+                                        Coaching
+                                    </Link>
+                                    </div>
+                                    <div
+                                    className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
+                                    >
+                                    <Link href="/resources">Resources</Link>
+                                    </div>
+                                    <div
+                                    className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
+                                    >
+                                    <Link href="/update-password">Change password</Link>
+                                    </div>
+                                    <div
+                                    className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
+                                    >
+                                    <div
+                                        className={Styles.userGuideBtn}
+                                        type="button"
+                                        onClick={() => setShow(true)}
+                                    >
+                                        User guide
+                                    </div>
+                                    </div>
+                                    <UserGuide show={show} setShow={setShow} />
+                                </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    )}
+
+                </div>
             </div>
-            <div className={Styles.innerheadertxt}>
-              Dealership Visits Reports
-            </div>
-          </div>
+            {/* )} */}
         </div>
-      )}
     </>
   );
 };

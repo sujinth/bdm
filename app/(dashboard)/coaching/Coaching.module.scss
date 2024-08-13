@@ -48,7 +48,7 @@
     padding-right: 15px;
   }
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 5px;
   }
 
   /* Track */
@@ -59,13 +59,13 @@
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #aaaaaa;
+    background: #6F7779;
     border-radius: 10px;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #aaaaaa;
+    background: #6F7779;
   }
 }
 .listcntnt {

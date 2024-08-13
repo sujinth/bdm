@@ -17,10 +17,12 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 14px;
+  color: rgb(var(--foreground-rgb)) !important;
+  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+  font-size: 14px !important;
   position: relative;
+  background-color: #fff !important;
+  line-height: normal !important;
   /* background: linear-gradient(
       to bottom,
       transparent,
@@ -98,7 +100,7 @@ body {
     width: 50% !important;
     height: 50px !important;
     padding: 10px !important;
-    background-color: #aaaaaa !important;
+    background-color: #6F7779 !important;
     font-weight: 600 !important;
   }
 }
@@ -117,7 +119,7 @@ body {
   li {
     width: 50%;
     height: 50px;
-    background-color: #aaaaaa;
+    background-color: #6F7779;
     font-weight: 600;
     display: flex;
     justify-content: center;
@@ -188,7 +190,7 @@ body {
     font-size: 15px !important;
   }
   a.active {
-    background-color: #aaaaaa !important;
+    background-color: #6F7779 !important;
   }
 }
 .nav-pills .nav-item:nth-child(odd) a {
@@ -265,7 +267,7 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #aaaaaa;
+  background: #6F7779;
   border-radius: 10px;
 }
 
@@ -280,7 +282,7 @@ body::-webkit-scrollbar-track {
 
 /* Handle */
 body::-webkit-scrollbar-thumb {
-  background: #aaaaaa;
+  background: #6F7779;
   border-radius: 0px;
 }
 .contractform {
@@ -297,12 +299,12 @@ body::-webkit-scrollbar-thumb {
   }
   .form-select,
   input {
-    background-color: #e5e5e5;
+    background-color: #DEEDF2;
     font-size: 14px;
     font-weight: 600;
   }
   .form-control:focus {
-    background-color: #e5e5e5;
+    background-color: #DEEDF2;
   }
   .form-control::placeholder {
     color: #9ca3af;
