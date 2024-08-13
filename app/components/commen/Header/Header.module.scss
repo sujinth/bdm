@@ -1,24 +1,34 @@
 .header {
-    background-color:#EC0000;
-    width: 100%;
-    text-align: center;
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
+  background-color: #ec0000;
+  width: 100%;
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .homeheader {
+    .whttxt {
+      font-family: SantanderHead-Bold;
+      letter-spacing: 0.3px;
     }
-    .logoimage{
-      margin: auto;
+    .headertext {
+      font-size: 18px;
     }
   }
-  @media (max-width: 992px) {
-    .logoimage{
-     width: 30%;
-    }
+  .whttxt{
+    font-family: SantanderHead-Bold;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    margin-right: 34px;
   }
-  @media (max-width: 420px) {
-    .logoimage{
-     width: 65%;
-    }
+}
+@media (max-width: 992px) {
+  .logoimage {
+    width: 30%;
   }
-  
+}
+@media (max-width: 420px) {
+  .logoimage {
+    width: 65%;
+  }
+}

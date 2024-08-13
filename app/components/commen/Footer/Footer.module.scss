@@ -1,72 +1,74 @@
 @font-face {
-	font-family:'SantanderHead-Bold';
-	src: url(../../../../public/SantanderHeadline-Bold.woff2) format('woff2'),
-         url(../../../../public/SantanderHeadline-Bold.woff2) format('woff');
-    font-style: normal;
+  font-family: "SantanderHead-Bold";
+  src: url(../../../../public/SantanderHeadline-Bold.woff2) format("woff2"),
+    url(../../../../public/SantanderHeadline-Bold.woff2) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderHead-Regular';
-	src: url(../../../../public/SantanderHeadline-Regular.woff2) format('woff2'),
-         url(../../../../public/SantanderHeadline-Regular.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderHead-Regular";
+  src: url(../../../../public/SantanderHeadline-Regular.woff2) format("woff2"),
+    url(../../../../public/SantanderHeadline-Regular.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Bold';
-	src: url(../../../../public/SantanderText-Bold.woff2) format('woff2'),
-         url(../../../../public/SantanderText-Bold.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Bold";
+  src: url(../../../../public/SantanderText-Bold.woff2) format("woff2"),
+    url(../../../../public/SantanderText-Bold.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Light';
-	src: url(../../../../public/SantanderText-Light.woff2) format('woff2'),
-         url(../../../../public/SantanderText-Light.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Light";
+  src: url(../../../../public/SantanderText-Light.woff2) format("woff2"),
+    url(../../../../public/SantanderText-Light.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Regular';
-	src: url(../../../../public/SantanderText-Regular.woff2) format('woff2'),
-         url(../../../../public/SantanderText-Regular.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Regular";
+  src: url(../../../../public/SantanderText-Regular.woff2) format("woff2"),
+    url(../../../../public/SantanderText-Regular.woff) format("woff");
+  font-style: normal;
 }
 @font-face {
-	font-family:'SantanderText-Italic';
-	src: url(../../../../public/SantanderText-Italic.woff) format('woff2'),
-         url(../../../../public/SantanderText-Italic.woff) format('woff');
-    font-style: normal;
+  font-family: "SantanderText-Italic";
+  src: url(../../../../public/SantanderText-Italic.woff) format("woff2"),
+    url(../../../../public/SantanderText-Italic.woff) format("woff");
+  font-style: normal;
 }
 .footer {
-    background-color:#000000;
-    width: 100%;
-    text-align: center;
-    padding: 10px 30px;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    .copyright{
-      text-align: right;
-      font-family:'SantanderText-Regular';
-      font-size: 14px;
-      letter-spacing: 0.4px;
-      color: #DEEDF2;
-    }
+  background-color: #ec0000;
+  width: 100%;
+  text-align: center;
+  padding: 10px 30px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  .copyright {
+    text-align: right;
+    font-family: "SantanderText-Regular";
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    color: #deedf2;
   }
-  
- .footericontxt{
-    color: #6F7779;
-    font-weight: 600;
-    font-size: 16px;
-    padding-top: 10px;
- }
- .footericons{
-   margin: auto;
- }
- .footericons:hover {
+}
+
+.footericontxt {
+  color: #6f7779;
+  font-weight: 600;
+  font-size: 16px;
+  padding-top: 10px;
+}
+.footericons {
+  margin: auto;
+}
+.footericons:hover {
   fill: red;
 }
- @media( max-width:620px){
- .footer {
+@media (max-width: 620px) {
+  .footer {
     column-gap: 4px;
-    svg{
+    svg {
       width: 30px;
       height: 30px;
     }
@@ -75,12 +77,12 @@
     width: 30px;
     height: 30px;
   }
-  .footericontxt{
+  .footericontxt {
     font-size: 12px;
   }
 }
-@media( max-width:480px){
-  .footericontxt{
+@media (max-width: 480px) {
+  .footericontxt {
     font-size: 10px;
   }
   img.footericons {

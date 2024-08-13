@@ -4,7 +4,7 @@
   padding: 0 15px;
 }
 .bgcolor {
-  background-color: #DEEDF2;
+  background-color: #deedf2;
 }
 .bgwhite {
   background-color: #fff;
@@ -19,13 +19,12 @@
 }
 .visitnamebx {
   width: 28%;
- 
 }
 .detailbx {
   width: 70%;
 }
 .titlebx {
-  background-color: #EC0000;
+  background-color: #ec0000;
   height: 50px;
   padding: 10px;
   text-align: center;
@@ -79,7 +78,7 @@
     font-size: 16px;
     text-transform: capitalize;
     padding-left: 10px;
-    font-family:SantanderHead-Bold;
+    font-family: SantanderHead-Bold;
     color: #000000;
     letter-spacing: 0.4px;
     padding: 10px;
@@ -122,7 +121,7 @@
 .listitems {
   border: 1px solid #989898;
   li.listhead {
-    background-color: #EC0000;
+    background-color: #ec0000;
     color: #fff;
   }
 }
@@ -141,7 +140,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-    padding-top: 15%;
+  padding-top: 15%;
   min-height: 750px;
 }
 .textcntr {
@@ -243,7 +242,7 @@
     padding-top: 20px;
   }
   .redbtn {
-    background-color: #EC0000;
+    background-color: #ec0000;
     color: #fff;
   }
   .redbtn::after {
@@ -295,7 +294,7 @@
     padding: 0px;
   }
   .labelred {
-    color: #EC0000;
+    color: #ec0000;
     font-size: 16px;
     margin-bottom: 15px;
   }
@@ -326,7 +325,7 @@
   }
   .searchrow {
     width: 70%;
-    background-color: #EC0000;
+    background-color: #ec0000;
     color: #fff;
     padding: 15px;
     text-align: end;
@@ -383,8 +382,8 @@
 .mobbtnrow {
   display: none;
 }
-.footerbtnrow{
-  .imagebtn{
+.footerbtnrow {
+  .imagebtn {
     display: flex !important;
   }
 }

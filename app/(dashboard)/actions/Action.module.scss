@@ -1,10 +1,13 @@
+//////////////////////////////////////////////////////////////////////////////////
+//                                                                              //
+//                       File for style action component                        //
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 15px;
-}
-.bgcolor {
-  background-color: #DEEDF2;
 }
 .innerpgcntnt {
   display: flex;
@@ -21,7 +24,7 @@
   width: 70%;
 }
 .titlebx {
-  background-color: #EC0000;
+  background-color: #ec0000;
   height: 50px;
   padding: 10px;
   text-align: center;
@@ -37,7 +40,7 @@
   background-color: #fff;
   // height: 750px;
   padding: 20px 20px 20px 20px;
-  form{
+  form {
     overflow-y: scroll;
     height: 720px;
     padding-right: 15px;
@@ -45,19 +48,19 @@
   ::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   /* Track */
   ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey; 
+    box-shadow: inset 0 0 5px grey;
     border-radius: 10px;
   }
-   
+
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background:#6F7779;
     border-radius: 10px;
   }
-  
+
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #6F7779;
@@ -73,7 +76,7 @@
     font-size: 16px;
     text-transform: capitalize;
     padding-left: 10px;
-    font-family:SantanderHead-Bold;
+    font-family: SantanderHead-Bold;
     color: #000000;
     letter-spacing: 0.4px;
   }
@@ -138,8 +141,8 @@
 }
 
 //Action-pg
-.listitems{
-  .listtoptitle{
+.listitems {
+  .listtoptitle {
     height: 50px;
     display: flex;
     align-items: center;
@@ -147,7 +150,7 @@
     font-size: 15px;
     text-transform: capitalize;
     padding: 10px;
-    background-color: #EC0000;
+    background-color: #ec0000;
     color: #fff;
   }
 }
@@ -188,4 +191,3 @@
     overflow-y: scroll;
   }
 }
-

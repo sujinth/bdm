@@ -1,29 +1,29 @@
 //////////////////////////////////////////////////////////////////////////////////
 //                                                                              //
-//         File for fetch API data from incomplete_updateactionstatus           //
+//                      File for fetch API data from news                       //
 //                                                                              //
 //////////////////////////////////////////////////////////////////////////////////
 
 import axios from "axios";
 import https from "https";
-import config from "../../../../config/config";
+import config from "../../../config/config";
 
 const agent = new https.Agent({
   rejectUnauthorized: false,
 });
 
-// Function for incomplete update action status
+// Function for fetch news api data
 export async function POST(request) {
   try {
-    const {
-      userId,
-      cartId,
-      formId,
-      dealershipId,
-      strFormControlInfo,
-      postData,
-      flagSave,
-    } = await request.json();
+    const { userId, lastupdatedttm, userguidelastupdatedttm } =
+      await request.json();
+
+    // Create a new FormData instance
+    const formData = new FormData();
+    formData.append("userid", userId);
+    formData.append("lastupdatedttm", lastupdatedttm);
+    formData.append("userguidelastupdatedttm", userguidelastupdatedttm);
+
     // If no userId in request, return an error response
     if (!userId) {
       return new Response(
@@ -31,31 +31,19 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-    // Create a new FormData instance
-    const formData = new FormData();
-    formData.append("userid", userId);
-    formData.append("cartid", cartId);
-    formData.append("formid", formId);
-    formData.append("dealershipid", dealershipId);
-    formData.append("strFormControlInfo", strFormControlInfo);
-    formData.append("postdata", postData);
-    formData.append("flag_save", flagSave);
 
     // API request and response sending
-    const response = await axios.post(
-      `${config.INCOMPLETE_UPDATEACTION_STATUS}`,
-      formData,
-      {
-        httpsAgent: agent,
-      }
-    );
+    const response = await axios.post(`${config.NEWS}`, formData, {
+      httpsAgent: agent,
+    });
+
     return new Response(
       JSON.stringify({ message: "success", result: response.data }),
       { status: 200 }
     );
   } catch (error) {
     // Error case
-    console.error("Error while updating action status :", error.message);
+    console.error("Error fetching data from news api :", error.message);
     return new Response(JSON.stringify({ message: "failed", result: [] }), {
       status: 500,
     });

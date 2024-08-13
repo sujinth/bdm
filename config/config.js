@@ -5,13 +5,15 @@ const CHANGE_PASSWORD = `${ABSPATH}changepassword.php`;
 const FORGOT_PASSWORD = `${ABSPATH}forgotpassword.php`;
 const COACHINGMODULE = `${ABSPATH}coachingmodule.php`;
 const RESOURCE = `${ABSPATH}resources.php`;
-const VISITREPORTS = `${ABSPATH}dealershipvisitreportstemplate.php`;
 const DELEARSHIP_VISIT_REPORTS = `${ABSPATH}incomplete_dealershipvisitreportstemplate.php`;
 const INCOMPLETE_DEALERSHIP = `${ABSPATH}incomplete_dealership.php`;
 const INCOMPLETE_ACTION = `${ABSPATH}incomplete_reportlist.php`;
 const INCOMPLETE_UPDATEACTION_STATUS = `${ABSPATH}incomplete_updateactionstatus.php`;
-// const VISITREPORTS = `https://192.168.200.6:11443/~sangeeth/santenderbdm/ipadapp/dealershipvisitreportstemplate.php`;
 const DEALERSHIP = `${ABSPATH}dealership.php`;
+const VISITREPORTS = `${ABSPATH}dealershipvisitreportstemplate.php`;
+const DEALERSHIP_VISIT_REPORT_LIST = `https://www.scmibusiness.co.uk/ipadapp/dealershipvisitreportresultlist.php`;
+const HOME_PAGE_IMG_URL = `${ABSPATH}midbar-image.php`;
+const NEWS = `https://www.scmibusiness.co.uk/ipadapp/news.php`;
 
 module.exports = {
   LOGIN,
@@ -24,5 +26,8 @@ module.exports = {
   DELEARSHIP_VISIT_REPORTS,
   INCOMPLETE_DEALERSHIP,
   INCOMPLETE_ACTION,
-  INCOMPLETE_UPDATEACTION_STATUS
+  INCOMPLETE_UPDATEACTION_STATUS,
+  DEALERSHIP_VISIT_REPORT_LIST,
+  HOME_PAGE_IMG_URL,
+  NEWS,
 };
