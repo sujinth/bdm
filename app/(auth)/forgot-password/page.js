@@ -71,40 +71,50 @@ const Forgotpassword = () => {
   return (
     <div className={Styles.bgcolor}>
       <div className={`${Styles.container} ${Styles.loginpg}`}>
-        <div className={`${Styles.loginboxcntnt} ${Styles.forgotboxcntnt}`}>
-          <div className={Styles.logintitle}>Forgot password</div>
-          <form className={Styles.loginbox} onSubmit={handleSubmit}>
-            {errorMessage.apiErrorMsg !== "" && (
-              <span style={{ color: "red" }}>{errorMessage.apiErrorMsg}</span>
-            )}
-            <div className={Styles.mrgb10}>
-              <input
-                type="text"
-                name="txtFUsername"
-                className={Styles.inputtxt}
-                placeholder="User Name"
-                onChange={handleChange}
-              />
+        <div className={`${Styles.loginboxcntnt} ${Styles.forgotboxcntnt} ${Styles.leftbox}`}>
+            <div className={Styles.forgotform}>
+              <div className={Styles.logintitle}>Forgot password</div>
+              <form className={Styles.loginbox} onSubmit={handleSubmit}>
+                {errorMessage.apiErrorMsg !== "" && (
+                  <span style={{ color: "red" }}>{errorMessage.apiErrorMsg}</span>
+                )}
+                <div >
+                <label className={Styles.inputlabel}>User Name</label>
+                  <input
+                    type="text"
+                    name="txtFUsername"
+                    className={Styles.inputtxt}
+                    onChange={handleChange}
+                  />
+                </div>
+                {errorMessage.txtFUsernameErrorMsg !== "" && (
+                  <span style={{ color: "red" }}>
+                    {errorMessage.txtFUsernameErrorMsg}
+                  </span>
+                )}
+                <div className={Styles.mrgT40}>
+                  <button className={Styles.loginbtn} type="submit">
+                    Send
+                  </button>
+                </div>
+                <div className={Styles.mrgT10}>
+                  <input
+                    type="button"
+                    onClick={handleCancelbtn}
+                    value="Cancel"
+                    className={Styles.loginbtn}
+                  />
+                </div>
+              </form>
             </div>
-            {errorMessage.txtFUsernameErrorMsg !== "" && (
-              <span style={{ color: "red" }}>
-                {errorMessage.txtFUsernameErrorMsg}
-              </span>
-            )}
-            <div className={Styles.mrgT40}>
-              <button className={Styles.loginbtn} type="submit">
-                Send
-              </button>
-            </div>
-            <div className={Styles.mrgT10}>
-              <input
-                type="button"
-                onClick={handleCancelbtn}
-                value="Cancel"
-                className={Styles.loginbtn}
-              />
-            </div>
-          </form>
+        </div>
+        <div className={Styles.rightbox}>
+          <img  src="/login-rightbanner.png" alt="santander"/>
+          <div>
+            <div className={Styles.title}>Santander Consumer Finance</div>
+            <div className={Styles.subcntnt}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div>
+          </div>
+          
         </div>
       </div>
     </div>

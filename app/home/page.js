@@ -109,7 +109,7 @@ const Home = () => {
                     >
                       <img
                         className={`${Styles.pd10} ${Styles.borderdrk} ${Styles.iconbrborderradius}`}
-                        src="/action.svg"
+                        src="/action.png"
                         alt="Actions"
                       />
                     </div>

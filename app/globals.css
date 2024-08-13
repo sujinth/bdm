@@ -6,6 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --foreground-color: #fff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,14 +16,50 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
-
+@font-face {
+  font-family: "SantanderHead-Bold";
+  src: url(../public/SantanderHeadline-Bold.woff2) format("woff2"),
+    url(../public/SantanderHeadline-Bold.woff2) format("woff");
+  font-style: normal;
+}
+@font-face {
+  font-family: "SantanderHead-Regular";
+  src: url(../public/SantanderHeadline-Regular.woff2) format("woff2"),
+    url(../public/SantanderHeadline-Regular.woff) format("woff");
+  font-style: normal;
+}
+@font-face {
+  font-family: "SantanderText-Bold";
+  src: url(../public/SantanderText-Bold.woff2) format("woff2"),
+    url(../public/SantanderText-Bold.woff) format("woff");
+  font-style: normal;
+}
+@font-face {
+  font-family: "SantanderText-Light";
+  src: url(../public/SantanderText-Light.woff2) format("woff2"),
+    url(../public/SantanderText-Light.woff) format("woff");
+  font-style: normal;
+}
+@font-face {
+  font-family: "SantanderText-Regular";
+  src: url(../public/SantanderText-Regular.woff2) format("woff2"),
+    url(../public/SantanderText-Regular.woff) format("woff");
+  font-style: normal;
+}
+@font-face {
+  font-family: "SantanderText-Italic";
+  src: url(../public/SantanderText-Italic.woff2) format("woff2"),
+    url(../public/SantanderText-Italic.woff) format("woff");
+  font-style: normal;
+}
 body {
-  color: rgb(var(--foreground-rgb)) !important;
-  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
-  font-size: 14px !important;
+  color: rgb(var(--foreground-rgb)) ;
+  font-family: SantanderText-Regular ;
+  font-size: 14px ;
   position: relative;
   background-color: #fff !important;
-  line-height: normal !important;
+  line-height: normal ;
+  letter-spacing: 0.3px;
   /* background: linear-gradient(
       to bottom,
       transparent,
@@ -32,6 +69,11 @@ body {
   a {
     text-decoration: none !important;
     color: #000;
+  }
+  span{
+    font-family: SantanderText-Regular ;
+    font-size: 15px ;
+    letter-spacing: 0.3px;
   }
   ul,
   ol {
@@ -272,7 +314,7 @@ body {
 }
 
 body::-webkit-scrollbar {
-  width: auto;
+  width: 12px;
 }
 
 /* Track */

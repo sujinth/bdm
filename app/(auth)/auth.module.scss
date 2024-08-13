@@ -39,30 +39,88 @@
   margin: 0 auto;
   padding: 0 15px;
 }
-.loginboxcntnt {
-  // display: flex;
-  // justify-content: center;
-  padding: 70px 70px;
-  border: 1px solid #000;
-  width: 400px;
-  margin: 0px auto;
-  background-color: #fff;
-  .loginbox {
-    width: 100%;
+
+.loginpg{
+  .loginboxcntnt {
+    // display: flex;
+    // justify-content: center;
+    // padding: 70px 70px;
+    // margin: 0px auto;
+    background-color: #fff;
+    .loginbox {
+      width: 90%;
+      padding: 30px 50px;
+    margin: 0px auto;
+    }
+    .inputlabel{
+      font-family: SantanderText-Bold;
+      font-size: 17px;
+      letter-spacing: 0.4px;
+      color: #000;
+      margin-bottom: 5px;
+    }
+    .inputtxt{
+      border: 1px solid #9BC3D3;
+      border-radius: 4px;
+      height: 45px;
+    }
+   
+  }
+ 
+  .leftbox, .rightbox{
+    
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .leftbox{
+    box-shadow: 5px 0px 10px -5px #a79f9f;
+    width:40%;
+  }
+  .rightbox{
+    width: 60%;
+    flex-direction:column;
+    row-gap: 15px;
+    .title{
+      font-family: SantanderText-Bold;
+      font-size: 20px;
+      letter-spacing: 0.3px;
+      color: #ec0000;
+      text-align: center;
+    }
+    .subcntnt{
+      font-family: SantanderText-Regular;
+      font-size: 16px;
+      letter-spacing: 0.3px;
+      color: #000;
+      text-align: center;
+      padding: 10px 0px;
+    }
+  }
+  .forgotboxcntnt {
+    padding: 30px 70px 70px;
+    .logintitle {
+      font-family: "SantanderHead-Bold";
+      font-size: 22px;
+      letter-spacing: 0.4px;
+      color: #ec0000;
+      padding-bottom: 30px;
+      text-align: center;
+      position: relative;
+    }
+    .loginbox{
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+    }
+    .forgotform{
+      width: 100%;
+    }
   }
 }
-.forgotboxcntnt {
-  padding: 30px 70px 70px;
-  .logintitle {
-    font-family: "SantanderHead-Bold";
-    font-size: 18px;
-    letter-spacing: 0.2px;
-    color: #ec0000;
-    padding-bottom: 30px;
-    text-align: center;
-    position: relative;
-  }
-}
+
+
 .errortext {
   font-family: "SantanderText-Regular";
   font-size: 14px;
@@ -92,6 +150,7 @@
   font-weight: 600;
   font-family: SantanderText-Bold;
   letter-spacing: 0.5px;
+  border-radius: 50px;
 }
 a.loginbtn {
   display: flex;
@@ -108,13 +167,14 @@ a.loginbtn {
   font-weight: 600;
   font-family: SantanderText-Bold;
   letter-spacing: 0.2px;
-  text-decoration: none;
+  text-decoration: underline !important;
 }
 .loginpg {
   height: calc(100vh - 111px);
   display: flex;
   justify-content: center;
   align-items: center;
+  column-gap: 40px;
 }
 .mrgb10 {
   margin-bottom: 10px;
@@ -134,9 +194,12 @@ a.loginbtn {
 .mrgT20 {
   margin-top: 20px;
 }
+.block{
+  display: block;
+}
 .bgcolor {
   // background-color: #DEEDF2;
-  background-color: #deedf2;
+  background-color: #fff;
 }
 .inputtxt {
   font-family: "SantanderText-Regular";

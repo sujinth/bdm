@@ -85,17 +85,17 @@ const Login = () => {
   return (
     <div className={Styles.bgcolor}>
       <div className={`${Styles.container} ${Styles.loginpg}`}>
-        <div className={Styles.loginboxcntnt}>
+        <div className={`${Styles.loginboxcntnt} ${Styles.leftbox}`}>
           <form className={Styles.loginbox} onSubmit={handleSubmit}>
             {errorMessage.apiErrorMsg !== "" && (
-              <span style={{ color: "red" }}>{errorMessage.apiErrorMsg}</span>
+              <span className={`${Styles.mrgb10} ${Styles.block}`} style={{ color: "red" }}>{errorMessage.apiErrorMsg}</span>
             )}
-            <div className={Styles.mrgb10}>
+            <div>
+              <label className={Styles.inputlabel}>User Name</label>
               <input
                 type="text"
                 name="txtUsername"
                 className={Styles.inputtxt}
-                placeholder="User Name"
                 onChange={handleChange}
               />
             </div>
@@ -104,12 +104,12 @@ const Login = () => {
                 {errorMessage.txtUsernameErrorMsg}
               </span>
             )}
-            <div>
+            <div className={Styles.mrgT10}>
+            <label className={Styles.inputlabel}>Password</label>
               <input
                 type="password"
                 name="txtPassWord"
                 className={Styles.inputtxt}
-                placeholder="Password"
                 onChange={handleChange}
               />
             </div>
@@ -127,6 +127,14 @@ const Login = () => {
               </Link>
             </div>
           </form>
+        </div>
+        <div className={Styles.rightbox}>
+          <img  src="/login-rightbanner.png" alt="santander"/>
+          <div>
+            <div className={Styles.title}>Santander Consumer Finance</div>
+            <div className={Styles.subcntnt}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div>
+          </div>
+          
         </div>
       </div>
     </div>
