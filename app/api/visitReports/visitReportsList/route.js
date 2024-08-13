@@ -8,22 +8,18 @@ const agent = new https.Agent({
 
 export async function POST(request) {
   try {
-    const { userId } = await request.json();
-    console.log("--------------BEFORE---------------");
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
+    console.log("user Id",userId);
+    const { body } =  await request.json();
 
-    let obj = {
-      flagdealergroup: "Y",
-      flagtabbedview: "Y",
-      flagHealthCheck: "N",
-      formid: "65",
-      dealershipid: "353",
-    };
+    console.log("--------------BEFORE---------------");
     let formData = new FormData();
-    for (let key in obj) {
-      formData.append(key, obj[key]);
+    for (let key in body) {
+      formData.append(key, body[key]);
     }
     const response = await axios.post(
-      `${config.DEALERSHIP_VISIT_REPORT_LIST}?userid=${246}`,
+      `${config.DEALERSHIP_VISIT_REPORT_LIST}?userid=${userId}`,
       formData,
       {
         httpsAgent: agent,

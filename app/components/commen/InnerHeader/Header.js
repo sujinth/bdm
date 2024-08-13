@@ -58,9 +58,9 @@ const InnerHeader = () => {
         <div className={Styles.container}>
           <div className={`${Styles.flex} ${Styles.homeheader}`}>
             <div>
-              <a href="#">
+            <Link href="/home">
                 <img className={Styles.logoimage} src="/logo_transparent.png" alt="logo" />
-              </a>
+            </Link> 
             </div>
 
             <div className={`${Styles.flex} ${Styles.colgp15} `}>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState, useRef, useEffect } from 'react';
+import { useRouter } from "next/navigation";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { useSession } from 'next-auth/react';
@@ -19,6 +20,7 @@ import Styles from './visitreport.module.scss';
 const VisitReportTemplate = ({ selectedData }) => {
   // session
   const session = useSession();
+  const router = useRouter();
   const { selectedReportData, selectedDealer } = selectedData;
   console.log("selected data",selectedData);
   
@@ -136,9 +138,9 @@ const VisitReportTemplate = ({ selectedData }) => {
         for(let i=1; i<=arrLength ; i++){
           let chkBox = document.getElementById(`${elementId}${i}`)?.checked ?? false;
           if(chkBox){
-            elementContent = 1;
+            elementContent = chkBox;
           }else{
-            elementContent = 0;
+            elementContent = '';
           }
         }
       }else if(elementId.substring(0, 2) === 'rd'){
@@ -200,14 +202,20 @@ const VisitReportTemplate = ({ selectedData }) => {
     if (!userId) {
         throw new Error('User ID not found');
     }
+    let dealershipid  = selectedDealer?.id;
+    let dealershipname = selectedDealer?.name;
+    if(selectedDealer?.flagdealergroup  == 'Y'){
+       dealershipid = selectedDealer.dealerGroupId
+       dealershipname = selectedDealer.dealerGroupName
+    }
 
     let requestBodyObj = {
       body : {
         userid : userId,
         formid1 : selectedReportData?.formId || '',
         formname1  : selectedReportData?.formName || '',
-        dealershipid1 : selectedDealer?.id || '',
-        dealershipname1 : selectedDealer?.name || '',
+        dealershipid1 : dealershipid || '',
+        dealershipname1 : dealershipname || '',
         lstDealershipStatus1 : lstDealershipStatus,
         txtPackExpiryDate1 : packExpiryDate,
         txtAttendees1 : txtAttendees,
@@ -222,7 +230,7 @@ const VisitReportTemplate = ({ selectedData }) => {
         txtRMSignature1 : '',
         txtScfSignature1 : '',
         nextReviewDate1 : '',
-        flagdealergroup1 : selectedReportData?.flagdealergroup || '',
+        flagdealergroup1 : selectedDealer?.flagdealergroup || '',
         reviewdate1 : '',
         reviewperiod1 : '',
         dealerattendees1 : '',
@@ -237,8 +245,10 @@ const VisitReportTemplate = ({ selectedData }) => {
     
     }
     let response = await axios.post('/api/visitReports/postDealershipVisitReport',requestBodyObj);
-
-    console.log("form submit respomnse",response.data);
+      if(response.data.result.root.status){
+        router.push("/home");
+      }
+    console.log("form submit respomnse",response.data.result.root.status);
   }catch(error){
     console.log("eroor ->",error);
   }
@@ -347,7 +357,19 @@ const VisitReportTemplate = ({ selectedData }) => {
             throw new Error('User ID not found');
         }
         // await new Promise(resolve => setTimeout(resolve,3000))
-        const response = await axios.post(`/api/visitReports/visitReportsList`,{userId : userId});
+        // selectedReportData selectedDealer
+        const { flagdealergroup, id } = selectedDealer
+        const { flagTabbedView , flagHealthCheck, formId   } = selectedReportData
+        let requestBodyObj = {
+          body : {
+            flagdealergroup: flagdealergroup,
+            flagtabbedview: flagTabbedView,
+            flagHealthCheck: flagHealthCheck,
+            formid: formId,
+            dealershipid: id,
+          }
+        };
+        const response = await axios.post(`/api/visitReports/visitReportsList?userId=${userId}`,requestBodyObj);
        
 
         if (response.data.result.status == '1') {
@@ -378,6 +400,7 @@ const VisitReportTemplate = ({ selectedData }) => {
     if(goBackToPage.pageFour){
       handleHTMLContent(item.formdata, 'root');
     }else{
+      handleHTMLContent(item.formdata, 'root');
         let formattedReviewDate = item.reviewdate ? moment(item.reviewdate,'DD/MM/YYYY').format('YYYY-MM-DD') : '';
         if(Object.keys(item).length !== 0){
           setSelectedExistingVisitReportData(item);
@@ -404,6 +427,7 @@ const VisitReportTemplate = ({ selectedData }) => {
     if(goBackToPage.pageFour && formData?.formInfo ){
       handleHTMLContent(formData?.formInfo , 'root');
     }else{
+      handleHTMLContent(formData?.formInfo , 'root');
       const now = new Date();
       // Format the date as YYYY-MM-DD (or other desired format)
       const formattedDate = now.toISOString().split('T')[0];
@@ -446,6 +470,7 @@ const VisitReportTemplate = ({ selectedData }) => {
       handleHTMLContent(formData.formInfo, 'root');
     }
   }
+console.log("visitReportList",visitReportList);
 
 
   return (

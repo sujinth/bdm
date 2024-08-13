@@ -19,7 +19,7 @@ export async function POST(request) {
         const response  = await axios.post(`${config.POST_DEALERSHIP_VISIT_REPORT_RESPONSE}`,formData,{
             httpsAgent: agent
         });
-        console.log("response.data",response.data);
+
         
         return new Response(JSON.stringify(
             { message: 'success' , result  : response.data}), {
