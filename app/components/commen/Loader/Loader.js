@@ -10,8 +10,8 @@ function Loader() {
         <Col className="text-center">
           <Image
             src={loadingimage}
-            width="250"
-            height="250"
+            width="120"
+            height="120"
             alt="Loader Image"
             priority="high"
           />
