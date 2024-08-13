@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import mammoth from 'mammoth'; 
+import React, { useState, useEffect } from "react";
+import mammoth from "mammoth";
 
 const WordViewer = ({ files }) => {
   const [htmlContents, setHtmlContents] = useState([]);
@@ -17,7 +17,7 @@ const WordViewer = ({ files }) => {
         const htmlContents = await Promise.all(htmlContentPromises);
         setHtmlContents(htmlContents);
       } catch (error) {
-        console.error('Error converting docx to HTML:', error);
+        console.error("Error converting docx to HTML:", error);
       }
     };
 

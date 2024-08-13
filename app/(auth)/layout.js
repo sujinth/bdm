@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useSession } from 'next-auth/react';
-import {  useRouter,usePathname  } from 'next/navigation';
-import Header from '../components/commen/Header/Header';
-import Home from '../home/page';
+import { useSession } from "next-auth/react";
+import { useRouter, usePathname } from "next/navigation";
+import Header from "../components/commen/Header/Header";
+import Home from "../home/page";
 
 export default function ForgotPasswordPageLayout({ children }) {
   const session = useSession();
@@ -12,13 +12,12 @@ export default function ForgotPasswordPageLayout({ children }) {
   const pathName = usePathname();
 
   let isLoggedIn = false;
-  if (loggedIn && pathName !== '/update-password') {
-      isLoggedIn = true;
-      router.push('/home');
-  }else if(!loggedIn){
-      router.push(pathName);
+  if (loggedIn && pathName !== "/update-password") {
+    isLoggedIn = true;
+    router.push("/home");
+  } else if (!loggedIn) {
+    router.push(pathName);
   }
-
 
   return (
     <>

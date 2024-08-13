@@ -4,7 +4,7 @@
   padding: 0 15px;
 }
 .bgcolor {
-  background-color: #DEEDF2;
+  background-color: #deedf2;
 }
 .innerpgcntnt {
   display: flex;
@@ -21,7 +21,7 @@
   width: 70%;
 }
 .titlebx {
-  background-color: #EC0000;
+  background-color: #ec0000;
   height: 50px;
   padding: 10px;
   text-align: center;
@@ -39,7 +39,7 @@
   background-color: #fff;
   height: 750px;
   padding: 20px 5px 20px 20px;
-  form{
+  form {
     overflow-y: scroll;
     // height: 720px;
     max-height: 563px;
@@ -48,19 +48,19 @@
   ::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 10px;
   }
-   
+
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background:#aaaaaa;
+    background: #aaaaaa;
     border-radius: 10px;
   }
-  
+
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #aaaaaa;
@@ -76,7 +76,7 @@
     font-size: 16px;
     text-transform: capitalize;
     padding-left: 10px;
-    font-family:SantanderHead-Bold;
+    font-family: SantanderHead-Bold;
     color: #000000;
     letter-spacing: 0.4px;
   }
@@ -124,7 +124,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-    padding-top: 15%;
+  padding-top: 15%;
   min-height: 750px;
 }
 .textcntr {
@@ -157,7 +157,7 @@ ul.listiconhide li::after {
   }
 }
 .cntnttitle {
-  color: #EC0000;
+  color: #ec0000;
   font-size: 24px;
   font-weight: 600;
 }
@@ -184,11 +184,11 @@ ul.listiconhide li::after {
 }
 .mainboxfooterbtn:hover {
   background-color: #d01a24 !important;
-  border: 1px solid  #d01a24 !important;
+  border: 1px solid #d01a24 !important;
 }
 .mainboxfooterbtn {
-  background-color: #EC0000;
-  border: 1px solid  #EC0000;
+  background-color: #ec0000;
+  border: 1px solid #ec0000;
   color: #fff;
   height: 40px;
   padding: 10px;
@@ -202,13 +202,14 @@ ul.listiconhide li::after {
   align-items: center;
 }
 
-.addimagepopup, .searchboxpopup{
+.addimagepopup,
+.searchboxpopup {
   display: none;
 }
-.recipientsbtn{
+.recipientsbtn {
   position: relative;
   align-items: center;
-  img{
+  img {
     margin-left: 7px;
   }
 }
@@ -285,11 +286,11 @@ ul.listiconhide li::after {
     box-shadow: 0px 1px 25px -12px #999;
   }
 }
-.rowrhtbtn{
+.rowrhtbtn {
   margin-bottom: 10px;
 }
-.searchboxpopup{
-  .imageoption{
+.searchboxpopup {
+  .imageoption {
     position: absolute;
     bottom: 50%;
     left: 0px;
@@ -301,85 +302,82 @@ ul.listiconhide li::after {
     box-shadow: 0px 1px 25px -12px #999;
   }
 }
-.addsearchrow{
+.addsearchrow {
   align-items: center;
-  .addbtn{
+  .addbtn {
     background-color: #000;
     color: #fff;
     padding: 15px;
     width: 30%;
     font-weight: 600;
-    border-bottom:0px solid #cacaca !important;
+    border-bottom: 0px solid #cacaca !important;
     height: 50px;
   }
-  .searchrow{
+  .searchrow {
     width: 70%;
-    background-color: #EC0000;
+    background-color: #ec0000;
     color: #fff;
     padding: 15px;
     text-align: end;
     height: 50px;
     position: relative;
   }
-  .searchrow:after{
+  .searchrow:after {
     position: absolute;
     top: 15px;
     left: 5px;
     content: "";
     height: 20px;
     width: 20px;
-     background-image: url("/search-icon.svg");
+    background-image: url("/search-icon.svg");
   }
 }
-.searchrow{
-  input{
+.searchrow {
+  input {
     background-color: #ce131b;
     text-align: left;
     outline-offset: 0px;
     outline: 0px;
     margin-left: 15px;
     width: 90%;
-   
   }
- 
-  :focus-visible{
+
+  :focus-visible {
     border-bottom: 1px solid #eee;
   }
 
-  ::placeholder{
+  ::placeholder {
     color: #eee;
   }
 }
-.boxmailcontent{
-  .mailtext{
+.boxmailcontent {
+  .mailtext {
     align-items: center;
     column-gap: 5px;
     justify-content: space-between;
     padding: 10px 0px;
     border-bottom: 1px solid #bebbbb;
   }
-  button{
+  button {
     padding: 0px;
     width: auto;
     text-align: end;
   }
-  
 }
 /**/
 
-.listiconhide{
-  li{
+.listiconhide {
+  li {
     padding: 10px;
     column-gap: 15px;
   }
-  li:hover{
+  li:hover {
     background-color: #aaaaaa;
   }
-  li.listhead{
-    background-color: #EC0000;
+  li.listhead {
+    background-color: #ec0000;
     color: #fff;
     justify-content: space-between;
-    
   }
   li a {
     padding: 0px;
@@ -399,37 +397,36 @@ ul.listiconhide li::after {
   }
 }
 
-.innerpgtab{
+.innerpgtab {
   // .contentwhtbx{
   //   padding: 20px;
   // }
-  .tabcontainer{
+  .tabcontainer {
     width: 100%;
     position: relative;
   }
-.nav-link{
-  column-gap: 10px;
+  .nav-link {
+    column-gap: 10px;
+  }
+  .listitems {
+    border: 0px;
+    border-top: 1px solid #989898;
+  }
 }
-.listitems{
-  border: 0px;
-  border-top: 1px solid #989898
-}
-}
-.lfttabs a{
+.lfttabs a {
   column-gap: 10px;
   justify-content: space-between;
   padding: 10px;
-  .tabmenu{
+  .tabmenu {
     min-width: 185px;
-      height: inherit;
-      display: flex;
-      align-items: center;
+    height: inherit;
+    display: flex;
+    align-items: center;
   }
-   img{
+  img {
     max-width: 18px;
-   }
-   button{
-   
+  }
+  button {
     background-color: #555555;
     border: 1px solid #555555;
     width: 54px;
@@ -437,64 +434,61 @@ ul.listiconhide li::after {
     display: flex;
     align-items: center;
     justify-content: center;
-   }
-   button:hover{
+  }
+  button:hover {
     background-color: #444343 !important;
     border: 1px solid #444343 !important;
-   }
+  }
 }
-.footerbtns{
+.footerbtns {
   padding: 20px 20px 20px 0px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    button{
-      background-color: #EC0000;
-      color: #fff;
-      padding: 10px;
-      font-weight: 500;
-      margin-right: 15px;
-      min-width: 100px;
-      border-radius: 5px;
-      font-size: 16px;
-      height: 44px;
-      border: 1px solid #EC0000;
-    }
-    button:hover{
-      background-color: #ce131b !important;
-      border: 1px solid #ce131b;
-    }
-   
+  width: 100%;
+  display: flex;
+  align-items: center;
+  button {
+    background-color: #ec0000;
+    color: #fff;
+    padding: 10px;
+    font-weight: 500;
+    margin-right: 15px;
+    min-width: 100px;
+    border-radius: 5px;
+    font-size: 16px;
+    height: 44px;
+    border: 1px solid #ec0000;
+  }
+  button:hover {
+    background-color: #ce131b !important;
+    border: 1px solid #ce131b;
+  }
 }
-.bold{
+.bold {
   font-weight: 600;
 }
-.greytext{
+.greytext {
   color: #848884;
 }
-.tabcontentbox{
+.tabcontentbox {
   width: 100%;
- 
 }
 
-  .savebtn{
-    justify-content: space-between;
-    align-items: center;
-    color: #000 !important;
-    background-color: #fff;
-    border-radius: 5px;
-    margin-bottom: 20px;
+.savebtn {
+  justify-content: space-between;
+  align-items: center;
+  color: #000 !important;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.editlink {
+  text-align: left;
+  a {
+    color: #2196f3;
+    padding-left: 10px;
   }
-  .editlink{
-    text-align: left;
-    a{
-      color: #2196f3;
-      padding-left: 10px;
-    }
-  }
+}
 
-
-.tabcontainer{
+.tabcontainer {
   overflow-y: auto;
   height: 700px;
   width: 100%;
@@ -521,7 +515,7 @@ ul.listiconhide li::after {
   .detailbx {
     width: 65%;
   }
-  .mainboxfooterbtn{
+  .mainboxfooterbtn {
     padding: 5px;
   }
 }
@@ -547,28 +541,28 @@ ul.listiconhide li::after {
   .tablist {
     height: 0px;
     overflow: scroll;
-}
-.tabcontainer{
-  height: 480px;
-}
-
-}
-@media (max-width: 535px) {
- .btnrow, .rowrhtbtn{
-  flex-wrap: wrap;
-  row-gap: 10px;
-  margin-bottom: 0px;
- }
- .mainboxfooterbtn{
-  width: max-content;
- }
-.btnrow:not(:last-child){
-  margin-bottom: 10px;
- }
- .lfttabs a{
-  column-gap: 5px;
-  button{
-    font-size: 14px;
+  }
+  .tabcontainer {
+    height: 480px;
   }
 }
+@media (max-width: 535px) {
+  .btnrow,
+  .rowrhtbtn {
+    flex-wrap: wrap;
+    row-gap: 10px;
+    margin-bottom: 0px;
+  }
+  .mainboxfooterbtn {
+    width: max-content;
+  }
+  .btnrow:not(:last-child) {
+    margin-bottom: 10px;
+  }
+  .lfttabs a {
+    column-gap: 5px;
+    button {
+      font-size: 14px;
+    }
+  }
 }

@@ -72,7 +72,7 @@ const VisitReportTemplate = ({ selectedData }) => {
   const formData = useMemo(() => selectedReportData, [selectedReportData]);
 
   // Handle form submission
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     try{
 
  

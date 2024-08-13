@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Link from 'next/link'
+import Link from "next/link";
 import Styles from "./Coaching.module.scss";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -63,7 +63,9 @@ const Coaching = () => {
                   <span>Avialable offline</span>
                 </li>
                 <li>
-                  <Link href="/coaching/contract">A Focus on contract Hire</Link>
+                  <Link href="/coaching/contract">
+                    A Focus on contract Hire
+                  </Link>
                   <Button type="button" onClick={() => handleShow("contract")}>
                     {moduleStatus.contract ? "Yes" : "No"}
                   </Button>

@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////////
+//                                                                              //
+//                           File for style news data                           //
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
+
+.detailNews {
+  background-color: #deedf2;
+  padding: 30px;
+  .contentBox {
+    padding: 5px;
+    background-color: #fff;
+    min-height: 750px;
+    .title {
+      margin-bottom: 15px;
+      font-weight: 600;
+      color: #ec0000;
+    }
+    .date {
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    .description {
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+  }
+  .mainTitle {
+    font-size: x-large;
+    font-weight: 700;
+  }
+}
