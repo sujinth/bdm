@@ -35,6 +35,7 @@ const Action = () => {
   const { setGoBackToPage, goBackToPage } = useDashboard();
   const { setPopupContent } = usePopupContent();
   const [loaderInSideBar, setLoaderInSideBar] = useState(false);
+  const [submitLoader, setSubmitLoader] = useState(false);
   const session = useSession();
   const router = useRouter();
 
@@ -224,7 +225,7 @@ const Action = () => {
       if (!userId) {
         throw new Error("user id not found");
       }
-
+      setSubmitLoader(true);
       // API call to next server for delearship visit report
       const visitNameResponse = await axios.post(
         `/api/actions/incompleteUpdateActionStatus`,
@@ -238,6 +239,7 @@ const Action = () => {
           flagSave,
         }
       );
+      setSubmitLoader(false);
       // Setting response to the state
       if (visitNameResponse?.data?.result?.status) {
         if (flagSave == "N") {
@@ -442,6 +444,7 @@ const Action = () => {
             <div
               className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}
             >
+              {submitLoader ? <Loader /> : null}
               {/* Placeholder for dynamic HTML content */}
               {pageName == "Visit Reports" &&
               incompleteActions[currentIncompleteAction]?.formdata ? (
