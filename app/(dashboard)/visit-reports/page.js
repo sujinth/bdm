@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -36,7 +37,7 @@ const VisitReport = () => {
             console.log("Error:", error.message);
         }
     }
-  }
+  
 
   const selectedData = useMemo(() => {
     return { selectedReportData, selectedDealer };
@@ -228,6 +229,6 @@ const VisitReport = () => {
       )}
     </>
   );
-
+}
 
 export default VisitReport;
