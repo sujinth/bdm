@@ -16,6 +16,7 @@ import Button from "../../components/commen/FormElements/Button/Button";
 import { useRouter } from "next/navigation";
 import { handleHTMLContent } from "../../utils/htmlUtils";
 import { usePopupContent } from "@/app/contexts/popupContext";
+import Loader from "../../components/commen/Loader/Loader";
 
 // Action component
 const Action = () => {
@@ -33,11 +34,13 @@ const Action = () => {
   const [cartId, setCartId] = useState();
   const { setGoBackToPage, goBackToPage } = useDashboard();
   const { setPopupContent } = usePopupContent();
+  const [loaderInSideBar, setLoaderInSideBar] = useState(false);
   const session = useSession();
   const router = useRouter();
 
   // Function for render at the time of change in goBackToPage state.
   useEffect(() => {
+    console.log("recah")
     if (goBackToPage.pageOne && pageName != "Visit Name") {
       setPageName("Visit Name");
     } else if (goBackToPage.pageTwo && pageName != "Dealer Groups") {
@@ -46,7 +49,7 @@ const Action = () => {
       setPageName("Visit Reports");
     }
     getVisitName();
-  }, [goBackToPage]);
+  }, [goBackToPage, session]);
 
   // Handle HTML content injection on formData change
   useEffect(() => {
@@ -61,6 +64,7 @@ const Action = () => {
   // Function for fetching visit name
   async function getVisitName() {
     try {
+      setLoaderInSideBar(true);
       let userId = session.data?.user?.id;
       if (!userId) {
         throw new Error("user id not found");
@@ -77,7 +81,7 @@ const Action = () => {
               lastupdatedttm: "2012-03-12 05:49:32",
             }
           );
-
+          setLoaderInSideBar(false);
           // Setting response to the state
           if (
             visitNameResponse?.data?.result?.root &&
@@ -97,6 +101,7 @@ const Action = () => {
               lastupdatedttm: "2012-03-12 05:49:32",
             }
           );
+          setLoaderInSideBar(false);
 
           // Setting response to the state
           if (
@@ -138,7 +143,7 @@ const Action = () => {
               dealerGroupId,
             }
           );
-
+          setLoaderInSideBar(false);
           // Setting response to the state
           if (
             incompleteActions?.data?.result?.root?.reportLists &&
@@ -311,33 +316,37 @@ const Action = () => {
 
             {/* Content need to show in visit name side bar */}
             {pageName == "Visit Name" ? (
-              <div className={Styles.listitems}>
-                <ul className={Styles.listcntnt}>
-                  {delearshipVisitReport.map((item, index) => (
-                    <li
-                      key={index + "visitName"}
-                      onClick={() => {
-                        setGoBackToPage({
-                          pageOne: false,
-                          pageTwo: true,
-                          pageThree: false,
-                        });
-                        setPageName("Dealer Groups");
-                        setFlagTabbedView(item?.flagTabbedView);
-                        setFlagHealthCheck(item?.flagHealthCheck);
-                        setSelectedFormId(item?.formId);
-                      }}
-                    >
-                      {item?.formName}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <>
+                {loaderInSideBar ? <Loader /> : null}
+                <div className={Styles.listitems}>
+                  <ul className={Styles.listcntnt}>
+                    {delearshipVisitReport.map((item, index) => (
+                      <li
+                        key={index + "visitName"}
+                        onClick={() => {
+                          setGoBackToPage({
+                            pageOne: false,
+                            pageTwo: true,
+                            pageThree: false,
+                          });
+                          setPageName("Dealer Groups");
+                          setFlagTabbedView(item?.flagTabbedView);
+                          setFlagHealthCheck(item?.flagHealthCheck);
+                          setSelectedFormId(item?.formId);
+                        }}
+                      >
+                        {item?.formName}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </>
             ) : null}
 
             {/* Content need to show in dealer group side bar */}
             {pageName == "Dealer Groups" ? (
               <>
+                {loaderInSideBar ? <Loader /> : null}
                 <Tabs
                   id="controlled-tab-example"
                   className="tabbtn"
@@ -405,22 +414,25 @@ const Action = () => {
 
             {/* Content need to show in visit report side bar */}
             {pageName == "Visit Reports" ? (
-              <div className={Styles.listitems}>
-                <ul className={Styles.listcntnt}>
-                  {incompleteActions.map((item, index) => (
-                    <li
-                      key={index + "visitReports"}
-                      onClick={(e) => {
-                        setCurrentIncompleteAction(e?.target?.value);
-                        setCartId(item.cartid);
-                      }}
-                      value={index}
-                    >
-                      {item?.dateandtime}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <>
+                {loaderInSideBar ? <Loader /> : null}
+                  <div className={Styles.listitems}>
+                  <ul className={Styles.listcntnt}>
+                    {incompleteActions.map((item, index) => (
+                      <li
+                        key={index + "visitReports"}
+                        onClick={(e) => {
+                          setCurrentIncompleteAction(e?.target?.value);
+                          setCartId(item.cartid);
+                        }}
+                        value={index}
+                      >
+                        {item?.dateandtime}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </>
             ) : null}
           </div>
 

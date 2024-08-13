@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import InnerHeader from "../components/commen/InnerHeader/Header";
 import Footer from "../components/commen/Footer/Footer";
+import Loader from "../components/commen/Loader/Loader";
 // Style
 import Styles from "./home.module.scss";
 import axios from "axios";
@@ -38,9 +39,10 @@ const Home = () => {
     <>
       {/* Header */}
       <InnerHeader />
-
-        <div className={Styles.homeImage} dangerouslySetInnerHTML={{ __html: imageUrl }} />
-
+      {imageUrl ? 
+        <div className={Styles.homeImage} dangerouslySetInnerHTML={{ __html: imageUrl }} /> :
+        <Loader />
+      }
       <div className={Styles.bgcolor}>
         <div className={Styles.container}>
           <div className={Styles.pdTB70}>
