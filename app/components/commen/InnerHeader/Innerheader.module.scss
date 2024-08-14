@@ -424,6 +424,8 @@
 .sidebarmenu {
   overflow-y: auto;
   height: 600px;
+  padding-top:0px;
+  margin-top: 15px;
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -508,6 +510,10 @@
   .cntntbox {
     width: 30%;
   }
+  .headermenu {
+
+    width: 40%;
+}
 }
 @media (max-width: 620px) {
   .popupcntnt {
