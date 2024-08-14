@@ -27,10 +27,13 @@ const InnerHeader = () => {
     document.body.style.overflow = "auto";
   }, []);
 
-  // Function for menu open
   const menuClick = () => {
     document.getElementById("menupopup").style.display = "block";
+    document.body.style.overflow = "hidden";
     document.body.classList.add("menuopen");
+
+    // Add event listener to detect clicks outside of the menu
+    document.addEventListener("mousedown", handleClickOutside);
   };
 
   // Function for menu close
@@ -38,7 +41,24 @@ const InnerHeader = () => {
     document.getElementById("menupopup").style.display = "none";
     document.body.style.overflow = "auto";
     document.body.classList.remove("menuopen");
+
+    // Remove event listener when the menu is closed
+    document.removeEventListener("mousedown", handleClickOutside);
   };
+
+  const handleClickOutside = (event) => {
+    const menuPopup = document.getElementById("menupopup");
+    if (menuPopup && !menuPopup.contains(event.target)) {
+      menuClose(); // Close the menu if the click is outside the menu popup
+    }
+  };
+
+  useEffect(() => {
+    // Cleanup event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Function for logout
   const logOut = () => {
