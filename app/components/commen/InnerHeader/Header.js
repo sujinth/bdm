@@ -126,34 +126,34 @@ const InnerHeader = () => {
                                     <div
                                     className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
                                     >
-                                    <Link href="/home">Home</Link>
+                                    <Link href="/home" onClick={menuClose}>Home</Link>
                                     </div>
                                     <div
                                     className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
                                     >
-                                    <Link href="/visit-reports">Visit Reports</Link>
+                                    <Link href="/visit-reports" onClick={menuClose}>Visit Reports</Link>
                                     </div>
                                     <div
                                     className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
                                     >
-                                    <Link href="/actions">Actions</Link>
+                                    <Link href="/actions" onClick={menuClose}>Actions</Link>
                                     </div>
                                     <div
                                     className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
                                     >
-                                    <Link href="https://santander.learnondemand.co.uk/login/">
+                                    <Link href="https://santander.learnondemand.co.uk/login/" onClick={menuClose}>
                                         Coaching
                                     </Link>
                                     </div>
                                     <div
                                     className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
                                     >
-                                    <Link href="/resources">Resources</Link>
+                                    <Link href="/resources" onClick={menuClose}>Resources</Link>
                                     </div>
                                     <div
                                     className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
                                     >
-                                    <Link href="/update-password">Change password</Link>
+                                    <Link href="/update-password" onClick={menuClose}>Change password</Link>
                                     </div>
                                     <div
                                     className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
@@ -161,7 +161,7 @@ const InnerHeader = () => {
                                     <button
                                         className={Styles.userBtn}
                                         type="button"
-                                        onClick={() => setShow(true)}
+                                        onClick={() => {setShow(true); menuClose();}}
                                     >
                                         User guide
                                     </button>
