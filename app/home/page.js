@@ -19,6 +19,8 @@ import axios from "axios";
 const Home = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [apiResponse, setApiResponse] = useState({});
+  const [newsLoader, setNewsLoader] = useState(false);
+  const [imageLoader, setImageLoader] = useState(false);
   const session = useSession();
 
   // useEffect for triger fetch home page data function
@@ -30,7 +32,9 @@ const Home = () => {
   // Function for fetch image url
   async function fetchImagUrlForHomePage() {
     try {
+      setImageLoader(true);
       const response = await axios.get("api/homePageImage");
+      setImageLoader(false);
       if (response.data.result.status !== 0) {
         setImageUrl(response.data.result.data.content1);
       }
@@ -46,14 +50,14 @@ const Home = () => {
       if (!userId) {
         throw new Error("user id not found");
       }
-
+      setNewsLoader(true);
       // API call
       const response = await axios.post(`/api/news`, {
         userId,
         lastupdatedttm: "2012-03-12 05:49:32",
         userguidelastupdatedttm: "2017-08-21 16:03:19",
       });
-
+      setNewsLoader(false);
       // Setting data with status A in to a state
       if (
         response?.data?.result?.communication &&
@@ -76,9 +80,10 @@ const Home = () => {
     <>
       {/* Header */}
       <InnerHeader />
+      {imageLoader ? <Loader /> : null}
       {imageUrl ? 
         <div className={Styles.homeImage} dangerouslySetInnerHTML={{ __html: imageUrl }} /> :
-        <Loader />
+        null
       }
       <div className={Styles.bgcolor}>
         <div className={Styles.container}>
@@ -93,6 +98,7 @@ const Home = () => {
                   >
                     Notifications
                   </div>
+                  {newsLoader ? <Loader /> : null}
                   <div
                     className={`${Styles.fntw700} ${Styles.pdTB10}  ${Styles.subtitle} `}
                   >
