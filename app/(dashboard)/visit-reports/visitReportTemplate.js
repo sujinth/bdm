@@ -75,7 +75,7 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    try{
+  try{
 
  
     e.preventDefault();
@@ -128,8 +128,7 @@ const VisitReportTemplate = ({ selectedData }) => {
     for (let i = 0; i < cleanIds.length; i++) {
       // Trim any spaces from the ID
       const elementId = cleanIds[i][0].trim();
-      console.log("elementId",elementId);
-      
+  
       // Check if the ID starts with 'spn'
       if (elementId.substring(0, 3) === 'spn') {
           elementContent = document.getElementById(elementId)?.textContent ?? '';
@@ -143,6 +142,18 @@ const VisitReportTemplate = ({ selectedData }) => {
             elementContent = '';
           }
         }
+      }else if(elementId.substring(0, 3) === 'tcc'){
+        console.log("BEFORE CHK ->",elementId);
+        
+        let completedChk = document.getElementById(`${elementId}`)?.checked || '';
+        if(completedChk){
+          elementContent = 'Yes';
+        }
+        else{
+          elementContent = 'No';
+        }
+        console.log("AFTER CHK ->",completedChk);
+        
       }else if(elementId.substring(0, 2) === 'rd'){
           let arrLength = cleanIds[i][1];
           for(let i=1; i<=arrLength ; i++){
@@ -174,7 +185,9 @@ const VisitReportTemplate = ({ selectedData }) => {
         txtDealershipNameElement = document.querySelector('input[name="txtDealershipName"]')?.value || '';
         lstDealershipStatus = document.getElementById('lstDealershipStatus')?.value || '';
         packExpiryDate  = document.getElementById('txtPackExpiryDate')?.value || '';
-        txtAttendees = document.getElementById('txtAttendees')?.value || ''
+        txtAttendees = document.getElementById('txtAttendees')?.value || '';
+
+
         // console.log("txtDateTimeElement",txtDateTimeElement);
         // console.log("txtDealershipNameElement",txtDealershipNameElement);
         // console.log("lstDealershipStatus",lstDealershipStatus);
@@ -187,9 +200,10 @@ const VisitReportTemplate = ({ selectedData }) => {
         txtDealerSignature = document.getElementById('txtDealerSignature')?.value  || '';
         txtScfSignature = document.getElementById('txtScfSignature')?.value || '';
         nextReviewDate = document.getElementById('nextReviewDate')?.value || '';
-        // console.log("txtDealerSignature",txtDealerSignature);
-        // console.log("txtScfSignature",txtScfSignature);
-        // console.log("nextReviewDate",nextReviewDate);
+        const now = moment();
+        // Format the date and time as DD/MM/YYYY HH:mm:ss
+        txtDateTimeElement = now.format('DD/MM/YYYY HH:mm:ss');
+
     }
 
     const formControlListId = formInputValue
@@ -208,7 +222,14 @@ const VisitReportTemplate = ({ selectedData }) => {
        dealershipid = selectedDealer.dealerGroupId
        dealershipname = selectedDealer.dealerGroupName
     }
-
+    let reviewDate = formValues?.reviewDate
+    if(reviewDate){
+      reviewDate = moment(reviewDate,'YYYY-MM-DD').format('DD/MM/YYYY')
+    }
+    console.log("txtDealerSignature",txtDealerSignature);
+    console.log("txtScfSignature",txtScfSignature);
+    console.log("nextReviewDate",nextReviewDate);
+    // _____REQUEST BODY______
     let requestBodyObj = {
       body : {
         userid : userId,
@@ -226,15 +247,15 @@ const VisitReportTemplate = ({ selectedData }) => {
         emailaddresslistcc1 : '',
         flagtabbedview1 : selectedReportData?.flagTabbedView || '',
         flagHealthCheck1 : selectedReportData?.flagHealthCheck || '',
-        txtDealerSignature1 : '',
+        txtDealerSignature1 :txtDealerSignature || '',
         txtRMSignature1 : '',
-        txtScfSignature1 : '',
-        nextReviewDate1 : '',
+        txtScfSignature1 : txtScfSignature || '',
+        nextReviewDate1 : nextReviewDate || '',
         flagdealergroup1 : selectedDealer?.flagdealergroup || '',
-        reviewdate1 : '',
+        reviewdate1 : reviewDate || '',
         reviewperiod1 : '',
-        dealerattendees1 : '',
-        scukattendees1 : '',
+        dealerattendees1 : formValues?.dealerAttendees || '',
+        scukattendees1 : formValues?.scukAttendees || '',
         supportStatus1 : '',
         oemAttendees1 : '',
         totalquestioncount1 : totalquestioncount,
@@ -242,13 +263,14 @@ const VisitReportTemplate = ({ selectedData }) => {
         emailContent : false,
         totalresult : 1
       }
-    
     }
+    console.log("request obj",requestBodyObj);
+    
     let response = await axios.post('/api/visitReports/postDealershipVisitReport',requestBodyObj);
       if(response.data.result.root.status){
         router.push("/home");
       }
-    console.log("form submit respomnse",response.data.result.root.status);
+    // console.log("form submit respomnse",response.data.result.root.status);
   }catch(error){
     console.log("eroor ->",error);
   }
@@ -294,6 +316,8 @@ const VisitReportTemplate = ({ selectedData }) => {
   useEffect(() => {
     // Check if the flagTabbedView in formData is 'Y'
     if (formData?.flagTabbedView === 'Y') {
+      console.log("_____________CASE 1_________________");
+      
       const handleTabClick = (event) => {
         event.preventDefault(); 
         const target = event.target.closest('a'); // Find the closest 'a' element (tab link)
@@ -303,6 +327,8 @@ const VisitReportTemplate = ({ selectedData }) => {
           const tabs = Array.from(document.querySelectorAll('#tb2 li a'));
           // Find the last tab link in the list
           const lastTab = tabs[tabs.length - 1];
+          console.log("lastTab",lastTab);
+          
           const isSelected = lastTab.classList.contains('selected');
           // Check if the clicked tab is the last tab
           if(lastTab.getAttribute('rel') === rel && isSelected){
@@ -390,6 +416,8 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Fuction for handle exisiting visit report data 
   const handleSelectExistingVisitReportData = (e,item) =>{
+    console.log("item",item);
+    
     // Add class 
     if (selectedElement) {
       selectedElement.classList.remove(Styles.listhead);
@@ -399,8 +427,9 @@ const VisitReportTemplate = ({ selectedData }) => {
 
     if(goBackToPage.pageFour){
       handleHTMLContent(item.formdata, 'root');
-    }else{
+    }else if(selectedReportData.flagTabbedView == 'N'){
       handleHTMLContent(item.formdata, 'root');
+    }else{
         let formattedReviewDate = item.reviewdate ? moment(item.reviewdate,'DD/MM/YYYY').format('YYYY-MM-DD') : '';
         if(Object.keys(item).length !== 0){
           setSelectedExistingVisitReportData(item);
@@ -414,8 +443,9 @@ const VisitReportTemplate = ({ selectedData }) => {
           }))
         }
     }
-  
   }
+
+
   const handleClickNewForm = (e) =>{
     // Handle li click selected style
     if (selectedElement) {
@@ -423,11 +453,12 @@ const VisitReportTemplate = ({ selectedData }) => {
     }
     liTagNewFormRef.current.classList.add(Styles.listhead);
     setSelectedElement(liTagNewFormRef.current);
-
     if(goBackToPage.pageFour && formData?.formInfo ){
+      // __________________Tabbbed view exisiting data_______________
+      handleHTMLContent(formData?.formInfo , 'root');
+    }else if(selectedReportData.flagTabbedView == 'N'){
       handleHTMLContent(formData?.formInfo , 'root');
     }else{
-      handleHTMLContent(formData?.formInfo , 'root');
       const now = new Date();
       // Format the date as YYYY-MM-DD (or other desired format)
       const formattedDate = now.toISOString().split('T')[0];
@@ -470,7 +501,7 @@ const VisitReportTemplate = ({ selectedData }) => {
       handleHTMLContent(formData.formInfo, 'root');
     }
   }
-console.log("visitReportList",visitReportList);
+console.log("goBackToPage.pageFour",goBackToPage.pageFour);
 
 
   return (
@@ -480,21 +511,14 @@ console.log("visitReportList",visitReportList);
         <div className={Styles.visitnamebx}>
           <div className={Styles.titlebx}>Visit Name</div>
           <div className={Styles.listitems}>
-            {/* Tabbed view */}
+
             <ul className={`${Styles.listcntnt} ${Styles.listiconhide}`}>
-              <li onClick={((e)=>handleClickNewForm(e))} ref={liTagNewFormRef} className={`${Styles.listhead} ${Styles.toplist}`}><a>New Form</a></li>
+              <li onClick={((e)=>handleClickNewForm(e))} ref={liTagNewFormRef}  className={`${Styles.listhead} ${Styles.toplist}`}><a>New Form</a></li>
               {visitReportList?.map((item,index)=>(
                 <li onClick={(e) => handleSelectExistingVisitReportData(e,item)}>{item.dateandtime} - Sent</li>
               ))}
             </ul>
-            {/* Form view */}
-            {/* {(goBackToPage.pageFour || selectedReportData.flagTabbedView == 'N') && <ul className={`${Styles.listcntnt} ${Styles.listiconhide}`}>
-              <li className={Styles.listhead}><a>New Form</a></li>
-              {visitReportList?.map((item,index)=>(
-                <li><a href="#">{item.dateandtime} - Sent</a></li>
-                
-              ))}
-            </ul>} */}
+
           </div>
         </div>
 
