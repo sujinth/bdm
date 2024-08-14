@@ -1,6 +1,6 @@
 .button:hover {
-  background-color: #d01a24 !important;
-  border: 1px solid #d01a24 !important;
+  background-color:  #990000 !important;
+  border: 1px solid  #990000 !important;
 }
 .button {
   background-color: #ec0000;
@@ -11,6 +11,9 @@
   border-radius: 6px;
   font-size: 15px;
   font-weight: 600;
+  display: flex;
+  justify-self: center;
+  align-items: center;
 }
 
 @media (max-width: 992px) {

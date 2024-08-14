@@ -110,7 +110,7 @@ const VisitReport = () => {
       ) : (
         <div className={Styles.bgcolor}>
           <div className={`${Styles.container} ${Styles.innerpgcntnt}`}>
-            <div className={Styles.visitnamebx}>
+            <div  className={Styles.visitnamebx}>
               {!isReportsSelected &&
                 goBackToPage.pageOne &&
                 visitReports.length !== 0 && (
@@ -150,6 +150,7 @@ const VisitReport = () => {
               {!isReportsSelected &&
                 goBackToPage.pageTwo &&
                 (Object.keys(dealers).length !== 0) !== 0 && (
+                  <div className={`${dealers.dealergroup && dealers.dealership ? '' : `${Styles.dealersingle}`}`}>
                   <Tabs id="controlled-tab-example" className="tabbtn">
                     {dealers.dealergroup && (
                       <Tab
@@ -196,6 +197,7 @@ const VisitReport = () => {
                       </Tab>
                     )}
                   </Tabs>
+                  </div>
                 )}
             </div>
             <div className={Styles.detailbx}>
