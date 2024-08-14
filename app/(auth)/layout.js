@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import Header from "../components/commen/Header/Header";
 import Home from "../home/page";
+import Footer from "../components/commen/Footer/Footer";
 
 export default function ForgotPasswordPageLayout({ children }) {
   const session = useSession();
@@ -27,6 +28,7 @@ export default function ForgotPasswordPageLayout({ children }) {
         <>
           <Header />
           {children}
+          <Footer />
         </>
       )}
     </>
