@@ -227,7 +227,7 @@ const AddonProducts = () => {
                               // type="application/pdf"
                               // />
                               <iframe
-                                src="/santander.pdf"
+                                src={selectedModuleData.path}
                                 style={{
                                   width: "100%",
                                   height: "600px",
@@ -242,7 +242,7 @@ const AddonProducts = () => {
                                 files={[
                                   {
                                     name: selectedModuleData.name,
-                                    path: "../Airline & Cruise Ship List.xlsx",
+                                    path: selectedModuleData.path,
                                   },
                                 ]}
                               />
@@ -253,7 +253,7 @@ const AddonProducts = () => {
                               //     { name: 'File2', path: 'https://192.168.200.6:11443/~sangeeth/santenderbdm/sysimgdocs/docs/Expected-Gift-Card-1-_rs5_1.docx' }
                               // ]} />
                               <iframe
-                                src="https://view.officeapps.live.com/op/view.aspx?src=https://calibre-ebook.com/downloads/demos/demo.docx"
+                                src={selectedModuleData.path}
                                 width="100%"
                                 height="600px"
                                 frameBorder="0"
