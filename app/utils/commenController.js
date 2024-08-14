@@ -6,7 +6,7 @@ export const formatDynamicOutput = async (arr) => {
         return item;
       } else {
         // If item is an empty string, return `''`
-        return "''";
+        return "";
       }
     })
     .join("^@^"); // Join the items with `^@^` as the separator
