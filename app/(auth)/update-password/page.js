@@ -165,8 +165,8 @@ const Updatepassword = () => {
 
   return (
     <div className={Styles.bgcolor}>
-      <div className={`${Styles.container} ${Styles.loginpg}`}>
-        <div className={Styles.loginboxcntnt}>
+      <div className={`${Styles.container} ${Styles.loginpg} ${Styles.updatepasswordpg}`}>
+        <div className={`${Styles.loginboxcntnt} ${Styles.updateboxcntnt}`}>
           <form className={Styles.loginbox} onSubmit={handleSubmit}>
             {errorMessage.apiErrorMsg !== "" && (
               <span style={{ color: "red" }}>{errorMessage.apiErrorMsg}</span>
@@ -175,25 +175,26 @@ const Updatepassword = () => {
               <span style={{ color: "green" }}>{successMessage}</span>
             )}
             <div className={Styles.mrgb10}>
+              <label className={Styles.inputlabel}>New Password</label>
               <input
                 type="password"
                 name="txtNPassword"
                 className={Styles.inputtxt}
-                placeholder="New Password"
                 onChange={handleChange}
               />
-            </div>
-            {errorMessage.txtNPasswordErrorMsg !== "" && (
+               {errorMessage.txtNPasswordErrorMsg !== "" && (
               <span style={{ color: "red" }}>
                 {errorMessage.txtNPasswordErrorMsg}
               </span>
             )}
+            </div>
+           
             <div>
+            <label className={Styles.inputlabel}>Confirm Password</label>
               <input
                 type="password"
                 name="txtCPassword"
                 className={Styles.inputtxt}
-                placeholder="Confirm Password"
                 onChange={handleChange}
               />
             </div>

@@ -577,6 +577,7 @@ body::-webkit-scrollbar-thumb {
  
 }
 .menuopen{
+  overflow: hidden;
   .fadebackground{
     height: 100%;
     position: fixed;
@@ -585,6 +586,7 @@ body::-webkit-scrollbar-thumb {
     width: 100%;
     z-index: 99;
     background-color: #00000078;
+    
   }
 }
 
@@ -621,6 +623,18 @@ body::-webkit-scrollbar-thumb {
       width: 100% !important;
       height:480px;
     }
+  }
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+ 
+    border-radius: 5px;
+  }
+  
+  body::-webkit-scrollbar {
+    width: 5px;
   }
 }
 @media (max-width: 768px) {
