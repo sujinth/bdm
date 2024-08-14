@@ -348,70 +348,72 @@ const Action = () => {
             {/* Content need to show in dealer group side bar */}
             {pageName == "Dealer Groups" ? (
               <>
-                {loaderInSideBar ? <Loader /> : null}
-                <Tabs
-                  id="controlled-tab-example"
-                  className="tabbtn"
-                  onSelect={handleSelect}
-                >
-                  <Tab eventKey="Dealer Group" title="Dealer Group">
-                    { dealerGroup?.length ? 
-                      <div className={`${Styles.listitems} ${Styles.tablist1} `}>
-                        <div className={Styles.listtoptitle}>
-                          My Dealers Group
-                        </div>
-                        <ul className={Styles.listcntnt}>
-                          {dealerGroup.map((item, index) => (
-                            <li
-                              key={index + "dealerGroup"}
-                              onClick={(e) => {
-                                setGoBackToPage({
-                                  pageOne: false,
-                                  pageTwo: false,
-                                  pageThree: true,
-                                });
-                                setPageName("Visit Reports");
-                                setDealerGroupId(e?.target?.value);
-                              }}
-                              value={item?.dealerGroupId}
-                            >
-                              {item?.dealerGroupName}
-                            </li>
-                          ))
-                        }
-                      </ul>
-                    </div> :
-                    null }
-                  </Tab>
-                  <Tab eventKey="Dealer" title="Dealer">
-                    {dealership.length ? 
-                      <div className={`${Styles.listitems} ${Styles.tablist2} `}>
-                        <div className={Styles.listtoptitle}>My Dealers</div>
-                        <ul className={Styles.listcntnt}>
-                          {dealership.map((item, index) => (
-                            <li
-                              key={index + "dealer"}
-                              onClick={(e) => {
-                                setGoBackToPage({
-                                  pageOne: false,
-                                  pageTwo: false,
-                                  pageThree: true,
-                                });
-                                setPageName("Visit Reports");
-                                setDealerGroupId(e?.target?.value);
-                              }}
-                              value={item?.id}
-                            >
-                              {item?.name}
-                            </li>
-                          ))}
+                {loaderInSideBar ? <Loader /> : 
+                  <Tabs
+                    id="controlled-tab-example"
+                    className="tabbtn"
+                    onSelect={handleSelect}
+                  >
+                    <Tab eventKey="Dealer Group" title="Dealer Group">
+                      { dealerGroup?.length ? 
+                        <div className={`${Styles.listitems} ${Styles.tablist1} `}>
+                          <div className={Styles.listtoptitle}>
+                            My Dealers Group
+                          </div>
+                          <ul className={Styles.listcntnt}>
+                            {dealerGroup.map((item, index) => (
+                              <li
+                                key={index + "dealerGroup"}
+                                onClick={(e) => {
+                                  setGoBackToPage({
+                                    pageOne: false,
+                                    pageTwo: false,
+                                    pageThree: true,
+                                  });
+                                  setPageName("Visit Reports");
+                                  setDealerGroupId(e?.target?.value);
+                                }}
+                                value={item?.dealerGroupId}
+                              >
+                                {item?.dealerGroupName}
+                              </li>
+                            ))
+                          }
                         </ul>
                       </div> :
-                      null
-                    }
-                  </Tab>
-                </Tabs>
+                      null }
+                    </Tab>
+                    <Tab eventKey="Dealer" title="Dealer">
+                      {dealership.length ? 
+                        <div className={`${Styles.listitems} ${Styles.tablist2} `}>
+                          <div className={Styles.listtoptitle}>My Dealers</div>
+                          <ul className={Styles.listcntnt}>
+                            {dealership.map((item, index) => (
+                              <li
+                                key={index + "dealer"}
+                                onClick={(e) => {
+                                  setGoBackToPage({
+                                    pageOne: false,
+                                    pageTwo: false,
+                                    pageThree: true,
+                                  });
+                                  setPageName("Visit Reports");
+                                  setDealerGroupId(e?.target?.value);
+                                }}
+                                value={item?.id}
+                              >
+                                {item?.name}
+                              </li>
+                            ))}
+                          </ul>
+                        </div> :
+                        null
+                      }
+                    </Tab>
+                  </Tabs>
+                }
               </>
+              
             ) : null}
 
             {/* Content need to show in visit report side bar */}
@@ -441,10 +443,10 @@ const Action = () => {
           {/* Content need to show under details */}
           <div className={Styles.detailbx}>
             <div className={Styles.titlebx}>Details</div>
+            {!submitLoader ? <Loader /> : null}
             <div
               className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}
             >
-              {submitLoader ? <Loader /> : null}
               {/* Placeholder for dynamic HTML content */}
               {pageName == "Visit Reports" &&
               incompleteActions[currentIncompleteAction]?.formdata ? (

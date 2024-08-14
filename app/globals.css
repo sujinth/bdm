@@ -210,6 +210,17 @@ body {
     border-top-right-radius: 0px;
   }
 }
+
+.dealersingle{
+ .tabbtn{
+  li{
+    width: 100% !important;
+    button{
+      cursor: auto !important;
+    }
+  }
+}
+}
 .listcntnt li:nth-child(odd):hover {
   background: #a7a7a7;
 }
@@ -376,8 +387,8 @@ body::-webkit-scrollbar-thumb {
     width: 100px;
   }
   button:hover {
-    background-color: #d01a24 !important;
-    border: 0px solid #d01a24 !important;
+    background-color:  #990000 !important;
+    border: 0px solid  #990000 !important;
   }
 }
 .position-relative {
@@ -511,7 +522,7 @@ body::-webkit-scrollbar-thumb {
     text-transform: uppercase;
   }
   .btn.btn-primary:hover{
-    background-color: #d01a24 !important;
+    background-color:  #990000 !important;
   }
 }
 .bg-dark{

@@ -89,7 +89,7 @@
   //height: 750px;
   padding: 20px 20px 20px 20px;
   form {
-    overflow-y: scroll;
+    overflow-y: auto;
     // height: 720px;
     max-height: 563px;
     padding-right: 15px;
@@ -115,6 +115,16 @@
     background: #6F7779;
   }
   
+}
+.dealersingle{
+  ul:first-child{
+  li{
+    width: 100% !important;
+    button{
+      cursor: auto !important;
+    }
+  }
+}
 }
 .listcntnt {
   padding-left:25px !important;
