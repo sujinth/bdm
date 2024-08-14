@@ -235,6 +235,7 @@
 }
 .cntntbox {
   width: 20%;
+  
   .boxtile{
     border: 1px solid #b2b3b6;
     background-color: #fff;
@@ -270,7 +271,19 @@
       background-color: #000;
     }
   }
+  .boxtile.actionbox{
+    .iconbrborderradius{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    img{
+      height: auto;
+      width: auto;
+    }
+  }
 }
+
 .clgp20 {
   column-gap: 20px;
 }
@@ -292,9 +305,9 @@
   background-color: #fff;
   height: 110vh;
   width: 25%;
-  z-index: 9;
+  z-index: 999;
   padding: 20px;
-  box-shadow: 10px 10px 10px 10px #000;
+  box-shadow: 10px -15px 10px 10px #000;
 }
 .clrgry {
   color: #b9baba;

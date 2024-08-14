@@ -102,7 +102,7 @@ const Home = () => {
               <div className={Styles.cntntbox}>
                 
                 <div
-                    className={`${Styles.boxtile} ${Styles.brdradius} `}
+                    className={`${Styles.boxtile} ${Styles.brdradius} ${Styles.actionbox}`}
                   >
                     <div
                       className={Styles.iconbrborderradius}>

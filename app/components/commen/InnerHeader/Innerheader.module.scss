@@ -376,9 +376,9 @@
   background-color: #fff;
   height: 85vh;
   width: 28%;
-  z-index: 9;
+  z-index: 999;
   padding: 20px;
-  box-shadow: 10px 10px 10px 10px #000;
+  box-shadow: 10px -15px 10px 10px #000;
   height: 100vh;
 }
 .clrgry {
@@ -402,6 +402,16 @@
   }
   :hover{
     border-bottom: 2px solid #ec0000;;
+  }
+  button{
+    border: 0px;
+    background-color: transparent;
+    font-weight: 500;
+    font-family: SantanderHead-Bold;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 .menulist:last-child {
@@ -482,6 +492,17 @@
   .pdT50 {
     padding-top: 30px;
   }
+ .headerbottom{
+  .container {
+    max-width: 90%;
+    padding: 0px 20px;
+}
+ } 
+ .menuRight {
+ 
+  right: 0px;
+  top: 4px;
+}
 }
 @media (max-width: 992px) {
   .cntntbox {
@@ -514,4 +535,42 @@
       display: none;
     }
   }
+  .menuRight .logOut {
+   
+    margin-right: 15px;
+}
+.headerbottom{
+  .container {
+   
+    padding: 0px 0px;
+}
+ } 
+ .headerbottom{
+  .innerheadertxt{
+    font-size: 17px;
+  }
+  .backbtn span{
+    font-size: 14px;
+    top: 4px;
+  }
+ } 
+ .menuRight{
+  .logOut{
+    font-size: 14px;
+  }
+ }
+ .menuRight {
+ 
+ 
+  top: 1px;
+}
+.menulist {
+  height: 45px;
+  font-size: 15px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  button{
+    font-size: 15px;
+  }
+}
 }

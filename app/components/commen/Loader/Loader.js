@@ -7,7 +7,7 @@ function Loader() {
   return (
     <Container>
       <Row>
-        <Col className="text-center">
+        <Col className="text-center banner-loader">
           <Image
             src={loadingimage}
             width="120"

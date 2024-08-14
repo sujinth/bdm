@@ -158,13 +158,13 @@ const InnerHeader = () => {
                                     <div
                                     className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
                                     >
-                                    <div
-                                        className={Styles.userGuideBtn}
+                                    <button
+                                        className={Styles.userBtn}
                                         type="button"
                                         onClick={() => setShow(true)}
                                     >
                                         User guide
-                                    </div>
+                                    </button>
                                     
                                     </div>
                                     <UserGuide show={show} setShow={setShow} />
