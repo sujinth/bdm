@@ -115,7 +115,7 @@ const InnerHeader = () => {
                                 Logout
                             </span>
 
-                            <div>
+                            <div className={Styles.menuimg}>
                                 <img
                                 title="Menu"
                                 className={Styles.menuImage}

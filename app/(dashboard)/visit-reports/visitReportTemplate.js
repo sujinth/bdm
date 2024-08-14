@@ -482,7 +482,7 @@ console.log("visitReportList",visitReportList);
           <div className={Styles.listitems}>
             {/* Tabbed view */}
             <ul className={`${Styles.listcntnt} ${Styles.listiconhide}`}>
-              <li onClick={((e)=>handleClickNewForm(e))} ref={liTagNewFormRef} className={Styles.listhead}><a>New Form</a></li>
+              <li onClick={((e)=>handleClickNewForm(e))} ref={liTagNewFormRef} className={`${Styles.listhead} ${Styles.toplist}`}><a>New Form</a></li>
               {visitReportList?.map((item,index)=>(
                 <li onClick={(e) => handleSelectExistingVisitReportData(e,item)}>{item.dateandtime} - Sent</li>
               ))}

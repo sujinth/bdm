@@ -497,7 +497,7 @@
  .headerbottom{
   .container {
     max-width: 90%;
-    padding: 0px 20px;
+    padding: 0px 0px;
 }
  } 
  .menuRight {
@@ -578,5 +578,17 @@
   button{
     font-size: 15px;
   }
+}
+.headermenu {
+  
+  padding: 20px 20px;
+}
+.menuImage{
+  width: 18px;
+  height: 18px;
+}
+.menuimg{
+  display: flex;
+  align-items: end;
 }
 }

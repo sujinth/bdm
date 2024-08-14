@@ -157,22 +157,35 @@ body {
 }
 .tabbtn {
   margin-bottom: 40px !important;
-
   li {
     width: 50%;
     height: 50px;
-    background-color: #6F7779;
+    background-color: #ffff;
     font-weight: 600;
     display: flex;
     justify-content: center;
-    align-items: center;
-  }
-  li:not(:last-child) {
-    border-right: 1px solid #747474;
+    border: 1px solid #6F7779;
+    button.nav-link{
+      color: #000;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      transition:none;
+      font-family: SantanderHead-Bold;
+    letter-spacing: 0.3px;
+    font-size: 16px;
+    }
+    button.nav-link:hover{
+      color: #fff;
+    }
+    button.nav-link.active{
+      background-color: #6F7779;
+      color: #fff;
+      border: 0px;
+    }
   }
   :hover {
-    background-color: #939090;
-    color: #000;
+    background-color: #000;
+    color: #fff;
   }
   button {
     color: #000;
@@ -184,7 +197,7 @@ body {
   button:focus {
     border: 0px;
     border-radius: 0px;
-    color: #000;
+    color: #fff;
   }
   .nav-link.active {
     background-color: #EC0000;
@@ -514,8 +527,8 @@ body::-webkit-scrollbar-thumb {
   width: 100% ;
   justify-content: center;
   .visitnamebx {
-    width: 28%;
-    max-width: 28%;
+    width: 25%;
+    max-width: 25%;
     padding-left: 0px;
 }
   .detailbx{

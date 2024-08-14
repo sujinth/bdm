@@ -15,7 +15,7 @@
   justify-content: space-between;
 }
 .visitnamebx {
-  width: 28%;
+  width: 25%;
 }
 .detailbx {
   width: 68%;
@@ -79,6 +79,14 @@
     font-family: SantanderHead-Bold;
     color: #000000;
     letter-spacing: 0.4px;
+    padding: 10px 0px 3px;
+    margin-bottom: 10px;
+    width: fit-content;
+    cursor: pointer;
+    border-bottom: 2px solid #fff;
+  }
+  li:hover {
+    border-bottom: 2px solid #ec0000;
   }
   li:nth-child(odd) {
     background: #fff;
@@ -136,7 +144,53 @@
 .ftw600 {
   font-weight: 600;
 }
+ul.listiconhide{
+  padding-left: 0px !important;
+  li{
+    border-bottom: 2px solid #fff;
+    font-weight: 600;
+    font-family: SantanderText-Bold;
+    letter-spacing: 0.3px;
+    font-size: 16px;
+    margin-left:15px;
+  }
+  li.toplist{
+    width:100%;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border-bottom: 2px solid #6F7779;
+    background-color:#6F7779;
+    margin-left:0px;
+    a{
+      color: #fff!important;
+      font-size: 16px;
+    font-weight: 500;
+    font-family: SantanderText-Regular;
+    letter-spacing: 0.3px;
+    font-size: 16px
+  }
+  }
+  li.toplist.listhead{
+    border-bottom: 2px solid #6F7779;
+    background-color:#6F7779;
+  }
+  li.toplist.listhead:hover{
+    border-bottom: 2px solid #6F7779;
+    background-color:#6F7779;
+  }
+  li.toplist:hover{
+    background-color:#000;
+    border-bottom: 2px solid;
+  }
 
+  li.listhead{
+    border-bottom: 2px solid #ec0000;
+    background-color: #fff;
+  }
+  li.listhead:hover{
+    border-bottom: 2px solid #ec0000;
+  } 
+}
 ul.listiconhide li::after {
   display: none;
 }
@@ -507,6 +561,11 @@ ul.listiconhide li::after {
   .detailbx {
     width: 68%;
   }
+  .bgcolor{
+    .innerpgcntnt{
+      max-width: 90%;
+    }
+  }
 }
 @media (max-width: 992px) {
   .visitnamebx {
@@ -521,26 +580,32 @@ ul.listiconhide li::after {
 }
 @media (max-width: 768px) {
   .visitnamebx {
-    width: 90%;
+    width: 100%;
     margin: auto;
+    .listcntnt{
+      overflow: auto;
+    }
+    .listitems{
+      margin-bottom: 15px;
+    }
   }
   .detailbx {
-    width: 90%;
+    width: 100%;
     margin: auto;
   }
   .listcntnt {
     height: 200px;
-    overflow: scroll;
+    padding-right: 15px;
   }
   .innercontentwhtbx {
     min-height: 500px;
     height: 500px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .tablist {
     height: 0px;
-    overflow: scroll;
+    overflow: auto;
   }
   .tabcontainer {
     height: 480px;
@@ -566,3 +631,11 @@ ul.listiconhide li::after {
     }
   }
 }
+@media (max-width: 390px) {
+  .detailbximage{
+    img{
+      width: 100%;
+      padding: 0px 10px;
+    }
+  }
+  }
