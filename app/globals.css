@@ -387,8 +387,8 @@ body::-webkit-scrollbar-thumb {
     width: 100px;
   }
   button:hover {
-    background-color:  #990000 !important;
-    border: 0px solid  #990000 !important;
+    background-color:  #000 !important;
+    border: 0px solid  #000 !important;
   }
 }
 .position-relative {
@@ -522,7 +522,7 @@ body::-webkit-scrollbar-thumb {
     text-transform: uppercase;
   }
   .btn.btn-primary:hover{
-    background-color:  #990000 !important;
+    background-color:  #000 !important;
   }
 }
 .bg-dark{
