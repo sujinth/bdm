@@ -41,15 +41,18 @@ const Action = () => {
 
   // Function for render at the time of change in goBackToPage state.
   useEffect(() => {
-    console.log("recah")
-    if (goBackToPage.pageOne && pageName != "Visit Name") {
+    let pageNameData = pageName;
+    if (goBackToPage.pageOne) {
       setPageName("Visit Name");
-    } else if (goBackToPage.pageTwo && pageName != "Dealer Groups") {
+      pageNameData = "Visit Name";
+    } else if (goBackToPage.pageTwo) {
       setPageName("Dealer Groups");
-    } else if (goBackToPage.pageThree && pageName != "Visit Reports") {
+      pageNameData = "Dealer Groups";
+    } else if (goBackToPage.pageThree) {
       setPageName("Visit Reports");
+      pageNameData = "Visit Reports";
     }
-    getVisitName();
+    getVisitName(pageNameData);
   }, [goBackToPage, session]);
 
   // Handle HTML content injection on formData change
@@ -63,7 +66,7 @@ const Action = () => {
   }, [incompleteActions[currentIncompleteAction]?.formdata]);
 
   // Function for fetching visit name
-  async function getVisitName() {
+  async function getVisitName(pageNameData) {
     try {
       setLoaderInSideBar(true);
       let userId = session.data?.user?.id;
@@ -72,8 +75,9 @@ const Action = () => {
       }
 
       // Cases for each api call
-      switch (pageName) {
+      switch (pageNameData) {
         case "Visit Name":
+          console.log("recah2");
           // API call to next server for delearship visit report
           const visitNameResponse = await axios.post(
             `/api/actions/dealershipVisitReports`,
@@ -161,6 +165,7 @@ const Action = () => {
       }
     } catch (error) {
       console.log("error", error.message);
+      setLoaderInSideBar(false);
     }
   }
 
@@ -319,29 +324,30 @@ const Action = () => {
             {/* Content need to show in visit name side bar */}
             {pageName == "Visit Name" ? (
               <>
-                {loaderInSideBar ? <Loader /> : null}
-                <div className={Styles.listitems}>
-                  <ul className={Styles.listcntnt}>
-                    {delearshipVisitReport.map((item, index) => (
-                      <li
-                        key={index + "visitName"}
-                        onClick={() => {
-                          setGoBackToPage({
-                            pageOne: false,
-                            pageTwo: true,
-                            pageThree: false,
-                          });
-                          setPageName("Dealer Groups");
-                          setFlagTabbedView(item?.flagTabbedView);
-                          setFlagHealthCheck(item?.flagHealthCheck);
-                          setSelectedFormId(item?.formId);
-                        }}
-                      >
-                        {item?.formName}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {loaderInSideBar ? <Loader /> : 
+                  <div className={Styles.listitems}>
+                    <ul className={Styles.listcntnt}>
+                      {delearshipVisitReport.map((item, index) => (
+                        <li
+                          key={index + "visitName"}
+                          onClick={() => {
+                            setGoBackToPage({
+                              pageOne: false,
+                              pageTwo: true,
+                              pageThree: false,
+                            });
+                            setPageName("Dealer Groups");
+                            setFlagTabbedView(item?.flagTabbedView);
+                            setFlagHealthCheck(item?.flagHealthCheck);
+                            setSelectedFormId(item?.formId);
+                          }}
+                        >
+                          {item?.formName}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                }
               </>
             ) : null}
 
@@ -419,23 +425,24 @@ const Action = () => {
             {/* Content need to show in visit report side bar */}
             {pageName == "Visit Reports" ? (
               <>
-                {loaderInSideBar ? <Loader /> : null}
+                {loaderInSideBar ? <Loader /> : 
                   <div className={Styles.listitems}>
-                  <ul className={Styles.listcntnt}>
-                    {incompleteActions.map((item, index) => (
-                      <li
-                        key={index + "visitReports"}
-                        onClick={(e) => {
-                          setCurrentIncompleteAction(e?.target?.value);
-                          setCartId(item.cartid);
-                        }}
-                        value={index}
-                      >
-                        {item?.dateandtime}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                    <ul className={Styles.listcntnt}>
+                      {incompleteActions.map((item, index) => (
+                        <li
+                          key={index + "visitReports"}
+                          onClick={(e) => {
+                            setCurrentIncompleteAction(e?.target?.value);
+                            setCartId(item.cartid);
+                          }}
+                          value={index}
+                        >
+                          {item?.dateandtime}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                }
               </>
             ) : null}
           </div>
@@ -443,7 +450,7 @@ const Action = () => {
           {/* Content need to show under details */}
           <div className={Styles.detailbx}>
             <div className={Styles.titlebx}>Details</div>
-            {!submitLoader ? <Loader /> : null}
+            {submitLoader ? <Loader /> : null}
             <div
               className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}
             >
