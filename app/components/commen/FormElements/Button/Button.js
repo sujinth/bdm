@@ -19,6 +19,7 @@ const Button = ({ id, children, onClick, type = "button", className = "" }) => {
 };
 
 Button.propTypes = {
+  id: PropTypes.string,
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   type: PropTypes.oneOf(["button", "submit", "reset"]),

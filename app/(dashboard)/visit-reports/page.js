@@ -8,6 +8,7 @@ import Tabs from "react-bootstrap/Tabs";
 // Pages
 import Styles from "./visitreport.module.scss";
 import VisitReportTemplate from "./visitReportTemplate";
+import Loader from "../../components/commen/Loader/Loader";
 import { useDashboard } from "../../contexts/layoutContext";
 
 const VisitReport = () => {
@@ -18,50 +19,51 @@ const VisitReport = () => {
   const [selectedDealer, setSelectedDealerData] = useState({});
   const [dealers, setDealers] = useState({});
   const [isReportsSelected, setReportsSelected] = useState(false);
-  const [isLoaderActive, setIsLoaderActive] = useState(false);
   const [flagDealergroup, setFlagDealergroup] = useState("Y");
+  const [loaderInSideBar, setLoaderInSideBar] = useState(false);
+
   // Fetch dealers' details based on user ID
   async function getDealersDetails() {
     try {
-      const userId = session.data?.user?.id;
-      if (!userId) {
-        throw new Error("User ID not found");
+          const userId = session.data?.user?.id;
+          if (!userId) {
+            throw new Error("User ID not found");
+          }
+          setLoaderInSideBar(true);
+          const response = await axios.get(`/api/dealers?userid=${userId}`);
+          if (Object.keys(response.data.result).length !=0) {
+              // delete response.data.result.dealergroup
+              setDealers(response.data.result);
+          }
+      } catch (error) {
+          console.log("Error:", error.message);
+      }finally{
+        setLoaderInSideBar(false);
       }
-
-            const response = await axios.get(`/api/dealers?userid=${userId}`);
-            if (Object.keys(response.data.result).length !=0) {
-                // delete response.data.result.dealergroup
-                setDealers(response.data.result);
-            }
-        } catch (error) {
-            console.log("Error:", error.message);
-        }
-    }
+  }
   
-
   const selectedData = useMemo(() => {
     return { selectedReportData, selectedDealer };
   }, [selectedReportData, selectedDealer]);
 
-    // Fetch visit reports based on user ID
-    async function getVisitReports() {
-        try {
-            const userId = session.data?.user?.id;
-            if (!userId) {
-                throw new Error('User ID not found');
-            }
-            setIsLoaderActive(true)
-            
-            const response = await axios.get(`/api/visitReports/dealershipVisitreportsTemplate?userId=${userId}`);
-            if (response.data.result?.length !== 0) {
-                setVisitReports(response.data.result.root);
-                setIsLoaderActive(false)
-            }
-        } catch (error) {
-            console.log("Error:->", error.message);
-        }
-    }
-  
+  // Fetch visit reports based on user ID
+  async function getVisitReports() {
+      try {
+          const userId = session.data?.user?.id;
+          if (!userId) {
+              throw new Error('User ID not found');
+          }
+          setLoaderInSideBar(true);
+          const response = await axios.get(`/api/visitReports/dealershipVisitreportsTemplate?userId=${userId}`);
+          if (response.data.result?.length !== 0) {
+              setVisitReports(response.data.result.root);
+          }
+      } catch (error) {
+          console.log("Error:->", error.message);
+      }finally{
+        setLoaderInSideBar(false);
+      }
+  }
 
   useEffect(() => {
     setGoBackToPage((prev) => ({ ...prev, pageOne: true }));
@@ -101,8 +103,10 @@ const VisitReport = () => {
       setFlagDealergroup("N");
     }
   };
-  console.log("dealers", dealers);
-
+  // console.log("dealers", dealers);
+  console.log("selectedReportData",selectedReportData);
+  console.log("loaderInSideBar",loaderInSideBar);
+  
   return (
     <>
       {Object.keys(selectedDealer).length !== 0 && goBackToPage.pageThree ? (
@@ -113,13 +117,14 @@ const VisitReport = () => {
             <div  className={Styles.visitnamebx}>
               {!isReportsSelected &&
                 goBackToPage.pageOne &&
-                visitReports.length !== 0 && (
+                 (
                   <>
                     <div className={Styles.titlebx}>
                       Visit Name
-                      {/* {(!isReportsSelected && goBackToPage.pageOne) ? 'Visit Name' : 'My Dealer'} */}
                     </div>
-                    <div className={Styles.listitems}>
+                    {loaderInSideBar ? 
+                    <Loader /> : 
+                    (visitReports.length !== 0 && <div className={Styles.listitems}>
                       <ul className={Styles.listcntnt}>
                         {visitReports.map((item, idx) => (
                           <li
@@ -129,30 +134,21 @@ const VisitReport = () => {
                             {item?.formName}
                           </li>
                         ))}
-                        {/* {!isReportsSelected && goBackToPage.pageOne && visitReports.length !== 0 &&
-                                            visitReports.map((item, idx) => (
-                                                <li key={idx} onClick={() => handleVisitReportsData(item)}>
-                                                    {item?.formName}
-                                                </li>
-                                            ))
-                                        } */}
-                        {/* {!isReportsSelected && goBackToPage.pageTwo && dealers.length !== 0 &&
-                                            dealers.map((item, idx) => (
-                                                <li key={idx} onClick={() => handleClickDealer(item)}>
-                                                    {item.name}
-                                                </li>
-                                            ))
-                                        } */}
+      
                       </ul>
-                    </div>
+                    </div>)
+                    }
+                     
                   </>
                 )}
               {!isReportsSelected &&
                 goBackToPage.pageTwo &&
-                (Object.keys(dealers).length !== 0) !== 0 && (
-                  <div className={`${dealers.dealergroup && dealers.dealership ? '' : `${Styles.dealersingle}`}`}>
+                (loaderInSideBar ? 
+                  <Loader /> : 
+                ((Object.keys(dealers).length !== 0)  && (
+                  <div className={`${dealers?.dealergroup && dealers?.dealership ? '' : `${Styles.dealersingle}`}`}>
                   <Tabs id="controlled-tab-example" className="tabbtn">
-                    {dealers.dealergroup && (
+                    {dealers?.dealergroup && (
                       <Tab
                         eventKey="DealerGroup"
                         title={dealers.dealergroup ? "Dealer Group" : ""}
@@ -198,13 +194,14 @@ const VisitReport = () => {
                     )}
                   </Tabs>
                   </div>
-                )}
+                )))
+                }
             </div>
             <div className={Styles.detailbx}>
               <div className={Styles.titlebx}>
                 {!isReportsSelected && goBackToPage.pageOne
                   ? "Details"
-                  : "Account Closure Form"}
+                  : `${selectedReportData?.formName}`}
               </div>
               <div
                 className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx}`}
