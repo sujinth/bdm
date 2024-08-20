@@ -443,7 +443,7 @@ const Action = () => {
           {/* Content need to show under details */}
           <div className={Styles.detailbx}>
             <div className={Styles.titlebx}>Details</div>
-            {!submitLoader ? <Loader /> : null}
+            {submitLoader ? <Loader /> : null}
             <div
               className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}
             >
