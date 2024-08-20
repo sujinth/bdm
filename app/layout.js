@@ -56,7 +56,7 @@ export default async function RootLayout({ children }) {
             </PopupProvider>
           </LayoutProvider>
         </Wrapper>
-        <div class="fadebackground"></div>
+        <div className="fadebackground"></div>
       </body>
     </html>
   );

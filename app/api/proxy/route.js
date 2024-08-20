@@ -1,36 +1,33 @@
-import axios from "axios";
+// app/api/proxy/route.ts
+import { NextResponse } from "next/server";
 import https from "https";
 
 const agent = new https.Agent({
   rejectUnauthorized: false,
 });
 
-export async function GET(request) {
+export async function POST(request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const url = searchParams.get("url");
-    if (!url) {
-      return new Response(
-        JSON.stringify({ message: "URL parameter is required." }),
-        { status: 400 }
-      );
+    const fileUrlData = await request.json();
+    let fileUrl = fileUrlData.path;
+    const response = await fetch(fileUrl, { agent });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file: ${response.statusText}`);
     }
 
-    const response = await axios.get(url, {
-      httpsAgent: agent,
-      responseType: "arraybuffer",
-    });
+    const buffer = await response.arrayBuffer();
     const headers = new Headers();
-    headers.append("Content-Type", "application/pdf");
-    // headers.append('Content-Disposition', 'inline');
-    return new Response(response.data, {
-      status: 200,
-      headers,
-    });
-  } catch (err) {
-    console.log("errr->", err);
-    return new Response(JSON.stringify({ message: "faild", result: [] }), {
-      status: 500,
-    });
+    headers.set(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+
+    return new NextResponse(Buffer.from(buffer), { headers });
+  } catch (error) {
+    console.error(error);
+    return new NextResponse(
+      JSON.stringify({ error: "Failed to fetch the file." }),
+      { status: 500 }
+    );
   }
 }
