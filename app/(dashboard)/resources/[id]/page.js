@@ -179,6 +179,7 @@ const AddonProducts = () => {
                       {/* <span>Available offline</span> */}
                     </li>
                   </ul>
+                  
                   {resources.filterChildResources?.length > 0 && (
                     <Nav variant="pills" className="flex-column flex-nowrap">
                       {resources.filterChildResources.map((item, idx) => (
