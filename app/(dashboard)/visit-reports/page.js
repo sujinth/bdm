@@ -125,7 +125,7 @@ const VisitReport = () => {
                     </div>
                     {loaderInSideBar ? 
                     <Loader /> : 
-                    (visitReports.length !== 0 && <div className={Styles.listitems}>
+                    (visitReports?.length !== 0 && <div className={Styles.listitems}>
                       <ul className={Styles.listcntnt}>
                         {visitReports.map((item, idx) => (
                           <li

@@ -27,7 +27,7 @@ const Home = () => {
 
   // Page number update while comming to home page.
   useEffect(()=>{
-    setGoBackToPage((prev) => ({ ...prev, pageOne: true }));
+    setGoBackToPage((prev) => ({ ...prev, pageOne: true, pageTwo: false,pageThree : false,pageFour : false }));
   },[])
 
   // useEffect for triger fetch home page data function
