@@ -176,11 +176,11 @@ const AddonProducts = () => {
                   >
                     <li className={Styles.listhead}>
                       <span>Module Name</span>
-                      <span>Available offline</span>
+                      {/* <span>Available offline</span> */}
                     </li>
                   </ul>
                   {resources.filterChildResources?.length > 0 && (
-                    <Nav variant="pills" className="flex-column">
+                    <Nav variant="pills" className="flex-column flex-nowrap">
                       {resources.filterChildResources.map((item, idx) => (
                         <Nav.Item key={idx} className={Styles.lfttabs}>
                           <Nav.Link

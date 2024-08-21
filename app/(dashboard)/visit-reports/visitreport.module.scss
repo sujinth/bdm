@@ -56,6 +56,7 @@
 }
 .detailbx {
   width: 68%;
+  position: relative;
   .detailbximage{
     text-align: center;
     padding-top: 15px;
@@ -296,7 +297,7 @@ ul.listiconhide li::after {
   display: flex;
 }
 .contentwhtbxfooter {
-  position: relative;
+  // position: relative;
 }
 .mainboxfooter {
   position: absolute;
@@ -324,12 +325,29 @@ ul.listiconhide li::after {
 .searchboxpopup {
   display: none;
 }
+
 .recipientsbtn {
   position: relative;
+  align-items: center;
+  background-color: #ec0000;
+  border: 1px solid #ec0000;
+  color: #fff;
+  height: 40px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  justify-self: center;
   align-items: center;
   img {
     margin-left: 7px;
   }
+}
+ 
+.recipientsbtn:hover {
+  background-color:  #000 !important;
+  border: 1px solid  #000 !important;
 }
 
 .imageaddoption {
