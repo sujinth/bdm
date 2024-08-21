@@ -1,4 +1,4 @@
-const ABSPATH = process.env.ABSPATH;
+const ABSPATH = process.env.API_ABSPATH;
 
 const LOGIN = `${ABSPATH}login.php`;
 const CHANGE_PASSWORD = `${ABSPATH}changepassword.php`;

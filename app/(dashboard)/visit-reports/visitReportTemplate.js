@@ -8,31 +8,48 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import moment from 'moment';
 import { Button } from 'react-bootstrap';
+
 // Pages
 import { handleHTMLContent } from '../../utils/htmlUtils';
 import { formatDynamicOutput } from '../../utils/commenController'
-import Loader from "../../components/commen/Loader/Loader";
+import { usePopupContent } from "@/app/contexts/popupContext";
 import { useDashboard } from '../../contexts/layoutContext';
 import CustomButton from '../../components/commen/FormElements/Button/Button';
+import Loader from "../../components/commen/Loader/Loader";
 import Styles from './visitreport.module.scss';
-import { resolve } from 'path';
+
 
 const VisitReportTemplate = ({ selectedData }) => {
+
+  const ABSPATH = process.env.NEXT_PUBLIC_APP_PUBLIC_ABSPATH;
+
   // session
   const session = useSession();
   const router = useRouter();
+  const { setPopupContent } = usePopupContent();
   const { selectedReportData, selectedDealer } = selectedData;
+
   const [imagePopupVisible, setImagePopupVisible] = useState(false);
   const [isLastTabSelected, setIsLastTabSelected] = useState(false);
   const [visitReportList, setVisitReportList] = useState([])
   const [selectedElement, setSelectedElement] = useState(null);
   const [isActive,setIsActive] = useState(false);
-  const [formValues, setFormValues] = useState({
-    txtDealershipName : selectedDealer.name,
-  });
   const [loaderInSideBar, setLoaderInSideBar] = useState(false);
   const [selectedExistingVisitReportData, setSelectedExistingVisitReportData] = useState({})
   const [isReadOnly, setIsReadOnly] = useState(false);
+  const [formValues, setFormValues] = useState({
+    txtDealershipName : selectedDealer.name,
+  });
+  const [recipients, setRecipients] = useState({
+    recipientList : [],
+    recipientBccList : [],
+    recipientCcList : []
+  })
+  const [imageList, setImageList] = useState({
+    image11 : '',
+    image12 : '',
+    image13 : ''
+  })
   // useRef
   const liTagNewFormRef = useRef(null);
   const apiHandleRef = useRef({
@@ -41,17 +58,8 @@ const VisitReportTemplate = ({ selectedData }) => {
   // useContext
   const { setGoBackToPage, goBackToPage } = useDashboard();
 
-  // Toggle the display of the image popup
-  const menuClick = () => {
-    const imagePopup = document.getElementById('addimagepopup');
-    if (imagePopup.style.display === 'block') {
-      imagePopup.style.display = 'none';
-      document.body.classList.remove(Styles.bodyOverlayActive);
-    } else {
-      imagePopup.style.display = 'block';
-      document.body.classList.add(Styles.bodyOverlayActive);
-    }
-  };
+
+console.log("imageList",imageList);
 
   // Toggle the display of the search popup
   const btnClick = () => {
@@ -208,23 +216,36 @@ const VisitReportTemplate = ({ selectedData }) => {
       // output
       console.log('formControlListId',formControlListId);
       console.log("formControlResult",formControlResult);
+
+      //---------- user ID
       const userId = session.data?.user?.id;
       if (!userId) {
           throw new Error('User ID not found');
       }
+
+      //----------Handle dealership name & dealership id 
       let dealershipid  = selectedDealer?.id;
       let dealershipname = selectedDealer?.name;
       if(selectedDealer?.flagdealergroup  == 'Y'){
         dealershipid = selectedDealer.dealerGroupId
         dealershipname = selectedDealer.dealerGroupName
       }
+      
+      //----------Convert date format YYYY-MM-DD -> DD/MM/YYYY
       let reviewDate = formValues?.reviewDate
       if(reviewDate){
         reviewDate = moment(reviewDate,'YYYY-MM-DD').format('DD/MM/YYYY')
       }
+
+      //--------- recipients
+      let { recipientList, recipientBccList, recipientCcList} = recipients;
+      recipientList = recipientList.join(',');
+      recipientBccList = recipientBccList.join(',');
+      recipientCcList = recipientCcList.join(',');
+
       // _____REQUEST BODY______
       let requestBodyObj = {
-        body : {
+
           userid : userId,
           formid1 : selectedReportData?.formId || '',
           formname1  : selectedReportData?.formName || '',
@@ -235,9 +256,12 @@ const VisitReportTemplate = ({ selectedData }) => {
           txtAttendees1 : txtAttendees,
           dateandtime1 : txtDateTimeElement,
           formresult1 : formControlResult,
-          emailaddresslist1 : '',
-          emailaddresslistbcc1 : '',
-          emailaddresslistcc1 : '',
+          emailaddresslist1 : recipientList || '',
+          emailaddresslistbcc1 : recipientBccList || '',
+          emailaddresslistcc1 : recipientCcList || '',
+          image11 : imageList.image11?.[0] || '', 
+          image12 : imageList.image12?.[0] || '', 
+          image13 : imageList.image13?.[0] || '',
           flagtabbedview1 : selectedReportData?.flagTabbedView || '',
           flagHealthCheck1 : selectedReportData?.flagHealthCheck || '',
           txtDealerSignature1 :txtDealerSignature || '',
@@ -255,14 +279,32 @@ const VisitReportTemplate = ({ selectedData }) => {
           strFormControlInfo1 : formControlListId || '',
           emailContent : false,
           totalresult : 1
-        }
+        
       }
       console.log("request obj",requestBodyObj);
-      
-      let response = await axios.post('/api/visitReports/postDealershipVisitReport',requestBodyObj);
+      let formDatas = new FormData();
+      for( let key in requestBodyObj){
+          formDatas.append(key, requestBodyObj[key])
+      }
+      let response = await axios.post('/api/visitReports/postDealershipVisitReport',formDatas);
       if(response.data.result.root.status){
+      //   setPopupContent((prevState) => ({
+      //     ...prevState,
+      //     titleContent: "MI Business",
+      //     detailContent: "Please Select At Least One Action",
+      //     show: true,
+      //   }));
         router.push("/home");
       }
+      // else{
+      //   setPopupContent((prevState) => ({
+      //     ...prevState,
+      //     titleContent: "MI Business",
+      //     detailContent:  "Something went wrong, please try again later.",
+      //     show: true,
+      //     onClick: clickOk,
+      //   }));
+      // }
     }catch(error){
       console.log("eroor ->",error);
     }
@@ -312,16 +354,18 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Function for handle tab click
   const handleTabClick = (event) => {
-    event.preventDefault();
-    console.log("Tab Clicked*-----------------------");
 
+    event.preventDefault();
     const target = event.target.closest('a');
+
     if (target) {
+
       const rel = target.getAttribute('rel');
       const tabs = Array.from(document.querySelectorAll('#tb2 li a'));
       const lastTab = tabs[tabs.length - 1];
-
       const isSelected = lastTab.classList.contains('selected');
+
+      // Check last tab relation & selected tab relation
       if (lastTab.getAttribute('rel') === rel && isSelected) {
         setIsLastTabSelected(isSelected);
       } else {
@@ -339,40 +383,6 @@ const VisitReportTemplate = ({ selectedData }) => {
       tabs.forEach(tab => tab.removeEventListener('click', handleTabClick));
     };
   },[isActive]);
-
-  // useEffect(() => {
-  //   const handleTabClick = (event) => {
-  //     event.preventDefault(); 
-  //     console.log("Tab Clicked*-----------------------");
-
-  //     const target = event.target.closest('a');
-  //     if (target) {
-  //       const rel = target.getAttribute('rel');
-  //       const tabs = Array.from(document.querySelectorAll('#tb2 li a'));
-  //       const lastTab = tabs[tabs.length - 1];
-
-  //       const isSelected = lastTab.classList.contains('selected');
-  //       if (lastTab.getAttribute('rel') === rel && isSelected) {
-  //         setIsLastTabSelected(isSelected);
-  //       } else {
-  //         setIsLastTabSelected(false);
-  //       }
-  //     }
-  //   };
-
-  //   if (formData?.flagTabbedView === 'Y') {
-  //     const tabs = document.querySelectorAll('#tb2 li a');
-  //     tabs.forEach(tab => tab.addEventListener('click', handleTabClick));
-      
-  //     // Cleanup: Remove event listeners when the component unmounts or dependencies change
-  //     return () => {
-  //       tabs.forEach(tab => tab.removeEventListener('click', handleTabClick));
-  //     };
-  //   } else {
-  //     setIsLastTabSelected(true);
-  //   }
-  // });
-  
   
   // Handle Review date
   useEffect(() => {
@@ -449,7 +459,8 @@ const VisitReportTemplate = ({ selectedData }) => {
   // Fuction for handle exisiting visit report data 
   const handleSelectExistingVisitReportData = (e,item) =>{
     setIsActive(!isActive)
-
+    console.log("item =>",item);
+    
     // Add class 
     if (selectedElement) {
       selectedElement.classList.remove(Styles.listhead);
@@ -461,8 +472,11 @@ const VisitReportTemplate = ({ selectedData }) => {
     if(goBackToPage.pageFour){
 
         // _____________Tabbed view
-        setIsLastTabSelected(false);
-        handleHTMLContent(item.formdata, 'root');
+        if(Object.keys(item).length !== 0){
+            setSelectedExistingVisitReportData(item);
+            setIsLastTabSelected(false);
+            handleHTMLContent(item.formdata, 'root');
+        }
 
     }else if(selectedReportData.flagTabbedView == 'N'){
 
@@ -497,8 +511,8 @@ const VisitReportTemplate = ({ selectedData }) => {
       selectedElement.classList.remove(Styles.listhead);
     }
 
-      liTagNewFormRef.current.classList.add(Styles.listhead);
-      setSelectedElement(liTagNewFormRef.current);
+    liTagNewFormRef.current.classList.add(Styles.listhead);
+    setSelectedElement(liTagNewFormRef.current);
 
     if(goBackToPage.pageFour && formData?.formInfo ){
       // __________________Tabbbed view exisiting data_______________
@@ -514,7 +528,7 @@ const VisitReportTemplate = ({ selectedData }) => {
       setSelectedExistingVisitReportData({});
       setIsReadOnly(false);
       let txtDealershipName = selectedDealer.name;
-      if(selectedDealer.flagdealergroup = 'Y'){
+      if(selectedDealer.flagdealergroup == 'Y'){
         txtDealershipName = selectedDealer.dealerGroupName
       }
       setFormValues((prev) =>({
@@ -540,7 +554,7 @@ const VisitReportTemplate = ({ selectedData }) => {
     // Format the date as YYYY-MM-DD (or other desired format)
     const formattedDate = now.toISOString().split('T')[0];
     let txtDealershipName = selectedDealer.name;
-    if(selectedDealer.flagdealergroup = 'Y'){
+    if(selectedDealer.flagdealergroup == 'Y'){
       txtDealershipName = selectedDealer.dealerGroupName
     }
     setFormValues((prev) => ({
@@ -548,7 +562,7 @@ const VisitReportTemplate = ({ selectedData }) => {
       reviewDate: getFormData?.reviewDate || formattedDate,
       dealerAttendees: getFormData?.dealerAttendees ,
       scukAttendees: getFormData?.scukAttendees,
-      txtDealershipName: getFormData?.txtDealershipName || txtDealershipName
+      txtDealershipName:  txtDealershipName
     }));
 
   }, []);
@@ -566,8 +580,11 @@ const VisitReportTemplate = ({ selectedData }) => {
       setIsActive(!isActive);
     }
   }
-console.log("selectedDealer",selectedDealer);
 
+  console.log("selectedExistingVisitReportData",selectedExistingVisitReportData);
+
+  
+  
   return (
     <div className={Styles.bgcolor}>
       <div className={`${Styles.container} ${Styles.innerpgcntnt}`}>
@@ -611,206 +628,152 @@ console.log("selectedDealer",selectedDealer);
               formData={formData}
               isReadOnly={isReadOnly}
             />}
+            {/* Placeholder for dynamic HTML content */}
             <div id="root"></div>
+
             {(goBackToPage.pageFour || (!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'N')) && <>
-              {/* Placeholder for dynamic HTML content */}
               {/* Footer with Buttons */}
               {isLastTabSelected && <div className={Styles.mainboxfooter}>
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
                   {/* Image Add Option */}
-                  {formData.flagImage == 'Y' && <div className={Styles.imageaddoption}>
-                    <CustomButton
-                      type="button" 
-                      onClick={menuClick}
-                      className={`${Styles.imagechoosebtn}  ${Styles.flex}`}
-                    >
-                      Add Images <img src="../../addimage.svg" alt="message.svg" />
-                    </CustomButton>
-                    <div id="addimagepopup" className={Styles.addimagepopup}>
-                      <div className={`${Styles.flex} ${Styles.imageoption}`}>
-                        {['top', 'top', 'top'].map((placement) => (
-                          <OverlayTrigger
-                            trigger="click"
-                            key={placement}
-                            placement={placement}
-                            overlay={
-                              <Popover id={`popover-positioned-${placement}`}>
-                                <Popover.Body>
-                                  <div>
-                                    <button
-                                      id="addimagecntntlink"
-                                      type="button"
-                                    >
-                                      Camera Roll
-                                    </button>
-                                  </div>
-                                  <div>
-                                    <button
-                                      id="addimagecntntlink"
-                                      type="button"
-                                    >
-                                      Take A Photo
-                                    </button>
-                                  </div>
-                                  <div>
-                                    <button
-                                      id="addimagecntntlink"
-                                      className={Styles.addimagecntntlink}
-                                      onClick={cancel}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </Popover.Body>
-                              </Popover>
-                            }
-                          >
-                            <button type='button'>
-                              <img src="../../addmedia.svg" alt="" />
-                            </button>
-                          </OverlayTrigger>
-                        ))}
-                      </div>
+                  {formData.flagImage === 'Y' && (
+                    <div className={Styles.imageaddoption}>
+                      <OverlayTrigger
+                        trigger="click"
+                        placement="top"
+                        rootClose
+                        overlay={
+                          <Popover id={`addImage-popover`}>
+                          <Popover.Body>
+                          {/* Image 1 */}
+                          <label htmlFor="fileInput11" className={Styles.fileLabel}>
+                            {imageList.image11.length > 0 ? (
+                                <img  
+                                    src={URL.createObjectURL(imageList.image11[0])}
+                                    alt="image1 preview" 
+                                    style={{ width: '100px', height: '100px' }}
+                                    className={Styles.addMediaImage} 
+                                />
+                            ) : (
+                                Object.keys(selectedExistingVisitReportData).length !== 0 ? (
+                                    <img 
+                                        src={ABSPATH + selectedExistingVisitReportData?.imageone}
+                                        alt="Visit report image" 
+                                        style={{ width: '100px', height: '100px' }}
+                                        className={Styles.addMediaImage} 
+                                    />
+                                ) : (
+                                    <img 
+                                        src="../../addmedia.svg" 
+                                        alt="Add media" 
+                                        className={Styles.addMediaImage} 
+                                    />
+                                )
+                            )}
+                          </label>
+                          <input
+                            type="file"
+                            id="fileInput11"
+                            onChange={(e)=>{setImageList((prev) => ({ ...prev, image11 : e.target.files }))}}
+                            style={{ display: 'none' }}
+                          />
+                          {/* Image 2 */}
+                          <label htmlFor="fileInput12" className={Styles.fileLabel}>
+                              {imageList.image12?.length > 0 ? (
+                                  <img  
+                                      src={URL.createObjectURL(imageList.image12[0])}
+                                      alt="image1 preview" 
+                                      style={{ width: '100px', height: '100px' }}
+                                      className={Styles.addMediaImage} 
+                                  />
+                              ) : (
+                                  Object.keys(selectedExistingVisitReportData).length !== 0 ? (
+                                      <img 
+                                          src={ABSPATH + selectedExistingVisitReportData?.imagetwo}
+                                          alt="Visit report image" 
+                                          style={{ width: '100px', height: '100px' }}
+                                          className={Styles.addMediaImage} 
+                                      />
+                                  ) : (
+                                      <img 
+                                          src="../../addmedia.svg" 
+                                          alt="Add media" 
+                                          className={Styles.addMediaImage} 
+                                      />
+                                  )
+                              )}
+                          </label>
+                          <input
+                            type="file"
+                            id="fileInput12"
+                            onChange={(e)=>{setImageList((prev) => ({ ...prev, image12 : e.target.files }))}}
+                            style={{ display: 'none' }}
+                          />
+                          {/* Image 3 */}
+                          <label htmlFor="fileInput13" className={Styles.fileLabel}>
+                            {imageList.image13?.length >0 ? (
+                                <img  
+                                    src={URL.createObjectURL(imageList.image13[0])}
+                                    alt="image1 preview" 
+                                    style={{ width: '100px', height: '100px' }}
+                                    className={Styles.addMediaImage} 
+                                />
+                            ) : (
+                                Object.keys(selectedExistingVisitReportData).length !== 0 ? (
+                                    <img 
+                                        src={ABSPATH + selectedExistingVisitReportData?.imagethree}
+                                        alt="Visit report image" 
+                                        style={{ width: '100px', height: '100px' }}
+                                        className={Styles.addMediaImage} 
+                                    />
+                                ) : (
+                                    <img 
+                                        src="../../addmedia.svg" 
+                                        alt="Add media" 
+                                        className={Styles.addMediaImage} 
+                                    />
+                                )
+                            )}
+                          </label>
+                          <input
+                            type="file"
+                            id="fileInput13"
+                            onChange={(e)=>{setImageList((prev) => ({ ...prev, image13 : e.target.files }))}}
+                            style={{ display: 'none' }}
+                          />
+                          </Popover.Body>
+                          </Popover>
+                        }
+                      >
+                        <Button  className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex} `}>
+                        Add Images <img src="../../addimage.svg" alt="message.svg" />
+                        </Button>
+                      </OverlayTrigger>
                     </div>
-                  </div>}          
+                  )}
                 </div>
 
-                {/* Recipient Options */}
+
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                    {/* Add Recipients Button */}
-                    {formData.flagRecipient === 'Y' && (
-                      <div className={Styles.searchbox}>
-                        {['top'].map((placement) => (
-                          <OverlayTrigger
-                            trigger="click"
-                            key={placement}
-                            placement={placement}
-                            overlay={
-                              <Popover id={`searchpopover-positioned`}>
-                                <Popover.Body>
-                                  <div className={`${Styles.flex} ${Styles.addsearchrow}`}>
-                                    <div className={Styles.searchrow}>
-                                      <input type="search" placeholder="Search" />
-                                    </div>
-                                    <button type="button" className={Styles.addbtn}>
-                                      Add
-                                    </button>
-                                  </div>
-                                  <div className={Styles.boxmailcontent}>
-                                    <div className={`${Styles.flex} ${Styles.mailtext}`}>
-                                      <div>babyruwqivrpqbhzme@cwmxc.com</div>
-                                      <button type="button">
-                                        <img src="../../close-border.svg" alt="close" />
-                                      </button>
-                                    </div>
-                                  </div>
-                                </Popover.Body>
-                              </Popover>
-                            }
-                          >
-                          <CustomButton
-                              type="button"
-                              id="recipientsbtn"
-                              className={`${Styles.recipientsbtn} ${Styles.flex}`}
-                            >
-                              Add Recipients <img src="../../message.svg" alt="message" />
-                            </CustomButton>
-                          </OverlayTrigger>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Add Bcc Button */}
-                    {formData.flagRecipient == 'Y' &&<div className={Styles.searchbox}>
-                      {['top'].map((placement) => (
-                        <OverlayTrigger
-                          trigger="click"
-                          key={placement}
-                          placement={placement}
-                          overlay={
-                            <Popover id={`searchpopover-positioned`}>
-                              <Popover.Body>
-                                <div className={`${Styles.flex} ${Styles.addsearchrow}`}>
-                                  <div className={Styles.searchrow}>
-                                    <input type="search" placeholder='Search' />
-                                  </div>
-                                  <button
-                                    type="button"
-                                    className={Styles.addbtn}
-                                  >
-                                    Add
-                                  </button>
-                                </div>
-                                <div className={Styles.boxmailcontent}>
-                                  <div className={`${Styles.flex} ${Styles.mailtext}`}>
-                                    <div>babyruwqivrpqbhzme@cwmxc.com</div>
-                                    <button type="button">
-                                      <img src="../../close-border.svg" alt="close" />
-                                    </button>
-                                  </div>
-                                </div>
-                              </Popover.Body>
-                            </Popover>
-                          }
-                        >
-                           <CustomButton
-                            type="button"
-                            className={`${Styles.recipientsbtn}  ${Styles.flex}`}
-                          >
-                            Add Bcc <img src="../../message.svg" alt="message.svg" />
-                          </CustomButton>
-                        </OverlayTrigger>
-                      ))}
-                    </div>}
-
-                    {/* Add Cc Button */}
-                    {formData.flagRecipient == 'Y' &&<div className={Styles.searchbox}>
-                      {['top'].map((placement) => (
-                        <OverlayTrigger
-                          trigger="click"
-                          key={placement}
-                          placement={placement}
-                          overlay={
-                            <Popover id={`searchpopover-positioned`}>
-                              <Popover.Body>
-                                <div className={`${Styles.flex} ${Styles.addsearchrow}`}>
-                                  <div className={Styles.searchrow}>
-                                    <input type="search" placeholder='Search' />
-                                  </div>
-                                  <button
-                                    type="button"
-                                    className={Styles.addbtn}
-                                  >
-                                    Add
-                                  </button>
-                                </div>
-                                <div className={Styles.boxmailcontent}>
-                                  <div className={`${Styles.flex} ${Styles.mailtext}`}>
-                                    <div>babyruwqivrpqbhzme@cwmxc.com</div>
-                                    <button type="button">
-                                      <img src="../../close-border.svg" alt="close" />
-                                    </button>
-                                  </div>
-                                </div>
-                              </Popover.Body>
-                            </Popover>
-                          }
-                        >
-                           <CustomButton
-                            type="button"
-                            className={`${Styles.recipientsbtn}  ${Styles.flex}`}
-                          >
-                            Add Cc <img src="../../message.svg" alt="message.svg" />
-                          </CustomButton>
-                        </OverlayTrigger>
-                      ))}
-                    </div>}
+                  {formData.flagRecipient === 'Y' && (
+                      <>
+                        <div className={Styles.searchbox}>
+                          <PopoverComponent id="addRecipientsBtn" label="Add Recipients" email="example@domain.com"  recipients={recipients} setRecipients={setRecipients} flag={'ADD_RECIPIENT'} recipientList={recipients.recipientList}/>
+                        </div>
+                        <div className={Styles.searchbox}>
+                          <PopoverComponent id="addBccBtn" label="Add Bcc" email="example@domain.com" recipients={recipients} setRecipients={setRecipients} flag={'ADD_BCC'} recipientList={recipients.recipientBccList}/>
+                        </div>
+                        <div className={Styles.searchbox}>
+                          <PopoverComponent id="addCcBtn" label="Add Cc" email="example@domain.com" recipients={recipients} setRecipients={setRecipients} flag={'ADD_CC'} recipientList={recipients.recipientCcList}/>
+                        </div>
+                      </>
+                      )}
                   </div>
 
                   {/* Action Buttons */}
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                  <CustomButton
+                    <CustomButton
                       type="button"
                     >
                       Save
@@ -839,7 +802,7 @@ export default VisitReportTemplate;
 
 function VisitReportForm({handleContinueButton, handleSaveButton,
 handleFormChange,formValues,formData,isReadOnly}){
-console.log("formValues",formValues);
+
 
   return(
     <>
@@ -926,3 +889,103 @@ console.log("formValues",formValues);
     </>
   )
 }
+
+
+const PopoverComponent = ({ id, label, email, recipients, setRecipients, flag, recipientList}) => {
+  const [inputValue, setInputValue] = useState('');
+  const [errorMessage, setErrorMessage] = useState('')
+  
+  // Function for add recipient
+  const addRecipient=()=>{
+
+    if (inputValue.trim() === '') return;
+    let listName = '';
+    let updatedList = [];
+    switch (flag) {
+      case 'ADD_RECIPIENT':
+        listName = 'recipientList';
+        
+        updatedList = [...recipients.recipientList];
+        break;
+      case 'ADD_BCC':
+        listName = 'recipientBccList';
+        updatedList = [...recipients.recipientBccList];
+        break;
+      case 'ADD_CC':
+        listName = 'recipientCcList';
+        updatedList = [...recipients.recipientCcList];
+        break;
+      default:
+        console.log("Unknown flag");
+    }
+
+    if(updatedList.includes(inputValue)){
+      setErrorMessage(`${inputValue} already exists.`);
+    }else{
+      updatedList.push(inputValue);
+      setRecipients((prev)=>(
+        {...prev,[listName] : updatedList}
+      ))
+      setErrorMessage(''); 
+    }
+  }
+  // Funvtion for remove recipient 
+  const removeRecipient=(recipient)=>{
+    let listName = '';
+    let updatedList = [];
+    switch (flag) {
+      case 'ADD_RECIPIENT':
+        listName = 'recipientList';
+        break;
+      case 'ADD_BCC':
+        listName = 'recipientBccList';
+        break;
+      case 'ADD_CC':
+        listName = 'recipientCcList';
+        break;
+      default:
+        console.log("Unknown flag");
+    }
+    const filteredData = recipientList.filter((item)=> item !== recipient);
+
+    setRecipients((prev)=>(
+      {...prev,[listName] : filteredData}
+    ));
+    
+  }
+
+  return (
+    <>
+        <OverlayTrigger
+          trigger="click"
+          placement="top"
+          rootClose
+          overlay={
+            <Popover id={`${id}-popover`}>
+              <Popover.Body>
+              <div className={`${Styles.flex} ${Styles.addsearchrow} `} >
+                <input type='text' onChange={(e)=>setInputValue(e.target.value.trim())} placeholder={label} />
+                {/* <div  className={Styles.searchrow}><input type="search" placeholder='Search' /></div> */}
+                <button type='button' value={inputValue} onClick={() => addRecipient()}  className={Styles.addbtn}>Add</button>
+                </div>
+                {errorMessage && <div className={Styles.errorMessage}>{errorMessage}</div>}
+                <div className={Styles.boxmailcontent}>
+                    {recipientList?.length!==0 && recipientList?.map((recipient,index)=>(
+                      <div key={index} className={`${Styles.flex} ${Styles.mailtext} `}>
+                        <div>{recipient}</div>
+                        <button type='button' onClick={()=>removeRecipient(recipient)}><img src="../../close-border.svg" alt="close" /></button>
+                    </div>
+                    ))}
+                </div>
+              </Popover.Body>
+            </Popover>
+          }
+        >
+          <Button  className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex} `}>
+            {label} <img  src="../../message.svg" alt="message.svg" />
+          </Button>
+        </OverlayTrigger>
+    </>
+   
+  );
+};

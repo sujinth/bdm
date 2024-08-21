@@ -85,8 +85,10 @@ const VisitReport = () => {
 
   // Handle click on a dealer item
   const handleClickDealer = (item, flagdealergroup) => {
-    item.flagdealergroup = flagdealergroup;
-    setSelectedDealerData(item);
+
+    // Overwriting the flagdealergroup value in the item object
+    const updatedItem = { ...item, flagdealergroup: flagdealergroup };
+    setSelectedDealerData(updatedItem);
     setGoBackToPage((prev) => ({
       ...prev,
       pageOne: false,
@@ -104,8 +106,7 @@ const VisitReport = () => {
     }
   };
   // console.log("dealers", dealers);
-  console.log("selectedReportData",selectedReportData);
-  console.log("loaderInSideBar",loaderInSideBar);
+
   
   return (
     <>
