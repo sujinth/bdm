@@ -11,6 +11,7 @@ import InnerHeader from "../components/commen/InnerHeader/Header";
 import Footer from "../components/commen/Footer/Footer";
 import Loader from "../components/commen/Loader/Loader";
 import { useSession } from "next-auth/react";
+import { useDashboard } from "../contexts/layoutContext";
 // Style
 import Styles from "./home.module.scss";
 import axios from "axios";
@@ -21,7 +22,13 @@ const Home = () => {
   const [apiResponse, setApiResponse] = useState({});
   const [newsLoader, setNewsLoader] = useState(false);
   const [imageLoader, setImageLoader] = useState(false);
+  const { setGoBackToPage } = useDashboard();
   const session = useSession();
+
+  // Page number update while comming to home page.
+  useEffect(()=>{
+    setGoBackToPage((prev) => ({ ...prev, pageOne: true, pageTwo: false,pageThree : false,pageFour : false }));
+  },[])
 
   // useEffect for triger fetch home page data function
   useEffect(() => {

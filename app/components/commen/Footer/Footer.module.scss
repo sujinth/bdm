@@ -39,9 +39,8 @@
   width: 100%;
   text-align: center;
   padding: 10px 30px;
-  display: flex;
-  justify-content: end;
-  align-items: center;
+  position: absolute;
+  bottom: 0;
   .copyright {
     text-align: right;
     font-family: "SantanderText-Regular";

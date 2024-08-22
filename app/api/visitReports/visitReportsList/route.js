@@ -10,7 +10,6 @@ export async function POST(request) {
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
-    console.log("user Id",userId);
     const { body } =  await request.json();
 
     console.log("--------------BEFORE---------------");
@@ -18,7 +17,7 @@ export async function POST(request) {
     for (let key in body) {
       formData.append(key, body[key]);
     }
-    const response = await axios.post(
+    const response = await axios.post( 
       `${config.DEALERSHIP_VISIT_REPORT_LIST}?userid=${userId}`,
       formData,
       {
@@ -27,7 +26,7 @@ export async function POST(request) {
     );
     console.log("--------------AFTER---------------");
     return new Response(
-      JSON.stringify({ message: "success", result: response.data?.root }),
+      JSON.stringify({ message: "success", result: response.data }),
       {
         status: 200,
       }

@@ -11,7 +11,7 @@
   flex-wrap: wrap;
   row-gap: 15px;
   column-gap: 15px;
-  padding: 20px 20px 50px;
+  padding: 20px 0px 50px;
   justify-content: space-between;
 }
 .visitnamebx {
@@ -23,11 +23,11 @@
 .titlebx {
   background-color: #ec0000;
   height: 50px;
-  padding: 10px;
+  padding: 10px 20px;
   text-align: center;
   color: #fff;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   font-size: 16px;
   font-weight: 600;
@@ -80,7 +80,7 @@
     color: #000000;
     letter-spacing: 0.4px;
     padding: 10px 0px 3px;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
     width: fit-content;
     cursor: pointer;
     border-bottom: 2px solid #fff;
@@ -91,31 +91,36 @@
   li:nth-child(odd) {
     background: #fff;
   }
-  li:not(:last-child) {
-    border-bottom: 1px solid #989898;
-  }
+  // li:not(:last-child) {
+  //   border-bottom: none;
+  // }
   li a {
     width: 100%;
     height: inherit;
     display: flex;
     align-items: center;
     padding-right: 20px;
-    padding: 10px;
+
   }
-  li::after {
-    content: "";
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background-image: url(/player.svg);
-    background-repeat: no-repeat;
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-  }
+  // li::after {
+  //   content: "";
+  //   position: absolute;
+  //   top: 15px;
+  //   right: 15px;
+  //   background-image: url(/player.svg);
+  //   background-repeat: no-repeat;
+  //   display: inline-block;
+  //   width: 20px;
+  //   height: 20px;
+  // }
+}
+.listcntnt{
+  padding-left: 25px !important;
+  padding-right: 10px;
+  overflow: auto;
 }
 .listitems {
-  border: 1px solid #989898;
+  border: none;
   li.listhead {
     background-color: #6F7779;
   }
@@ -132,7 +137,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 15%;
+  // padding-top: 15%;
   min-height: 750px;
 }
 .textcntr {
@@ -146,6 +151,7 @@
 }
 ul.listiconhide{
   padding-left: 0px !important;
+  background-color: #ec0000;
   li{
     border-bottom: 2px solid #fff;
     font-weight: 600;
@@ -185,7 +191,7 @@ ul.listiconhide{
 
   li.listhead{
     border-bottom: 2px solid #ec0000;
-    background-color: #fff;
+    background-color: #ec0000;
   }
   li.listhead:hover{
     border-bottom: 2px solid #ec0000;
@@ -467,15 +473,28 @@ ul.listiconhide li::after {
     border-top: 1px solid #989898;
   }
 }
+.lfttabs:hover {
+  border-bottom: 2px solid #ec0000; 
+}
+.lfttabs .active:hover {
+  border-bottom: none;
+}
 .lfttabs a {
   column-gap: 10px;
   justify-content: space-between;
-  padding: 10px;
+  padding: 10px 0;
   .tabmenu {
     min-width: 185px;
     height: inherit;
     display: flex;
     align-items: center;
+    font-weight: 600;
+    font-family: SantanderText-Bold;
+    letter-spacing: 0.3px;
+    font-size: 16px;
+  }
+  .lfttabs span:last-child {
+    color: red;
   }
   img {
     max-width: 18px;

@@ -8,19 +8,15 @@ const agent = new https.Agent({
     
 export async function POST(request) {
     try{
-        const { body } = await request.json();
-        console.log("body",body);
-        let formData = new FormData();
-        for( let key in body){
-            formData.append(key, body[key])
-        }
-        
-        
+        const formData = await request.formData();
+
         const response  = await axios.post(`${config.POST_DEALERSHIP_VISIT_REPORT_RESPONSE}`,formData,{
-            httpsAgent: agent
+            httpsAgent: agent,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+             },
         });
 
-        
         return new Response(JSON.stringify(
             { message: 'success' , result  : response.data}), {
               status: 200, 
