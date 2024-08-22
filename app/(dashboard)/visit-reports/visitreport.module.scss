@@ -88,11 +88,11 @@
 .contentwhtbx {
   background-color: #fff;
   //height: 750px;
-  padding: 20px 20px 20px 20px;
+  padding: 20px 0px 20px;
   form {
     overflow-y: auto;
     // height: 720px;
-    max-height: 563px;
+    max-height: 425px;
     padding-right: 15px;
   }
   ::-webkit-scrollbar {
@@ -130,7 +130,7 @@
 .listcntnt {
   padding-left:25px !important;
   padding-right: 10px;
-  height: 500px;
+  height: 600px;
   overflow: auto;
   li {
     height:auto;

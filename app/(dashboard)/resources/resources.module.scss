@@ -14,9 +14,10 @@
   padding: 20px 0px 50px;
   justify-content: space-between;
 }
-.visitnamebx {
-  width: 25%;
-}
+
+// .visitnamebx {
+//   width: 25%;
+// }
 .detailbx {
   width: 68%;
 }
@@ -472,6 +473,10 @@ ul.listiconhide li::after {
     border: 0px;
     border-top: 1px solid #989898;
   }
+}
+.lfttabs {
+  width: 26%;
+  margin: 0 40px;
 }
 .lfttabs:hover {
   border-bottom: 2px solid #ec0000; 

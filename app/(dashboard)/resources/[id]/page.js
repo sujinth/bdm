@@ -166,7 +166,7 @@ const AddonProducts = () => {
         >
           <Tab.Container id="left-tabs-example" defaultActiveKey={1}>
             <Row className="tabrow">
-              <Col className="visitnamebx">
+              <Col className="visitnamebx splvisitnamebx">
                 <div className={Styles.titlebx}>
                   {resources.filterParentResources?.[0]?.name}
                 </div>
@@ -181,7 +181,7 @@ const AddonProducts = () => {
                   </ul>
                   
                   {resources.filterChildResources?.length > 0 && (
-                    <Nav variant="pills" className="flex-column flex-nowrap">
+                    <Nav variant="pills" className=" ">
                       {resources.filterChildResources.map((item, idx) => (
                         <Nav.Item key={idx} className={Styles.lfttabs}>
                           <Nav.Link
@@ -217,7 +217,7 @@ const AddonProducts = () => {
                   )}
                 </div>
               </Col>
-              <Col className="detailbx">
+              {/* <Col className="detailbx">
                 <div className={Styles.titlebx}>Details</div>
                 <Tab.Content className="tabcontentbox">
                   {selectedModuleData &&
@@ -271,7 +271,7 @@ const AddonProducts = () => {
                       </Tab.Pane>
                     )}
                 </Tab.Content>
-              </Col>
+              </Col> */}
             </Row>
           </Tab.Container>
         </div>

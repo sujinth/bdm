@@ -674,8 +674,12 @@ const VisitReportTemplate = ({ selectedData }) => {
             <div id="root"></div>
 
             {(goBackToPage.pageFour || (!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'N')) && <>
-              {/* Footer with Buttons */}
-              {isLastTabSelected && <div className={Styles.mainboxfooter}>
+            
+   
+            </>}
+          </div>
+            {/* Footer with Buttons */}
+            {isLastTabSelected && <div className={Styles.mainboxfooter}>
                 <div className={`${Styles.flex} ${Styles.btnrow}  ${Styles.rowreverse}`}>
 
                           {/* Action Buttons  */}
@@ -926,9 +930,6 @@ const VisitReportTemplate = ({ selectedData }) => {
                 </div>
                
               </div>}
-   
-            </>}
-          </div>
         </div>
       </div>
     </div>
