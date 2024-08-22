@@ -148,6 +148,11 @@ body {
   }
 }
 .nav-tabs{
+    background-color: #f6f9fb;
+    padding:7px;
+    padding-left: 7px !important;
+    justify-content: space-between;
+    border-radius: 21px;
   .nav-link.active{
     background-color: #067cfe;
   }
@@ -161,11 +166,11 @@ body {
   li {
     width: 50%;
     height: 50px;
-    background-color: #ffff;
+    background-color: #f6f9fb;
     font-weight: 600;
     display: flex;
     justify-content: center;
-    border: 1px solid #6F7779;
+    /* border: 1px solid #6F7779; */
     button.nav-link{
       color: #000;
       border-top-left-radius: 0px;
@@ -176,17 +181,21 @@ body {
     font-size: 16px;
     }
     button.nav-link:hover{
-      color: #fff;
+      color: #141313;
     }
     button.nav-link.active{
-      background-color: #6F7779;
-      color: #fff;
+      background-color: #ffffff;
+      color: #0c7276;
       border: 0px;
+      border-radius: 15px;
+      box-shadow: 0px 0px 6px 0px #ced1d3;
+      margin: 0 5px;
     }
   }
   :hover {
-    background-color: #000;
-    color: #fff;
+    background-color: #f8f9fa;
+    color: #080808;
+
   }
   button {
     color: #000;

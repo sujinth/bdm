@@ -125,6 +125,9 @@
 .pdTB70 {
   padding: 70px 0px;
 }
+.pdT0B85{
+  padding: 0px 0px 85px;
+}
 .pd15 {
   padding: 15px;
 }
@@ -237,7 +240,7 @@
   width: 20%;
   
   .boxtile{
-    border: 1px solid #b2b3b6;
+    border: 1px solid #B6D3DF;
     background-color: #fff;
     padding: 15px;
     .iconbrborderradius{
@@ -268,7 +271,7 @@
       text-align: center;
     }
     .tilebtn:hover{
-      background-color: #000;
+      background-color: #990000;
     }
   }
   .boxtile.actionbox{
@@ -436,6 +439,9 @@
   }
   .pdTB70 {
     padding: 50px 0px;
+  }
+  .pdT0B85{
+    padding: 0px 0px 85px;
   }
   .pdT50 {
     padding-top: 30px;

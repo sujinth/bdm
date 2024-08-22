@@ -94,30 +94,8 @@ const Home = () => {
       }
       <div className={Styles.bgcolor}>
         <div className={Styles.container}>
-          <div className={Styles.pdTB70}>
-            <div className={Styles.flex}>
-              <div
-                className={`${Styles.whtbg} ${Styles.pd20} ${Styles.rghtbxcntnt} ${Styles.brdgry} ${Styles.brdradius}`}
-              >
-                <div>
-                  <div
-                    className={`${Styles.notificationtitle} ${Styles.pdB10} `}
-                  >
-                    Notifications
-                  </div>
-                  {newsLoader ? <Loader /> : null}
-                  <div
-                    className={`${Styles.fntw700} ${Styles.pdTB10}  ${Styles.subtitle} `}
-                  >
-                    {apiResponse.title}
-                  </div>
-                  
-                  <div className={Styles.fntclgry}>{apiResponse.date}</div>
-                  <div>{apiResponse.desc}</div>
-                </div>
-              </div>
-            </div>
-
+          <div className={Styles.pdT0B85}>
+           
             <div className={`${Styles.flex} ${Styles.pdT50}  ${Styles.clgp20}`}>
               <div className={Styles.cntntbox}>
                   <div
@@ -201,6 +179,29 @@ const Home = () => {
                       Resources
                     </Link>
                   </div>
+              </div>
+            </div>
+
+            <div className={`${Styles.flex} ${Styles.pdT50}`}>
+              <div
+                className={`${Styles.whtbg} ${Styles.pd20} ${Styles.rghtbxcntnt} ${Styles.brdgry} ${Styles.brdradius}`}
+              >
+                <div>
+                  <div
+                    className={`${Styles.notificationtitle} ${Styles.pdB10} `}
+                  >
+                    Actions Box
+                  </div>
+                  {newsLoader ? <Loader /> : null}
+                  <div
+                    className={`${Styles.fntw700} ${Styles.pdTB10}  ${Styles.subtitle} `}
+                  >
+                    {apiResponse.title}
+                  </div>
+                  
+                  <div className={Styles.fntclgry}>{apiResponse.date}</div>
+                  <div>{apiResponse.desc}</div>
+                </div>
               </div>
             </div>
           </div>
