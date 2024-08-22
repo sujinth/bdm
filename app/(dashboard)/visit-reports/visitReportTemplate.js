@@ -676,7 +676,42 @@ const VisitReportTemplate = ({ selectedData }) => {
             {(goBackToPage.pageFour || (!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'N')) && <>
               {/* Footer with Buttons */}
               {isLastTabSelected && <div className={Styles.mainboxfooter}>
-                <div className={`${Styles.flex} ${Styles.btnrow}`}>
+                <div className={`${Styles.flex} ${Styles.btnrow}  ${Styles.rowreverse}`}>
+
+                          {/* Action Buttons  */}
+                {(Object.keys(selectedExistingVisitReportData).length !== 0 && 
+                  !isActiveFollowUpReport )
+                  ? <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
+                    <CustomButton
+                      type="button"
+                    >
+                       Re-send
+                    </CustomButton>
+                    <CustomButton
+                      type="button"
+                      onClick={(e)=>handleFollowUpReport()}
+                    >
+                      Follow Up Report
+                    </CustomButton>
+                  </div> :
+                  <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
+                    <CustomButton
+                      type="button"
+                    >
+                      Save
+                    </CustomButton>
+                    <CustomButton
+                      type="button"
+                    >
+                      Cancel
+                    </CustomButton>
+                    {/* <CustomButton type="submit"      onClick={handleSubmit}>
+                      Submit
+                    </CustomButton> */}
+                  </div>
+                  }
+
+                  
                   {/* Image Add Option */}
                   {formData.flagImage === 'Y' && (
                     <div className={Styles.imageaddoption}>
@@ -816,40 +851,13 @@ const VisitReportTemplate = ({ selectedData }) => {
                         </Button>
                       </OverlayTrigger>
                     </div>
+
+
                   )}
+                
+
                 </div>
-                      {/* Action Buttons  */}
-                {(Object.keys(selectedExistingVisitReportData).length !== 0 && 
-                  !isActiveFollowUpReport )
-                  ? <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                    <CustomButton
-                      type="button"
-                    >
-                       Re-send
-                    </CustomButton>
-                    <CustomButton
-                      type="button"
-                      onClick={(e)=>handleFollowUpReport()}
-                    >
-                      Follow Up Report
-                    </CustomButton>
-                  </div> :
-                  <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                    <CustomButton
-                      type="button"
-                    >
-                      Save
-                    </CustomButton>
-                    <CustomButton
-                      type="button"
-                    >
-                      Cancel
-                    </CustomButton>
-                    {/* <CustomButton type="submit"      onClick={handleSubmit}>
-                      Submit
-                    </CustomButton> */}
-                  </div>
-                  }
+                
 
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
@@ -910,12 +918,13 @@ const VisitReportTemplate = ({ selectedData }) => {
                       </>
                       )}
                   </div>
-                </div>
-                {(Object.keys(selectedExistingVisitReportData).length == 0 
+                  {(Object.keys(selectedExistingVisitReportData).length == 0 
                 || isActiveFollowUpReport ) &&
                   <CustomButton type="submit"      onClick={handleSubmit}>
                       Submit
                   </CustomButton>}
+                </div>
+               
               </div>}
    
             </>}
@@ -989,7 +998,7 @@ handleFormChange, formValues, formData, isReadOnly, handleFollowUpReport, isAllr
               </tr>
               {/* Footer */}
               <div className={Styles.mainboxfooter}>
-                <div className={`${Styles.flex} ${Styles.btnrow}`}>
+                <div className={`${Styles.flex} ${Styles.btnrow} ${Styles.rowreverse}`}>
                   {/* Action Buttons */}
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
                    {isAllreadyExistVisitReport && !isActiveFollowUpReport && <CustomButton

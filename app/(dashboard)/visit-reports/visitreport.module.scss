@@ -310,6 +310,10 @@ ul.listiconhide li::after {
 }
 .btnrow {
   justify-content: space-between;
+  
+}
+.rowreverse{
+  flex-direction: row-reverse;
 }
 .rowrhtbtn {
   column-gap: 10px;
