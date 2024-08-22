@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState, useRef, useEffect } from 'react';
+import React, { useMemo, useState, useRef, useEffect ,memo} from 'react';
 import { useRouter } from "next/navigation";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -22,6 +22,7 @@ import Styles from './visitreport.module.scss';
 const VisitReportTemplate = ({ selectedData }) => {
 
   const ABSPATH = process.env.NEXT_PUBLIC_APP_PUBLIC_ABSPATH;
+  console.log("selectedData",selectedData);
 
   // session
   const session = useSession();
@@ -257,6 +258,8 @@ const VisitReportTemplate = ({ selectedData }) => {
       let requestBodyObj = {
 
           userid : userId,
+          cartid : selectedExistingVisitReportData?.cartid || "", 
+          followUpCartId1 : selectedExistingVisitReportData?.cartid || "", 
           formid1 : selectedReportData?.formId || '',
           formname1  : selectedReportData?.formName || '',
           dealershipid1 : dealershipid || '',
@@ -607,19 +610,19 @@ const VisitReportTemplate = ({ selectedData }) => {
         setIsLastTabSelected(false);
         setIsActive(!isActive);
     } 
+    if(goBackToPage.pageFour){
+      handleHTMLContent(selectedExistingVisitReportData.newFormdata, 'root');
+    }else{
+      setIsReadOnly(false);
+    }
     setIsActiveFollowUpReport(true);
-    handleHTMLContent(selectedExistingVisitReportData.newFormdata, 'root');
     
   }
 
   console.log("selectedExistingVisitReportData",selectedExistingVisitReportData);
-console.log(Object.keys(selectedExistingVisitReportData).length == 0 && !isActiveFollowUpReport);
-console.log("img->",Object.keys(selectedExistingVisitReportData).length !== 0 && 
-!isActiveFollowUpReport 
-&& selectedExistingVisitReportData?.imagetwo );
-console.log("Img--1",Object.keys(selectedExistingVisitReportData).length !== 0 && 
-!isActiveFollowUpReport 
-&& selectedExistingVisitReportData?.imageone );
+
+
+
 
   return (
     <div className={Styles.bgcolor}>
@@ -656,13 +659,16 @@ console.log("Img--1",Object.keys(selectedExistingVisitReportData).length !== 0 &
           <div className={`${Styles.contentwhtbx} ${Styles.contentwhtbxfooter}`}>
             {/* Visit report form */}
             {(!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'Y') && 
-            <VisitReportForm 
+            <MemoisedVisitReportComponent 
               handleContinueButton={handleContinueButton}  
               handleSaveButton={handleVisitReortFormSaveButton}
               handleFormChange={handleFormChange}
               formValues={formValues} 
               formData={formData}
               isReadOnly={isReadOnly}
+              handleFollowUpReport={handleFollowUpReport}
+              isAllreadyExistVisitReport={Object.keys(selectedExistingVisitReportData).length !== 0}
+              isActiveFollowUpReport={isActiveFollowUpReport}
             />}
             {/* Placeholder for dynamic HTML content */}
             <div id="root"></div>
@@ -704,7 +710,7 @@ console.log("Img--1",Object.keys(selectedExistingVisitReportData).length !== 0 &
                           }
                  
          
-                          {Object.keys(selectedExistingVisitReportData).length == 0 && 
+                          {((Object.keys(selectedExistingVisitReportData).length == 0) || (Object.keys(selectedExistingVisitReportData).length !== 0 && isActiveFollowUpReport)) && 
                           <label htmlFor="fileInput11" className={Styles.fileLabel}>
                             {imageList.image11.length > 0 ? (
                               <img  
@@ -720,7 +726,8 @@ console.log("Img--1",Object.keys(selectedExistingVisitReportData).length !== 0 &
                                 className={Styles.addMediaImage} 
                               />
                             }
-                          </label>}
+                          </label>
+                          }
 
                           <input
                             type="file"
@@ -740,7 +747,7 @@ console.log("Img--1",Object.keys(selectedExistingVisitReportData).length !== 0 &
                                 className={Styles.addMediaImage} 
                               />
                           }
-                          {Object.keys(selectedExistingVisitReportData).length == 0 && 
+                          {((Object.keys(selectedExistingVisitReportData).length == 0) || (Object.keys(selectedExistingVisitReportData).length !== 0 && isActiveFollowUpReport)) && 
                           <label htmlFor="fileInput12" className={Styles.fileLabel}>
                               {imageList.image12?.length > 0 ? (
                                   <img  
@@ -766,18 +773,17 @@ console.log("Img--1",Object.keys(selectedExistingVisitReportData).length !== 0 &
                           />
 
                           {/* Image 3 */}
-
                           {Object.keys(selectedExistingVisitReportData).length !== 0 && 
                           !isActiveFollowUpReport 
-                          && selectedExistingVisitReportData?.three  && 
+                          && selectedExistingVisitReportData?.imagethree  && 
                               <img 
-                                src={ABSPATH + selectedExistingVisitReportData?.three}
+                                src={ABSPATH + selectedExistingVisitReportData?.imagethree}
                                 alt="Visit report image" 
                                 style={{ width: '100px', height: '100px' }}
                                 className={Styles.addMediaImage} 
                               />
                           }
-                          {Object.keys(selectedExistingVisitReportData).length == 0 && 
+                          {((Object.keys(selectedExistingVisitReportData).length == 0) || (Object.keys(selectedExistingVisitReportData).length !== 0 && isActiveFollowUpReport)) && 
                           <label htmlFor="fileInput13" className={Styles.fileLabel}>
                             {imageList.image13?.length >0 ? (
                                 <img  
@@ -922,7 +928,8 @@ export default VisitReportTemplate;
 
 
 function VisitReportForm({handleContinueButton, handleSaveButton,
-handleFormChange,formValues,formData,isReadOnly}){
+handleFormChange, formValues, formData, isReadOnly, handleFollowUpReport, isAllreadyExistVisitReport, isActiveFollowUpReport}){
+
 
 
   return(
@@ -983,17 +990,26 @@ handleFormChange,formValues,formData,isReadOnly}){
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
                   {/* Action Buttons */}
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                    <CustomButton
+                   {isAllreadyExistVisitReport && !isActiveFollowUpReport && <CustomButton
                       type="button"
-                      onClick={handleSaveButton}
+                      onClick={(e)=>handleFollowUpReport()}
                     >
-                      Save
-                    </CustomButton>
-                    <CustomButton
-                      type="button"
-                    >
-                      Cancel
-                    </CustomButton>
+                      Follow Up Report
+                    </CustomButton>}
+                    {(!isAllreadyExistVisitReport || (isAllreadyExistVisitReport && isActiveFollowUpReport)) && <>
+                      <CustomButton
+                        type="button"
+                        onClick={handleSaveButton}
+                      >
+                        Save
+                      </CustomButton>
+                      <CustomButton
+                        type="button"
+                      >
+                        Cancel
+                      </CustomButton>
+                    </>}
+                    
                     <CustomButton
                       type="button"
                       onClick={handleContinueButton}
@@ -1010,7 +1026,7 @@ handleFormChange,formValues,formData,isReadOnly}){
     </>
   )
 }
-
+const MemoisedVisitReportComponent = memo(VisitReportForm);
 
 const PopoverComponent = ({ id, label, recipients, setRecipients, flag, recipientList, isAllredyExistVisitReport}) => {
   const [inputValue, setInputValue] = useState('');
