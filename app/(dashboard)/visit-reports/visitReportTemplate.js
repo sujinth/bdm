@@ -818,11 +818,42 @@ const VisitReportTemplate = ({ selectedData }) => {
                     </div>
                   )}
                 </div>
-
+                      {/* Action Buttons  */}
+                {(Object.keys(selectedExistingVisitReportData).length !== 0 && 
+                  !isActiveFollowUpReport )
+                  ? <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
+                    <CustomButton
+                      type="button"
+                    >
+                       Re-send
+                    </CustomButton>
+                    <CustomButton
+                      type="button"
+                      onClick={(e)=>handleFollowUpReport()}
+                    >
+                      Follow Up Report
+                    </CustomButton>
+                  </div> :
+                  <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
+                    <CustomButton
+                      type="button"
+                    >
+                      Save
+                    </CustomButton>
+                    <CustomButton
+                      type="button"
+                    >
+                      Cancel
+                    </CustomButton>
+                    {/* <CustomButton type="submit"      onClick={handleSubmit}>
+                      Submit
+                    </CustomButton> */}
+                  </div>
+                  }
 
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                  {formData.flagRecipient === 'Y' && (
+                      {formData.flagRecipient === 'Y' && (
                       <>
                         <div className={Styles.searchbox}>
                           <PopoverComponent 
@@ -879,43 +910,14 @@ const VisitReportTemplate = ({ selectedData }) => {
                       </>
                       )}
                   </div>
-
-
-
-                  {/* Action Buttons  */}
-                  {(Object.keys(selectedExistingVisitReportData).length !== 0 && 
-                  !isActiveFollowUpReport )
-                  ? <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                    <CustomButton
-                      type="button"
-                    >
-                       Re-send
-                    </CustomButton>
-                    <CustomButton
-                      type="button"
-                      onClick={(e)=>handleFollowUpReport()}
-                    >
-                      Follow Up Report
-                    </CustomButton>
-                  </div> :
-                  <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                    <CustomButton
-                      type="button"
-                    >
-                      Save
-                    </CustomButton>
-                    <CustomButton
-                      type="button"
-                    >
-                      Cancel
-                    </CustomButton>
-                    <CustomButton type="submit"      onClick={handleSubmit}>
-                      Submit
-                    </CustomButton>
-                  </div>
-                  }
                 </div>
+                {(Object.keys(selectedExistingVisitReportData).length == 0 
+                || isActiveFollowUpReport ) &&
+                  <CustomButton type="submit"      onClick={handleSubmit}>
+                      Submit
+                  </CustomButton>}
               </div>}
+   
             </>}
           </div>
         </div>
