@@ -83,7 +83,7 @@
     margin-bottom: 10px;
     width: fit-content;
     cursor: pointer;
-    border-bottom: 2px solid #fff;
+    // border-bottom: 2px solid #fff;
   }
   li:hover {
     border-bottom: 2px solid #ec0000;
@@ -92,7 +92,7 @@
     background: #fff;
   }
   li:not(:last-child) {
-    border-bottom: 1px solid #989898;
+    // border-bottom: 1px solid #989898;
   }
   li a {
     width: 100%;

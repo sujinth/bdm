@@ -119,6 +119,13 @@
   padding-left: 25px !important;
   padding-right: 10px;
   overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+.listcntnt li{
+  width: 45%;
+  margin: 0px 20px;
 }
 .listitems {
   border: none;
