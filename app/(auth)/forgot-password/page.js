@@ -39,7 +39,7 @@ const Forgotpassword = () => {
 
         setErrorMessage((prev) => ({
           ...prev,
-          txtFUsernameErrorMsg: "Enter User Name",
+          txtFUsernameErrorMsg: "Please enter user name.",
         }));
         return;
       } else {

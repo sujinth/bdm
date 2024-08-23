@@ -21,6 +21,7 @@ import Loader from "../../components/commen/Loader/Loader";
 // Action component
 const Action = () => {
   const [pageName, setPageName] = useState("Visit Name");
+  const [pageTitle, setPageTitle] = useState("Details");
   const [delearshipVisitReport, setDelearshipVisitReport] = useState([]);
   const [dealerGroup, setDealerGroup] = useState([]);
   const [incompleteActions, setIncompleteActions] = useState([]);
@@ -43,12 +44,14 @@ const Action = () => {
   useEffect(() => {
     let pageNameData = pageName;
     if (goBackToPage.pageOne) {
+      setPageTitle("Details");
       setPageName("Visit Name");
       pageNameData = "Visit Name";
     } else if (goBackToPage.pageTwo) {
       setPageName("Dealer Groups");
       pageNameData = "Dealer Groups";
     } else if (goBackToPage.pageThree) {
+      setPageTitle("Incomplete Actions")
       setPageName("Visit Reports");
       pageNameData = "Visit Reports";
     }
@@ -212,8 +215,8 @@ const Action = () => {
       } else {
         setPopupContent((prevState) => ({
           ...prevState,
-          titleContent: "MI Business",
-          detailContent: "Please Select At Least One Action",
+          titleContent: "",
+          detailContent: "Please select at least one action.",
           show: true,
         }));
       }
@@ -249,8 +252,8 @@ const Action = () => {
         if (flagSave == "N") {
           setPopupContent((prevState) => ({
             ...prevState,
-            titleContent: "MI Business",
-            detailContent: "Actions Updated Successfilly",
+            titleContent: "",
+            detailContent: "Actions updated successfilly.",
             show: true,
             onClick: clickOk,
           }));
@@ -259,7 +262,7 @@ const Action = () => {
         if (flagSave == "N") {
           setPopupContent((prevState) => ({
             ...prevState,
-            titleContent: "MI Business",
+            titleContent: "",
             detailContent: visitNameResponse?.data?.result?.message || "Something went wrong, please try again later.",
             show: true,
             onClick: clickOk,
@@ -277,7 +280,7 @@ const Action = () => {
       if (flagSave == "N") {
         setPopupContent((prevState) => ({
           ...prevState,
-          titleContent: "MI Business",
+          titleContent: "",
           detailContent: errorMessage,
           show: true,
           onClick: clickOk,
@@ -339,6 +342,7 @@ const Action = () => {
                             setFlagTabbedView(item?.flagTabbedView);
                             setFlagHealthCheck(item?.flagHealthCheck);
                             setSelectedFormId(item?.formId);
+                            setPageTitle(item?.formName);
                           }}
                         >
                           {item?.formName}
@@ -448,7 +452,7 @@ const Action = () => {
 
           {/* Content need to show under details */}
           <div className={Styles.detailbx}>
-            <div className={Styles.titlebx}>Details</div>
+            <div className={Styles.titlebx}>{pageTitle}</div>
             {submitLoader ? <Loader /> : null}
             <div
               className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}

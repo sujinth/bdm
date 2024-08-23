@@ -37,7 +37,7 @@ const Updatepassword = () => {
       if (value && value.length < 8) {
         setErrorMessage((prev) => ({
           ...prev,
-          txtNPasswordErrorMsg: "Password must be 8 characters.",
+          txtNPasswordErrorMsg: "Password must contain at least 8 characters.",
         }));
       } else {
         setErrorMessage((prev) => ({ ...prev, txtNPasswordErrorMsg: "" }));
@@ -56,7 +56,7 @@ const Updatepassword = () => {
       if (value && value.length < 8) {
         setErrorMessage((prev) => ({
           ...prev,
-          txtCPasswordErrorMsg: "Password must be 8 characters.",
+          txtCPasswordErrorMsg: "Password must contain at least 8 characters.",
         }));
       } else {
         setErrorMessage((prev) => ({ ...prev, txtCPasswordErrorMsg: "" }));
@@ -82,7 +82,7 @@ const Updatepassword = () => {
           if (formFields.txtNPassword == "") {
             setErrorMessage((prev) => ({
               ...prev,
-              txtNPasswordErrorMsg: "Enter new password.",
+              txtNPasswordErrorMsg: "Please enter new password.",
             }));
           } else {
             // Clear previous error messages
@@ -91,7 +91,7 @@ const Updatepassword = () => {
           if (formFields.txtCPassword == "") {
             setErrorMessage((prev) => ({
               ...prev,
-              txtCPasswordErrorMsg: "Enter confirm password.",
+              txtCPasswordErrorMsg: "Please enter confirm password.",
             }));
           } else {
             // Clear previous error messages

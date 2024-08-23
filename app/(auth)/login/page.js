@@ -35,7 +35,7 @@ const Login = () => {
         if (formFields.txtUsername == "") {
           setErrorMessage((prev) => ({
             ...prev,
-            txtUsernameErrorMsg: "Enter User Name.",
+            txtUsernameErrorMsg: "Please enter user name.",
           }));
         } else {
           // Clear previous error messages
@@ -44,7 +44,7 @@ const Login = () => {
         if (formFields.txtPassWord == "") {
           setErrorMessage((prev) => ({
             ...prev,
-            txtPasswordErrorMsg: "Enter password.",
+            txtPasswordErrorMsg: "Please enter password.",
           }));
         } else {
           // Clear previous error messages
