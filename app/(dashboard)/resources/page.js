@@ -51,7 +51,7 @@ const resources = () => {
             )}
           </div>
         </div>
-        <div className={Styles.detailbx}>
+        {/* <div className={Styles.detailbx}>
           <div className={Styles.titlebx}>Details</div>
           <div
             className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}
@@ -66,7 +66,7 @@ const resources = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -16,7 +16,7 @@
 }
 
 .visitnamebx {
-  width: 25%;
+  width: 100%;
 }
 .detailbx {
   width: 68%;
@@ -471,11 +471,11 @@ ul.listiconhide li::after {
   }
   .listitems {
     border: 0px;
-    border-top: 1px solid #989898;
+    // border-top: 1px solid #989898;
   }
 }
 .lfttabs {
-  width: 26%;
+  width: 40%;
   margin: 0 40px;
 }
 .lfttabs:hover {
@@ -485,9 +485,10 @@ ul.listiconhide li::after {
   border-bottom: none;
 }
 .lfttabs a {
-  column-gap: 10px;
-  justify-content: space-between;
-  padding: 10px 0;
+  flex-direction: row-reverse;
+  column-gap: 30px;
+  justify-content: flex-end;
+  padding-left: 0;
   .tabmenu {
     min-width: 185px;
     height: inherit;

@@ -171,14 +171,14 @@ const AddonProducts = () => {
                   {resources.filterParentResources?.[0]?.name}
                 </div>
                 <div className={Styles.listitems}>
-                  <ul
+                  {/* <ul
                     className={`${Styles.listcntnt} ${Styles.listiconhide} ${Styles.tablist}`}
                   >
                     <li className={Styles.listhead}>
                       <span>Module Name</span>
-                      {/* <span>Available offline</span> */}
+                      <span>Available offline</span>
                     </li>
-                  </ul>
+                  </ul> */}
                   
                   {resources.filterChildResources?.length > 0 && (
                     <Nav variant="pills" className=" ">
