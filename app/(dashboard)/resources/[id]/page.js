@@ -133,6 +133,17 @@ const AddonProducts = () => {
   const selectedModule = (item, idx) => {
     setEventKey(idx);
     setSelectedModule(item);
+    if(item.doctype == "pdf"){
+      const form = document.createElement('form');
+      form.method = 'GET';
+      form.action = item.path;
+      form.target = '_blank'; // Open in a new tab to trigger download
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+    } else {
+      window.location.href = item.path;
+    }
   };
 
   return (
