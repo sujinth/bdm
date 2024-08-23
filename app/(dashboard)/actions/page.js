@@ -53,7 +53,7 @@ const Action = () => {
       pageNameData = "Visit Reports";
     }
     getVisitName(pageNameData);
-  }, [goBackToPage, session]);
+  }, [goBackToPage, session.data?.user?.id]);
 
   // Handle HTML content injection on formData change
   useEffect(() => {
@@ -77,7 +77,6 @@ const Action = () => {
       // Cases for each api call
       switch (pageNameData) {
         case "Visit Name":
-          console.log("recah2");
           // API call to next server for delearship visit report
           const visitNameResponse = await axios.post(
             `/api/actions/dealershipVisitReports`,
@@ -463,19 +462,20 @@ const Action = () => {
                   <Button onClick={() => submitData("N")} children="Submit" />
                 </div>
               ) : (
-                <div>
-                  <img
-                    className={Styles.logoimage}
-                    src="/logo.png"
-                    alt="logo"
-                  />
+                <div
+                  className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx}`}
+                >
+                {/* Empty selected body */}
                   <div
-                    className={`${Styles.textcntr} ${Styles.pdT20} ${Styles.ftw600} `}
+                    className={`${Styles.textcntr} ${Styles.logobottomtext} ${Styles.pdT20} ${Styles.ftw600}`}
                   >
-                    {" "}
-                    Select a report from the left
+                    {goBackToPage.pageTwo
+                      ? "Select a dealership from the left"
+                      : "Select a report from the left"
+                    }
                   </div>
-                </div>
+                <div className={Styles.detailbximage}><img src="/select-image.png" alt="Select a report" /></div>
+              </div>
               )}
             </div>
           </div>
