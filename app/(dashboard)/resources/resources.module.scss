@@ -15,9 +15,9 @@
   justify-content: space-between;
 }
 
-// .visitnamebx {
-//   width: 25%;
-// }
+.visitnamebx {
+  width: 25%;
+}
 .detailbx {
   width: 68%;
 }
@@ -38,7 +38,7 @@
 }
 .contentwhtbx {
   background-color: #fff;
-  height: 750px;
+  height: 600px;
   padding: 20px 5px 20px 20px;
   form {
     overflow-y: auto;
@@ -139,7 +139,7 @@
   justify-content: center;
   align-items: flex-start;
   // padding-top: 15%;
-  min-height: 750px;
+  min-height: 600px;
 }
 .textcntr {
   text-align: center;
