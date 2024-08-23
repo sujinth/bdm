@@ -558,6 +558,10 @@ body::-webkit-scrollbar-thumb {
     max-width: 25%;
     /* padding-left: 0px; */
 }
+.splvisitnamebx{
+  width: 100% !important;
+  max-width: 100% !important;
+}
   .detailbx{
     width: 75%;
     max-width: 75%;
