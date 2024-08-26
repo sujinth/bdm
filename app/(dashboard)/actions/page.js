@@ -462,8 +462,10 @@ const Action = () => {
               incompleteActions[currentIncompleteAction]?.formdata ? (
                 <div>
                   <div id="root"></div>
-                  <Button onClick={() => submitData("Y")} children="Save" />
-                  <Button onClick={() => submitData("N")} children="Submit" />
+                      <div className={Styles.mainboxfooter}>
+                          <Button onClick={() => submitData("Y")} children="Save" />
+                          <Button onClick={() => submitData("N")} children="Submit" />
+                      </div>  
                 </div>
               ) : (
                 <div
@@ -471,7 +473,7 @@ const Action = () => {
                 >
                 {/* Empty selected body */}
                   <div
-                    className={`${Styles.textcntr} ${Styles.logobottomtext} ${Styles.pdT20} ${Styles.ftw600}`}
+                    className={`${Styles.textcntr} ${Styles.logobottomtext} ${Styles.pdB20} ${Styles.ftw600}`}
                   >
                     {goBackToPage.pageTwo
                       ? "Select a dealership from the left"
