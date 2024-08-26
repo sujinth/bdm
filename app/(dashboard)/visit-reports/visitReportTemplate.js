@@ -22,14 +22,17 @@ import Styles from './visitreport.module.scss';
 const VisitReportTemplate = ({ selectedData }) => {
 
   const ABSPATH = process.env.NEXT_PUBLIC_APP_PUBLIC_ABSPATH;
-  console.log("selectedData",selectedData);
+  // console.log("selectedData",selectedData);
+  const { selectedReportData, selectedDealer } = selectedData;
 
   // session
   const session = useSession();
   const router = useRouter();
-  const { setPopupContent } = usePopupContent();
-  const { selectedReportData, selectedDealer } = selectedData;
 
+  // useContext
+  const { setPopupContent, handleClick} = usePopupContent();
+  const { setGoBackToPage, goBackToPage } = useDashboard();
+  // States
   const [imagePopupVisible, setImagePopupVisible] = useState(false);
   const [isLastTabSelected, setIsLastTabSelected] = useState(false);
   const [visitReportList, setVisitReportList] = useState([])
@@ -39,9 +42,8 @@ const VisitReportTemplate = ({ selectedData }) => {
   const [selectedExistingVisitReportData, setSelectedExistingVisitReportData] = useState({})
   const [isReadOnly, setIsReadOnly] = useState(false);
   const [isActiveFollowUpReport, setIsActiveFollowUpReport] = useState(false);
-  const [formValues, setFormValues] = useState({
-    txtDealershipName : selectedDealer.name,
-  });
+  const [formValues, setFormValues] = useState({});
+  const [isRemovedSavedData, setIsRemovedSavedData] = useState(false)
   const [recipients, setRecipients] = useState({
     recipientList : [],
     recipientBccList : [],
@@ -57,8 +59,6 @@ const VisitReportTemplate = ({ selectedData }) => {
   const apiHandleRef = useRef({
     visitReportList : false
   })
-  // useContext
-  const { setGoBackToPage, goBackToPage } = useDashboard();
 
 
   const clearPreviousState= () =>{
@@ -69,76 +69,25 @@ const VisitReportTemplate = ({ selectedData }) => {
     setRecipients((prev)=>(
       {...prev,recipientList : [], recipientBccList : [], recipientCcList : []}
     ))
-
   }
-
-  // Toggle the display of the search popup
-  const btnClick = () => {
-    const searchPopup = document.getElementById('searchboxpopup');
-    if (searchPopup.style.display === 'none') {
-      searchPopup.style.display = 'block';
-    } else {
-      searchPopup.style.display = 'none';
-    }
-  };
-
-  // Hide the image options and close the image popup
-  const cancel = () => {
-    document.getElementsByClassName('imageoption').style.display = 'none';
-    setImagePopupVisible(false);
-  };
 
   // Memoize formData to avoid unnecessary re-renders
   const formData = useMemo(() => selectedReportData, [selectedReportData]);
+  
+  // Function for get form element values
+  const fetchFormElementValues = async()=>{
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    try{
-      e.preventDefault();
-      // let formInputValue = 'txt1@@1,ta2@@,chk3@@1,chk3@@2,chk3@@3,rd4@@2,lst5@@1,lbl6@@1'
       // Retrieve the input value
-      let formInputValue = document.getElementById('strFormControlInfo').value;
-      let elementIds = formInputValue.split(',');
+      let formElementIdList = document.getElementById('strFormControlInfo').value;
+      let elementIds = formElementIdList.split(',');
+
+
       // Split the input string at '@@1' to get an array of IDs without suffixes
       let cleanIds = elementIds.map(item => item.split('@@'));
-      //   let cleanIds = [
-      //     [
-      //         "txt1",
-      //         "1"
-      //     ],
-      //     [
-      //         "ta2",
-      //         ""
-      //     ],
-      //     [
-      //         "chk3",
-      //         "1"
-      //     ],
-      //     [
-      //       "chk3",
-      //       "2"
-      //     ],
-      //      [
-      //       "chk3",
-      //       "3"
-      //     ],
-      //     [
-      //         "rd4",
-      //         "2"
-      //     ],
-      //     [
-      //         "lst5",
-      //         "1"
-      //     ],
-      //     [
-      //         "lbl6",
-      //         "1"
-      //     ]
-      // ]
-    
+
       let valuesArray = [];
       let elementContent = '';
-    
+      let formElementIdUpdatedList = ''
       // Iterate through the filtered list of IDs
       for (let i = 0; i < cleanIds.length; i++) {
         // Trim any spaces from the ID
@@ -146,56 +95,77 @@ const VisitReportTemplate = ({ selectedData }) => {
     
         // Check if the ID starts with 'spn'
         if (elementId.substring(0, 3) === 'spn') {
-
+          formElementIdUpdatedList+=`${elementId}@@,`
           elementContent = document.getElementById(elementId)?.textContent ?? '';
         }else if(elementId.substring(0, 3) === 'chk'){
 
           let arrLength = cleanIds[i][1];
-          for(let i=1; i<=arrLength ; i++){
-
-            let chkBox = document.getElementById(`${elementId}${i}`)?.checked ?? false;
+          let eleId = ''
+          for(let j=1; j<=arrLength ; j++){
+           
+            let chkBox = document.getElementById(`${elementId}${j}`)?.checked ?? false;
             if(chkBox){
-
+              eleId =`${elementId}@@${j},`
               elementContent = chkBox;
+              break
             }else{
-
+              eleId =`${elementId}@@${cleanIds[i][1]},`
               elementContent = '';
             }
           }
+          formElementIdUpdatedList += eleId
         }else if(elementId.substring(0, 3) === 'tcc'){
 
           let completedChk = document.getElementById(`${elementId}`)?.checked || '';
           if(completedChk){
-
+           
             elementContent = 'Yes';
           }
           else{
-
             elementContent = 'No';
           }
+          formElementIdUpdatedList += `${elementId}@@,`
         }else if(elementId.substring(0, 2) === 'rd'){
-
+          // const chkElements = arr.filter(item => item.startsWith("chk"));
             let arrLength = cleanIds[i][1];
-            for(let i=1; i<=arrLength ; i++){
-
-              elementContent = document.getElementById(`${elementId}${i}`)?.value || '';
+             let eleId = ''
+            for(let j=1; j<=arrLength ; j++){
+              let element  = document.getElementById(`${elementId}${j}`)
+              if(element?.checked){
+                eleId =`${elementId}@@${j},`
+                // elementId
+                elementContent = document.getElementById(`${elementId}${j}`)?.value || '';
+                break
+              }else{
+                eleId =`${elementId}@@${cleanIds[i][1]},`
+              }
             }
+            formElementIdUpdatedList += eleId
         } else {    
-
+            if(i !== (cleanIds.length -1)){
+              formElementIdUpdatedList += `${elementId}@@${cleanIds[i][1]},`
+            }else[
+              formElementIdUpdatedList += `${elementId}@@${cleanIds[i][1]}`
+            ]
             elementContent = document.getElementById(elementId)?.value || '';
 
         }
+        // console.log("elementId",cleanIds);
+        
         valuesArray.push(elementContent);
       }
+
+      
+
       // flagTabbedView === 'N'
       let txtDateTimeElement = '';
-      let txtDealershipNameElement = '';
       let lstDealershipStatus ='';
       let packExpiryDate = '';
       let txtAttendees = '';
 
       // flagTabbedView === 'Y'
       let txtDealerSignature = '';
+      let txtRMSignature = '';
       let txtScfSignature = '';
       let nextReviewDate = '';
       let totalquestioncount = document.getElementById('totalquestioncount')?.value || ''
@@ -204,7 +174,6 @@ const VisitReportTemplate = ({ selectedData }) => {
       if(formData?.flagTabbedView === 'N'){
 
           txtDateTimeElement = document.querySelector('input[name="txtDateTime"]')?.value || '';
-          txtDealershipNameElement = document.querySelector('input[name="txtDealershipName"]')?.value || '';
           lstDealershipStatus = document.getElementById('lstDealershipStatus')?.value || '';
           packExpiryDate  = document.getElementById('txtPackExpiryDate')?.value || '';
           txtAttendees = document.getElementById('txtAttendees')?.value || '';
@@ -214,6 +183,7 @@ const VisitReportTemplate = ({ selectedData }) => {
       if(formData?.flagTabbedView === 'Y'){
 
           txtDealerSignature = document.getElementById('txtDealerSignature')?.value  || '';
+          txtRMSignature = document.getElementById('txtRMSignature')?.value  || ''
           txtScfSignature = document.getElementById('txtScfSignature')?.value || '';
           nextReviewDate = document.getElementById('nextReviewDate')?.value || '';
           const now = moment();
@@ -221,9 +191,67 @@ const VisitReportTemplate = ({ selectedData }) => {
           txtDateTimeElement = now.format('DD/MM/YYYY HH:mm:ss');
       }
 
-      const formControlListId = formInputValue
+      const formControlListId = formElementIdUpdatedList
+
+      // console.log("formElementIdUpdatedList",formElementIdUpdatedList);
+      // console.log("formElementIdList",formElementIdList);
+      // console.log("valuesArray",valuesArray);
+      
       // Join the items with `^@^` as the separator
-      const formControlResult  = await formatDynamicOutput(valuesArray)
+      const formControlResult  = await formatDynamicOutput(valuesArray);
+
+      return {
+        formControlListId, 
+        formControlResult, 
+        txtDateTimeElement, 
+        lstDealershipStatus,
+        packExpiryDate,
+        txtAttendees,
+        txtDealerSignature,
+        txtRMSignature,
+        txtScfSignature,
+        nextReviewDate,
+        totalquestioncount
+      }
+          
+  }
+
+
+
+  // const handleSubmitAlert = () =>{
+  //     setPopupContent((prevState) => ({
+  //       ...prevState,
+  //       titleContent: "",
+  //       duelOption : true,
+  //       detailContent: "Have you compleated all tabs?",
+  //       show: true,
+  //       onClickYes : handleSubmit
+  //     }));
+  // }
+  const handleSubmitSuccesAlert =()=>{
+        router.push("/home");
+        handleClick();
+  }
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    try{
+      e.preventDefault();
+
+      // fetch form values
+      const {
+        formControlListId, 
+        formControlResult, 
+        txtDateTimeElement, 
+        lstDealershipStatus,
+        packExpiryDate,
+        txtAttendees,
+        txtDealerSignature,
+        txtRMSignature,
+        txtScfSignature,
+        nextReviewDate,
+        totalquestioncount
+      } = await fetchFormElementValues();
+
       // output
       console.log('formControlListId',formControlListId);
       console.log("formControlResult",formControlResult);
@@ -235,15 +263,19 @@ const VisitReportTemplate = ({ selectedData }) => {
       }
 
       //----------Handle dealership name & dealership id 
+      let dealershipName = selectedDealer?.name;
       let dealershipid  = selectedDealer?.id;
-      let dealershipname = selectedDealer?.name;
-      if(selectedDealer?.flagdealergroup  == 'Y'){
-        dealershipid = selectedDealer.dealerGroupId
-        dealershipname = selectedDealer.dealerGroupName
+      let reviewperiod = ''
+      if(selectedDealer.flagdealergroup == 'Y'){
+           dealershipid = selectedDealer.dealerGroupId;
+           dealershipName = selectedDealer.dealerGroupName
+      }
+      if(selectedDealer.flagHealthCheck == 'Y'){
+           reviewperiod = formValues?.reviewPeriod;
       }
       
       //----------Convert date format YYYY-MM-DD -> DD/MM/YYYY
-      let reviewDate = formValues?.reviewDate
+      let reviewDate = formValues?.reviewDate;
       if(reviewDate){
         reviewDate = moment(reviewDate,'YYYY-MM-DD').format('DD/MM/YYYY')
       }
@@ -254,6 +286,7 @@ const VisitReportTemplate = ({ selectedData }) => {
       recipientBccList = recipientBccList.join(',');
       recipientCcList = recipientCcList.join(',');
 
+      
       // _____REQUEST BODY______
       let requestBodyObj = {
 
@@ -263,7 +296,7 @@ const VisitReportTemplate = ({ selectedData }) => {
           formid1 : selectedReportData?.formId || '',
           formname1  : selectedReportData?.formName || '',
           dealershipid1 : dealershipid || '',
-          dealershipname1 : dealershipname || '',
+          dealershipname1 : dealershipName || '',
           lstDealershipStatus1 : lstDealershipStatus,
           txtPackExpiryDate1 : packExpiryDate,
           txtAttendees1 : txtAttendees,
@@ -278,12 +311,12 @@ const VisitReportTemplate = ({ selectedData }) => {
           flagtabbedview1 : selectedReportData?.flagTabbedView || '',
           flagHealthCheck1 : selectedReportData?.flagHealthCheck || '',
           txtDealerSignature1 :txtDealerSignature || '',
-          txtRMSignature1 : '',
+          txtRMSignature1 : txtRMSignature || '',
           txtScfSignature1 : txtScfSignature || '',
           nextReviewDate1 : nextReviewDate || '',
           flagdealergroup1 : selectedDealer?.flagdealergroup || '',
           reviewdate1 : reviewDate || '',
-          reviewperiod1 : '',
+          reviewperiod1 : formValues?.reviewPeriod || '',
           dealerattendees1 : formValues?.dealerAttendees || '',
           scukattendees1 : formValues?.scukAttendees || '',
           supportStatus1 : '',
@@ -301,28 +334,32 @@ const VisitReportTemplate = ({ selectedData }) => {
       }
       let response = await axios.post('/api/visitReports/postDealershipVisitReport',formDatas);
       if(response.data.result.root.status){
-      //   setPopupContent((prevState) => ({
-      //     ...prevState,
-      //     titleContent: "MI Business",
-      //     detailContent: "Please Select At Least One Action",
-      //     show: true,
-      //   }));
-        router.push("/home");
+        // Clearing the saved data
+        let flag = false
+        handleTemplateFormCancelButton(flag);
+        setPopupContent((prevState) => ({
+          ...prevState,
+          duelOption : false,
+          detailContent: "Dealership report sent successfully.",
+          show: true,
+          onClick : handleSubmitSuccesAlert
+        }));
       }
-      // else{
-      //   setPopupContent((prevState) => ({
-      //     ...prevState,
-      //     titleContent: "MI Business",
-      //     detailContent:  "Something went wrong, please try again later.",
-      //     show: true,
-      //     onClick: clickOk,
-      //   }));
-      // }
+      else{
+        setPopupContent((prevState) => ({
+          ...prevState,
+          duelOption : false,
+          detailContent: "Dealership report sent faild.",
+          show: true,
+          onClick : handleClick 
+        }));
+
+      }
     }catch(error){
       console.log("eroor ->",error);
     }
   };
-  
+
   useEffect(()=>{
     if(formData?.flagTabbedView === 'N'){
 
@@ -332,8 +369,8 @@ const VisitReportTemplate = ({ selectedData }) => {
         
         if (txtDateTimeElement) {
 
-            const now = moment();
             // Format the date and time as DD/MM/YYYY HH:mm:ss
+            const now = moment();
             const formattedDateTime = now.format('DD/MM/YYYY HH:mm:ss');
             txtDateTimeElement.value = formattedDateTime;
         }
@@ -347,13 +384,11 @@ const VisitReportTemplate = ({ selectedData }) => {
   // Handle HTML content injection on formData change
   useEffect(() => {
     if (formData?.formInfo && (!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'N')) {
-
-        handleHTMLContent(formData.formInfo, 'root');
+          handleHTMLContent(formData.formInfo, 'root');
     }
     if((!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'Y')){
-
-      let rootId  =  document.getElementById('root')
-      rootId.innerHTML = ''
+          let rootId  =  document.getElementById('root')
+          rootId.innerHTML = ''
     }
   }, [formData?.formInfo,goBackToPage.pageFour]);
 
@@ -377,19 +412,14 @@ const VisitReportTemplate = ({ selectedData }) => {
       const tabs = Array.from(document.querySelectorAll('#tb2 li a'));
       const lastTab = tabs[tabs.length - 1];
       const isSelected = lastTab.classList.contains('selected');
-      console.log("lastTab",lastTab);
-      console.log("isSelected",isSelected);
-      console.log("rel",rel);
-      
-      console.log("Case",lastTab.getAttribute('rel') === rel);
       
       // Check last tab relation & selected tab relation
       if (lastTab.getAttribute('rel') === rel && isSelected) {
-        console.log("Welecome");
-        
-        setIsLastTabSelected(isSelected);
+
+          setIsLastTabSelected(isSelected);
       } else if(!isSelected) {
-        setIsLastTabSelected(false);
+
+          setIsLastTabSelected(false);
       }
     }
   };
@@ -404,19 +434,10 @@ const VisitReportTemplate = ({ selectedData }) => {
     };
   },[isActive]);
   
-  // Handle Review date
-  useEffect(() => {
-    const now = new Date();
-    // Format the date as YYYY-MM-DD (or other desired format)
-    const formattedDate = now.toISOString().split('T')[0];
-    // Set the value of the input field to the current date
-    if (Object.keys(selectedExistingVisitReportData).length ==0) {
-      setFormValues((prev)=>({...prev, reviewDate : formattedDate}))
-    }
-  }, [goBackToPage.pageFour]); 
 
   // Function for handle onchangFunctionality
   const handleFormChange = (name, value) => {
+    if(value.trim() === '') return
     setFormValues(prevValues => ({
       ...prevValues,
       [name]: value
@@ -424,7 +445,7 @@ const VisitReportTemplate = ({ selectedData }) => {
   };
 
   // Save visit report form in local storage
-  const handleVisitReortFormSaveButton = (e) => {
+  const handleLandingFormSaveButton = (e) => {
     e.preventDefault();
     localStorage.setItem('visitReportForm',JSON.stringify(formValues))
   };
@@ -483,21 +504,31 @@ const VisitReportTemplate = ({ selectedData }) => {
 
     // Handle style for selected item
     if (selectedElement) {
-      selectedElement.classList.remove(Styles.listhead);
+        selectedElement.classList.remove(Styles.listhead);
     }
     e.currentTarget.classList.add(Styles.listhead);
     setSelectedElement(e.currentTarget);
 
     // Clear previous state
     clearPreviousState();
-
     // Store item
     setSelectedExistingVisitReportData(item);
+
+    let formattedReviewDate = item.reviewdate ? moment(item.reviewdate,'DD/MM/YYYY').format('YYYY-MM-DD') : '';
 
     if(goBackToPage.pageFour){
 
         // _____________Tabbed view
         if(Object.keys(item).length !== 0){
+            setIsReadOnly(true)
+            setFormValues((prev) =>({
+              ...prev,
+              reviewDate : formattedReviewDate,
+              txtDealershipName : item.dealershipname || '',
+              reviewPeriod :  item.reviewperiod  || "",
+              dealerAttendees : item.dealerattendees || '',
+              scukAttendees : item.scukattendees || ''
+            }))
             setIsLastTabSelected(false);
             handleHTMLContent(item.formdata, 'root');
         }
@@ -508,22 +539,21 @@ const VisitReportTemplate = ({ selectedData }) => {
 
     }else{
 
-        let formattedReviewDate = item.reviewdate ? moment(item.reviewdate,'DD/MM/YYYY').format('YYYY-MM-DD') : '';
         if(Object.keys(item).length !== 0){
             setIsReadOnly(true)
             setFormValues((prev) =>({
               ...prev,
               reviewDate : formattedReviewDate,
               txtDealershipName : item.dealershipname || '',
+              reviewPeriod : item.reviewperiod || "",
               dealerAttendees : item.dealerattendees || '',
               scukAttendees : item.scukattendees || ''
             }))
         }
-      
     }
   }
 
-
+  // Function handle click new form
   const handleClickNewForm = () =>{
 
     setIsActive(!isActive)
@@ -547,83 +577,477 @@ const VisitReportTemplate = ({ selectedData }) => {
     }else if(selectedReportData.flagTabbedView == 'N'){
       handleHTMLContent(formData?.formInfo , 'root');
     }else{
-      const now = new Date();
-      // Format the date as YYYY-MM-DD (or other desired format)
-      const formattedDate = now.toISOString().split('T')[0];
       setIsReadOnly(false);
-      let txtDealershipName = selectedDealer.name;
-      if(selectedDealer.flagdealergroup == 'Y'){
-        txtDealershipName = selectedDealer.dealerGroupName
-      }
-      setFormValues((prev) =>({
-        ...prev,
-        reviewDate : formattedDate,
-        txtDealershipName :  txtDealershipName,
-        dealerAttendees :  '',
-        scukAttendees :  ''
-      }))  
+      setFormValuesFromLocalStorage();
     }
    
   }
 
-  useEffect(() => {
-    // Select "New  Form li tag" by default
-    if (liTagNewFormRef.current) {
-        liTagNewFormRef.current.classList.add(Styles.listhead);
-        setSelectedElement(liTagNewFormRef.current);
-    }
+  // Function set value from localstorage
+  const setFormValuesFromLocalStorage =()=>{
 
-    // Fetch saved form data from the local storage
-    let getFormData = JSON.parse(localStorage.getItem('visitReportForm'));
-    const now = new Date();
-    // Format the date as YYYY-MM-DD (or other desired format)
-    const formattedDate = now.toISOString().split('T')[0];
-    let txtDealershipName = selectedDealer.name;
-    if(selectedDealer.flagdealergroup == 'Y'){
-      txtDealershipName = selectedDealer.dealerGroupName
-    }
-    setFormValues((prev) => ({
-      ...prev,
-      reviewDate: getFormData?.reviewDate || formattedDate,
-      dealerAttendees: getFormData?.dealerAttendees ,
-      scukAttendees: getFormData?.scukAttendees,
-      txtDealershipName:  txtDealershipName
-    }));
+      // Fetch saved form data from the local storage
+      let getFormData = JSON.parse(localStorage.getItem('visitReportForm'));
 
-  }, []);
+      // Format the date as YYYY-MM-DD (or other desired format)
+      const now = new Date();
+      const formattedToDayDate = now.toISOString().split('T')[0];
 
-  // Continue button
-  const handleContinueButton = () =>{
-  
-    setGoBackToPage((prev)=>({...prev,pageFour : true}));
-    if(Object.keys(selectedExistingVisitReportData).length !==0){
-      handleHTMLContent(selectedExistingVisitReportData.formdata, 'root');
-      setIsActive(!isActive);
-    }else{
-      handleHTMLContent(formData.formInfo, 'root');
-      setIsActive(!isActive);
-    }
+      // Dealership name
+      let dealershipName =  "";
+      if(formData.flagHealthCheck == 'Y'){
+        if(selectedDealer.flagdealergroup == 'Y'){
+           dealershipName = selectedDealer.dealerGroupName;
+        }else{
+          dealershipName = selectedDealer.name;
+        }
+      }
+
+        // Set data from locastorage
+        setFormValues((prev) => ({
+          ...prev,
+          reviewDate: formattedToDayDate, // Update the review date with the formatted date
+          dealerAttendees: getFormData?.dealerAttendees || "",
+          scukAttendees:  getFormData?.scukAttendees || "",
+          txtDealershipName: dealershipName || "", // Use the dealership name if available
+          reviewPeriod: getFormData?.reviewPeriod || "",
+        }));
+        // setFormValues((prev) => ({
+        //   ...prev,
+        //   reviewDate: formattedToDayDate, // Update the review date with the formatted date
+        //   dealerAttendees: prev.dealerAttendees === "" ? (getFormData?.dealerAttendees || "") : prev.dealerAttendees,
+        //   scukAttendees: prev.scukAttendees === "" ? (getFormData?.scukAttendees || "") : prev.scukAttendees,
+        //   txtDealershipName: dealershipName || "", // Use the dealership name if available
+        //   reviewPeriod: prev.reviewPeriod === "" ? (getFormData?.reviewPeriod || "") : prev.reviewPeriod,
+        // }));
+
+     
   }
+
+  //  Handle continue button
+  const handleContinueButton = () =>{
+    const {  flagHealthCheck   } = selectedReportData;
+    if(formValues.reviewDate ==''){
+        setPopupContent((prevState) => ({
+          ...prevState,
+          duelOption : false,
+          detailContent: "Please select Review Date.",
+          show: true,
+          onClick : handleClick 
+        }));
+    }else if(flagHealthCheck == 'N' && formValues.reviewPeriod ==''){
+        setPopupContent((prevState) => ({
+          ...prevState,
+          duelOption : false,
+          detailContent: "Please enter Review Period.",
+          show: true,
+          onClick : handleClick 
+        }));
+    }else if(formValues.dealerAttendees ==''){
+        setPopupContent((prevState) => ({
+          ...prevState,
+          duelOption : false,
+          detailContent: "Please enter dealer attendees.",
+          show: true,
+          onClick : handleClick 
+        }));
+    }else if(formValues.scukAttendees ==''){
+        setPopupContent((prevState) => ({
+          ...prevState,
+          duelOption : false,
+          detailContent: "Please enter SCUK attendees.",
+          show: true,
+          onClick : handleClick 
+        }));
+    }else{
+        setGoBackToPage((prev)=>({...prev,pageFour : true}));
+        if(Object.keys(selectedExistingVisitReportData).length !==0){
+          handleHTMLContent(selectedExistingVisitReportData.formdata, 'root');
+          setIsActive(!isActive);
+        }else{
+          handleHTMLContent(formData.formInfo, 'root');
+          setIsActive(!isActive);
+        }
+    }
+
+  }
+
+  useEffect(()=>{
+    if(isActiveFollowUpReport && goBackToPage.pageFour){
+      handleHTMLContent(selectedExistingVisitReportData.newFormdata, 'root');
+      setIsActive(!isActive);
+    }
+    if(!goBackToPage.pageFour && formData?.flagTabbedView === 'Y'){
+       setIsLastTabSelected(false);
+    }
+    if(Object.keys(selectedExistingVisitReportData).length ==0 && !goBackToPage.pageFour && formData?.flagTabbedView === 'Y'){
+      setFormValuesFromLocalStorage();
+    }
+  },[goBackToPage.pageFour])
+
+  // Handle functiopn follow up report
   const handleFollowUpReport=()=>{
-    console.log("selectedExistingVisitReportData",selectedExistingVisitReportData);
     if (formData?.flagTabbedView === 'Y') {
         setIsLastTabSelected(false);
         setIsActive(!isActive);
     } 
-    if(goBackToPage.pageFour){
-      handleHTMLContent(selectedExistingVisitReportData.newFormdata, 'root');
-    }else{
-      setIsReadOnly(false);
-    }
+    setIsReadOnly(false);
     setIsActiveFollowUpReport(true);
-    
   }
 
-  console.log("selectedExistingVisitReportData",selectedExistingVisitReportData);
+  // Handle function re-send button 
+  const handleReSendButton= async()=>{
+    try{
+        // User id
+        const userId = session.data?.user?.id;
+        if (!userId) {
+            throw new Error('User ID not found');
+        }
+        if(selectedExistingVisitReportData?.emailaddresslist  !== ''){
+          
+            // _____REQUEST BODY______
+            let requestBodyObj = {
+              body : {
+                  doAction : "sendMail",
+                  userid : userId,
+                  dealershipVisitreportCartId1 : selectedExistingVisitReportData?.cartid || "", 
+                  recepientEmails1 : selectedExistingVisitReportData?.emailaddresslist || "", 
+                  flagdealergroup1 : selectedDealer?.flagdealergroup || '',
+                  flagtabbedview1  : selectedReportData?.flagTabbedView || '',
+                  flagHealthCheck1 : selectedReportData.flagHealthCheck || '',
+                  dealershipid1    : selectedExistingVisitReportData?.dealershipid || '',
+                  totalresult : 1,
+                }
+            }   
+
+            let response = await axios.post('/api/visitReports/sendEmail',requestBodyObj);
+            if(response.data.result.root?.emailresend?.[0]?.status ==1){
+              // response.data.result.root.emailresend[0].message
+              setPopupContent((prevState) => ({
+                ...prevState,
+                duelOption : false,
+                detailContent: "Dealership report sent successfully.",
+                show: true,
+                onClick : handleClick
+              }));
+              alert(response.data.result.root.emailresend[0].message)
+            }else{
+              setPopupContent((prevState) => ({
+                ...prevState,
+                duelOption : false,
+                detailContent: "Dealership report sent faild.",
+                show: true,
+                onClick : handleClick
+              }));
+            }
+        }else{
+            setPopupContent((prevState) => ({
+              ...prevState,
+              duelOption : false,
+              detailContent: "At least one recepient required.",
+              show: true,
+              onClick : handleClick
+            }));
+        }
+       
+    }catch(error){
+      console.log("Erron ->",error.message);
+    }
+
+  }
+
+  // Function for handle template form save
+  const handleTemplateFormSaveButton =async()=>{
+        try{
+            // let test = document.getElementById('txtAttendees').value 
+            // console.log("test value", test);
+            // fetch form values
+            const {
+              formControlListId, 
+              formControlResult, 
+              txtDateTimeElement, 
+              lstDealershipStatus,
+              packExpiryDate,
+              txtAttendees,
+              txtDealerSignature,
+              txtRMSignature,
+              txtScfSignature,
+              nextReviewDate,
+              totalquestioncount
+            } = await fetchFormElementValues();
+
+            //---------- user ID
+            const userId = session.data?.user?.id;
+            if (!userId) {
+                throw new Error('User ID not found');
+            }
+            //Case - 1 =While clicking cancel clear storage data data 
+            //Case - 2 =While clicking submit clear storage data 
+            const { flagdealergroup , id, dealerGroupId} = selectedDealer;
+            const { flagTabbedView , flagHealthCheck, formId   } = selectedReportData
+    
+            let dealershipId  = id;
+            if(flagdealergroup  == 'Y'){
+                dealershipId = dealerGroupId;
+            }
+console.log("formControlResult",formControlResult);
+
+            //-------> Saved object
+            const savedData ={
+                      [userId] : {
+                          [formId]: {
+                            userId: String(userId),
+                            formId: String(formId),
+                            flagDealerGroup: flagdealergroup,
+                            flagTabbedView: flagTabbedView,
+                            flagHealthCheck: flagHealthCheck,
+                            dealershipId: String(dealershipId),
+                            txtDateTimeElement: txtDateTimeElement || "",
+                            lstDealershipStatus: lstDealershipStatus || "",
+                            packExpiryDate: packExpiryDate || "",
+                            txtAttendees: txtAttendees || "",
+                            txtDealerSignature: txtDealerSignature || "",
+                            txtRMSignature: txtRMSignature || "",
+                            txtScfSignature: txtScfSignature || "",
+                            nextReviewDate: nextReviewDate || "",
+                            formcontrolInfo: formControlListId || "",
+                            formControlData: formControlResult || "",
+                            totalquestioncount: String(totalquestioncount) || "0",
+                          },
+                      },
+            } 
+
+            // Retrieve stored data from localStorage
+            let storedSavedData = JSON.parse(localStorage.getItem("savedData")) || {};
+
+            // Check if data for the user already exists
+            if (storedSavedData[userId]) {
+
+              // If user exists, check if the formId exists
+              if (storedSavedData[userId][formId]) {
+
+                // Update the existing form data for the user
+                storedSavedData[userId][formId] = savedData[userId][formId];
+              } else {
+
+                // Add new form data under the existing user
+                storedSavedData[userId] = {
+                  ...storedSavedData[userId],
+                  [formId]: savedData[userId][formId],
+                };
+              }
+            } else {
+
+              // If no user data exists, add the new user with form data
+              storedSavedData = {
+                ...storedSavedData,
+                [userId]: savedData[userId],
+              };
+            }
+
+            // Save the updated data back to localStorage
+            localStorage.setItem("savedData", JSON.stringify(storedSavedData));
+            console.log("savedData",savedData);
+            
+        }catch(err){
+          console.log('Error ',err.message);
+          
+        }
+  }
+
+  const handleTemplateFormCancelButton =async(flag)=>{
+      try{
+          //---------- user ID
+          const userId = session.data?.user?.id;
+          if (!userId) {
+              throw new Error('User ID not found');
+          }
+
+          // Retrieve stored data from localStorage
+          let storedSavedData = JSON.parse(localStorage.getItem("savedData")) || {};
+          const { formId   } = selectedReportData
+          // Check if data for the user already exists
+          if (storedSavedData[userId]) {
+
+            // If user exists, check if the formId exists
+            if (storedSavedData[userId][formId]) {
+
+              delete storedSavedData[userId][formId]
+              // Save the updated data back to localStorage
+              localStorage.setItem("savedData", JSON.stringify(storedSavedData));
+              if(flag){
+                setIsRemovedSavedData(true);
+              }
+             
+           } 
+          } 
+      }catch(err){
+        console.log("error",err.message);
+        
+      }
+     
 
 
+  }
+
+  // Function for set form elelement values
+  const setSavedFormElementValues =async(formControlId,formControlResult)=>{
+      try{
+        let formElementIdArray = formControlId.split(',');
+        let formElementResultArray = formControlResult.split('^@^');
+        console.log("formControlId",formControlId);
+        console.log("formControlResult",formControlResult);
+        
 
 
+        // Split the input string at '@@1' to get an array of IDs without suffixes
+        let cleanIds = formElementIdArray.map(item => item.split('@@'));
+
+          // Iterate through the filtered list of IDs
+        for (let i = 0; i < cleanIds.length; i++) {
+          const elementId = cleanIds[i][0].trim();
+          if (elementId && formElementResultArray[i] !== undefined) {
+
+              if(elementId.substring(0,3) === 'spn'){
+                let element = document.getElementById(elementId);
+                if(element){
+                  element.textContent = formElementResultArray[i] || ""
+                }
+
+              }else if(elementId.substring(0, 3) === 'chk'){
+                console.log(cleanIds[i]);
+                
+                let eleIndex = cleanIds[i][1];
+                  let chkBox = document.getElementById(`${elementId}${eleIndex}`)
+                  if(chkBox){
+                    chkBox.checked = formElementResultArray[i] === 'true';
+                  }
+              }else if(elementId.substring(0, 3) === 'tcc'){
+                  let completedChk = document.getElementById(`${elementId}`)
+                  if(completedChk){
+                      completedChk.checked = formElementResultArray[i] === 'Yes'
+                  }
+              }else if(elementId.substring(0, 2) === 'rd'){
+                  let eleIndex = cleanIds[i][1]; //example id rd42
+                  let element  = document.getElementById(`${elementId}${eleIndex}`);
+                  if(element){
+                    console.log(element);
+                    console.log("formElementResultArray[i]",formElementResultArray[i]);
+                    if(element.value == formElementResultArray[i]){
+                      element.checked = true;
+                    }
+
+                  }
+              }else if(elementId.substring(0, 3) === 'hid'){
+                  let element = document.getElementById(elementId);
+                  
+                  if(formElementResultArray[i] == 'Yes' && element){
+                      element.value = formElementResultArray[i]
+                  }else if(formElementResultArray[i] == 'Yes' && element){
+
+                    element.value = formElementResultArray[i]
+                  }
+              }else {    
+
+                
+                let element = document.getElementById(elementId);
+                if(element){
+                  element.value = formElementResultArray[i]
+                }
+          
+              }
+
+          }
+     
+        }
+        
+        return null;
+      
+      }catch(error){
+        
+      }
+  }
+
+  // Function for fetch and set form values from localstorage
+  const initiallyFetchSavedFormDataStorage=async()=>{
+    try{
+        // Retrieve stored data from localStorage
+        let storedSavedData = JSON.parse(localStorage.getItem("savedData")) || {};
+        const userId = session.data?.user?.id;
+        const { flagTabbedView , flagHealthCheck, formId   } = selectedReportData
+        if (!userId) {
+            throw new Error('User ID not found');
+        }
+        if(Object.keys(storedSavedData)?.length !==0 && Object.keys(selectedExistingVisitReportData).length == 0 && formId){
+            if(storedSavedData[userId] && storedSavedData[userId][formId]){
+              let savedData  =  storedSavedData[userId][formId];
+
+                // Tabbed view = false
+                if(flagTabbedView == "N"){
+                    const dealershipStatusElement = document.getElementById('lstDealershipStatus');
+                    const packExpiryDateElement = document.getElementById('txtPackExpiryDate');
+                    const attendeesElement = document.getElementById('txtAttendees');
+                    if (dealershipStatusElement) {
+                      dealershipStatusElement.value = savedData?.lstDealershipStatus || '';
+                    }
+                    if (packExpiryDateElement) {
+                      packExpiryDateElement.value = savedData?.packExpiryDate || '';
+                    }
+                    if (attendeesElement) {
+                      attendeesElement.value = savedData?.txtAttendees || '';
+                    }
+                }
+                // Tabbed view = true
+                if(flagTabbedView == "Y"){
+                    const txtDealerSignature  = document.getElementById('txtDealerSignature');
+                    const txtRMSignature  = document.getElementById('txtRMSignature');
+                    const txtScfSignature  = document.getElementById('txtScfSignature');
+                    const nextReviewDate   = document.getElementById('nextReviewDate');
+                    if (txtDealerSignature) {
+                         txtDealerSignature.value = savedData?.txtDealerSignature || '';
+                    }
+                    if (txtRMSignature) {
+                         txtRMSignature.value = savedData?.txtRMSignature || '';
+                    }
+                    if (txtScfSignature) {
+                         txtScfSignature.value = savedData?.txtScfSignature || '';
+                    }
+                    if (nextReviewDate) {
+                      const now = moment();
+                      let currentDate = now.format('DD/MM/YYYY');
+                      nextReviewDate.value = currentDate || '';
+                    }
+                }
+                let formControlId = savedData?.formcontrolInfo;
+                let formControlResult = savedData?.formControlData;
+                await setSavedFormElementValues(formControlId,formControlResult)
+            }
+        }
+    }catch(error){
+      console.log("Error ->",error.message);
+      
+    }
+
+  }
+
+  const handleMiddleFormCancelButton =()=>{
+    setFormValues((prev)=>({...prev, dealerAttendees : "", scukAttendees :"",reviewPeriod : ""}));  
+    localStorage.removeItem("visitReportForm");
+  }
+  
+  useEffect(()=>{
+    initiallyFetchSavedFormDataStorage()
+  },[session.data?.user?.id,goBackToPage.pageFour,selectedExistingVisitReportData])
+
+  useEffect(()=>{
+    if(isRemovedSavedData && Object.keys(selectedExistingVisitReportData).length == 0){
+      handleHTMLContent(formData.formInfo, 'root');
+      setIsRemovedSavedData(false);
+      setIsLastTabSelected(false)
+     }
+  },[selectedExistingVisitReportData,isRemovedSavedData])
+  console.log("form values",formValues);
+  
   return (
     <div className={Styles.bgcolor}>
       <div className={`${Styles.container} ${Styles.innerpgcntnt}`}>
@@ -646,8 +1070,6 @@ const VisitReportTemplate = ({ selectedData }) => {
                   </ul>
                 )
               )}
-
-        
             </ul>
           </div>
         </div>
@@ -660,62 +1082,62 @@ const VisitReportTemplate = ({ selectedData }) => {
             {/* Visit report form */}
             {(!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'Y') && 
             <MemoisedVisitReportComponent 
-              handleContinueButton={handleContinueButton}  
-              handleSaveButton={handleVisitReortFormSaveButton}
-              handleFormChange={handleFormChange}
-              formValues={formValues} 
-              formData={formData}
-              isReadOnly={isReadOnly}
-              handleFollowUpReport={handleFollowUpReport}
-              isAllreadyExistVisitReport={Object.keys(selectedExistingVisitReportData).length !== 0}
-              isActiveFollowUpReport={isActiveFollowUpReport}
+                handleContinueButton={handleContinueButton}  
+                handleSaveButton={handleLandingFormSaveButton}
+                handleFormChange={handleFormChange}
+                formValues={formValues} 
+                formData={formData}
+                isReadOnly={isReadOnly}
+                handleFollowUpReport={handleFollowUpReport}
+                isAllreadyExistVisitReport={Object.keys(selectedExistingVisitReportData).length !== 0}
+                isActiveFollowUpReport={isActiveFollowUpReport}
+                handleMiddleFormCancelButton={handleMiddleFormCancelButton}
             />}
             {/* Placeholder for dynamic HTML content */}
             <div id="root"></div>
-
-            {(goBackToPage.pageFour || (!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'N')) && <>
-            
-   
-            </>}
           </div>
             {/* Footer with Buttons */}
             {isLastTabSelected && <div className={Styles.mainboxfooter}>
                 <div className={`${Styles.flex} ${Styles.btnrow}  ${Styles.rowreverse}`}>
 
-                          {/* Action Buttons  */}
+
+                {/* Action Buttons  */}
                 {(Object.keys(selectedExistingVisitReportData).length !== 0 && 
                   !isActiveFollowUpReport )
                   ? <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
-                    <CustomButton
-                      type="button"
+                  {formData.flagRecipient === 'Y' 
+                      && 
+                    <CustomButton 
+                       type="button"
+                       onClick={(e)=>handleReSendButton()}
                     >
                        Re-send
-                    </CustomButton>
-                    <CustomButton
-                      type="button"
-                      onClick={(e)=>handleFollowUpReport()}
+                    </CustomButton>}
+                    {Object.keys(selectedExistingVisitReportData).length !== 0 
+                      &&  selectedReportData.flagTabbedView == 'N' 
+                      && !isActiveFollowUpReport 
+                      && <CustomButton
+                          type="button"
+                          onClick={(e)=>handleFollowUpReport()}
                     >
-                      Follow Up Report
-                    </CustomButton>
+                     Follow Up Report
+                  </CustomButton>}
                   </div> :
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
                     <CustomButton
                       type="button"
+                      onClick={handleTemplateFormSaveButton}
                     >
                       Save
                     </CustomButton>
                     <CustomButton
                       type="button"
+                      onClick={()=>{handleTemplateFormCancelButton(true)}}
                     >
                       Cancel
                     </CustomButton>
-                    {/* <CustomButton type="submit"      onClick={handleSubmit}>
-                      Submit
-                    </CustomButton> */}
                   </div>
                   }
-
-                  
                   {/* Image Add Option */}
                   {formData.flagImage === 'Y' && (
                     <div className={Styles.imageaddoption}>
@@ -858,11 +1280,8 @@ const VisitReportTemplate = ({ selectedData }) => {
 
 
                   )}
-                
-
                 </div>
                 
-
                 <div className={`${Styles.flex} ${Styles.btnrow}`}>
                   <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
                       {formData.flagRecipient === 'Y' && (
@@ -923,7 +1342,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                       )}
                   </div>
                   {(Object.keys(selectedExistingVisitReportData).length == 0 
-                || isActiveFollowUpReport ) &&
+                  || isActiveFollowUpReport ) &&
                   <CustomButton type="submit"      onClick={handleSubmit}>
                       Submit
                   </CustomButton>}
@@ -940,9 +1359,10 @@ export default VisitReportTemplate;
 
 
 function VisitReportForm({handleContinueButton, handleSaveButton,
-handleFormChange, formValues, formData, isReadOnly, handleFollowUpReport, isAllreadyExistVisitReport, isActiveFollowUpReport}){
+handleFormChange, formValues, formData, isReadOnly, handleFollowUpReport, isAllreadyExistVisitReport, isActiveFollowUpReport, handleMiddleFormCancelButton}){
 
 
+console.log("*************",formValues);
 
   return(
     <>
@@ -967,9 +1387,10 @@ handleFormChange, formValues, formData, isReadOnly, handleFollowUpReport, isAllr
                 <td>
                    <input 
                       className={Styles.tblinputbx} 
-                      value={formValues.txtDealershipName} 
-                      readOnly 
+                      value={formData.flagHealthCheck === 'Y'  ? formValues.txtDealershipName : formValues.reviewPeriod } 
+                      readOnly={((formData.flagHealthCheck == 'Y') || (isAllreadyExistVisitReport && formData.flagHealthCheck == 'N' && !isActiveFollowUpReport))}
                       type="text" 
+                      onChange={(e) => handleFormChange(formData.flagHealthCheck === 'Y' ? 'txtDealershipName' : 'reviewPeriod', e.target.value)}
                     />
                 </td>
               </tr>
@@ -1017,6 +1438,7 @@ handleFormChange, formValues, formData, isReadOnly, handleFollowUpReport, isAllr
                       </CustomButton>
                       <CustomButton
                         type="button"
+                        onClick={handleMiddleFormCancelButton}
                       >
                         Cancel
                       </CustomButton>

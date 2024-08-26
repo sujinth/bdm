@@ -97,15 +97,6 @@ const VisitReport = () => {
     }));
   };
 
-  // Function for set selected value in dealer groups
-  const handleSelect = (eventKey) => {
-    if (eventKey === "DealerGroup") {
-      setFlagDealergroup("Y");
-    } else if (eventKey === "Dealer") {
-      setFlagDealergroup("N");
-    }
-  };
-  // console.log("dealers", dealers);
 
   
   return (

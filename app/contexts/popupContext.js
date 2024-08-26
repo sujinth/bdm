@@ -19,6 +19,8 @@ export const PopupProvider = ({ children }) => {
       duelOption: false,
       show: false,
       onClick: handleClick,
+      onClickYes: handleClick,
+      onClickNo: handleClick,
     });
   };
 
@@ -29,10 +31,12 @@ export const PopupProvider = ({ children }) => {
     duelOption: false,
     show: false,
     onClick: handleClick,
+    onClickYes: handleClick,
+    onClickNo: handleClick,
   });
 
   return (
-    <PopupContext.Provider value={{ popupContent, setPopupContent }}>
+    <PopupContext.Provider value={{ popupContent, setPopupContent, handleClick }}>
       {children}
     </PopupContext.Provider>
   );

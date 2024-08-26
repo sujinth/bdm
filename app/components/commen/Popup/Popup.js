@@ -36,7 +36,7 @@ const Popup = () => {
             {popupContent.duelOption && (
               <>
                 <Col>
-                  <button type="button" className={Styles.modalbutton}>
+                  <button type="button" className={Styles.modalbutton} onClick={popupContent.onClickYes}>
                     Yes
                   </button>{" "}
                 </Col>
@@ -44,7 +44,7 @@ const Popup = () => {
                   <button
                     type="button"
                     className={Styles.modalbutton}
-                    onClick={popupContent.onClick}
+                    onClick={popupContent.onClickNo}
                   >
                     No
                   </button>
