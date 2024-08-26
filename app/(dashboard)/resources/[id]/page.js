@@ -179,7 +179,7 @@ const AddonProducts = () => {
         <div
           className={`${Styles.container} ${Styles.innerpgcntnt} ${Styles.innerpgtab}`}
         >
-          <Tab.Container id="left-tabs-example" defaultActiveKey={1}>
+          <Tab.Container id="left-tabs-example">
             <Row className="tabrow">
               <Col className="visitnamebx splvisitnamebx">
                 <div className={Styles.titlebx}>
@@ -200,7 +200,7 @@ const AddonProducts = () => {
                       {resources.filterChildResources.map((item, idx) => (
                         <Nav.Item key={idx} className={Styles.lfttabs}>
                           <Nav.Link
-                            eventKey={idx + 1}
+                            // eventKey={idx + 1}
                             onClick={() => selectedModule(item, idx + 1)}
                           >
                             <span className={Styles.tabmenu}>{item.name}</span>

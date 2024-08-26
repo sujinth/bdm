@@ -478,10 +478,9 @@ ul.listiconhide li::after {
 .lfttabs {
   width: 40%;
   margin: 0 40px;
-  border-bottom: 2px solid #ffffff; 
 }
-.lfttabs:hover {
-  border-bottom: 2px solid #ec0000; 
+.lfttabs a:hover {
+  border-bottom: 2px solid #ec0000 !important;
 }
 .lfttabs .active:hover {
   border-bottom: none;
@@ -491,6 +490,8 @@ ul.listiconhide li::after {
   column-gap: 30px;
   justify-content: flex-end;
   padding-left: 0;
+  max-width: fit-content;
+  border-bottom: 2px solid #ffffff !important;
   .tabmenu {
     min-width: 185px;
     height: inherit;
