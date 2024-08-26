@@ -87,7 +87,7 @@ const Home = () => {
     <>
       {/* Header */}
       <InnerHeader />
-      {imageLoader ? <Loader /> : null}
+      {!imageUrl && imageLoader ? <Loader /> : null}
       {imageUrl ? 
         <div className={Styles.homeImage} dangerouslySetInnerHTML={{ __html: imageUrl }} /> :
         null
@@ -192,7 +192,7 @@ const Home = () => {
                   >
                     Actions Box
                   </div>
-                  {newsLoader ? <Loader /> : null}
+                  {!apiResponse?.desc && newsLoader ? <Loader /> : null}
                   <div
                     className={`${Styles.fntw700} ${Styles.pdTB10}  ${Styles.subtitle} `}
                   >

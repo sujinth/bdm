@@ -23,6 +23,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ExcelViewer from "./ExcelViewer";
 import Wordviewer from "./WordViewer";
 import Styles from "../resources.module.scss";
+import Loader from "@/app/components/commen/Loader/Loader";
 
 // Default function for resource module
 const AddonProducts = () => {
@@ -34,6 +35,7 @@ const AddonProducts = () => {
   const [activeModule, setActiveModule] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [activeTabContent, setActiveTabContent] = useState("");
+  const [pageLoader, setPageLoader] = useState(false);
   const [eventKey, setEventKey] = useState(1);
   const [showPopover1, setShowPopover1] = useState(false);
   const [showPopover2, setShowPopover2] = useState(false);
@@ -99,7 +101,9 @@ const AddonProducts = () => {
       if (!userId) {
         throw new Error("Something went wrong");
       }
+      setPageLoader(true);
       const response = await axios.post("/api/resorces", { userId });
+      setPageLoader(false);
       if (response.data.result?.length !== 0) {
         setResourcesList(response.data?.result);
       }
@@ -190,7 +194,7 @@ const AddonProducts = () => {
                       <span>Available offline</span>
                     </li>
                   </ul> */}
-                  
+                  {resources.filterChildResources?.length == 0 && pageLoader ? <Loader /> : null}
                   {resources.filterChildResources?.length > 0 && (
                     <Nav variant="pills" className=" ">
                       {resources.filterChildResources.map((item, idx) => (
