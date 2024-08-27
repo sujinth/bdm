@@ -1,3 +1,9 @@
+//////////////////////////////////////////////////////////////////////////////////
+//                                                                              //
+//                       File for style resources component                     //
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -42,7 +48,6 @@
   padding: 20px 5px 20px 20px;
   form {
     overflow-y: auto;
-    // height: 720px;
     max-height: 563px;
     padding-right: 15px;
   }
@@ -58,13 +63,13 @@
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background:#6F7779;
+    background: #6f7779;
     border-radius: 10px;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #6F7779;
+    background: #6f7779;
   }
 }
 .listcntnt {
@@ -81,7 +86,6 @@
     color: #000000;
     letter-spacing: 0.4px;
     padding: 10px 0px 3px;
-    // margin-bottom: 10px;
     width: fit-content;
     cursor: pointer;
     border-bottom: 2px solid #fff;
@@ -97,34 +101,22 @@
     padding-right: 20px;
     border-bottom: 2px solid #ffffff;
   }
-  // li::after {
-  //   content: "";
-  //   position: absolute;
-  //   top: 15px;
-  //   right: 15px;
-  //   background-image: url(/player.svg);
-  //   background-repeat: no-repeat;
-  //   display: inline-block;
-  //   width: 20px;
-  //   height: 20px;
-  // }
 }
-.listcntnt{
+.listcntnt {
   padding-left: 25px !important;
   padding-right: 10px;
   overflow: auto;
   display: flex;
   flex-wrap: wrap;
-
 }
-.listcntnt li{
+.listcntnt li {
   width: 45%;
   margin: 0px 20px;
 }
 .listitems {
   border: none;
   li.listhead {
-    background-color: #6F7779;
+    background-color: #6f7779;
   }
 }
 .listhead {
@@ -151,59 +143,59 @@
 .ftw600 {
   font-weight: 600;
 }
-ul.listiconhide{
+ul.listiconhide {
   padding-left: 0px !important;
   background-color: #ec0000;
-  li{
+  li {
     border-bottom: 2px solid #fff;
     font-weight: 600;
     font-family: SantanderText-Bold;
     letter-spacing: 0.3px;
     font-size: 16px;
-    margin-left:15px;
+    margin-left: 15px;
   }
-  li.toplist{
-    width:100%;
+  li.toplist {
+    width: 100%;
     padding-top: 0px;
     padding-bottom: 0px;
-    border-bottom: 2px solid #6F7779;
-    background-color:#6F7779;
-    margin-left:0px;
-    a{
-      color: #fff!important;
+    border-bottom: 2px solid #6f7779;
+    background-color: #6f7779;
+    margin-left: 0px;
+    a {
+      color: #fff !important;
       font-size: 16px;
-    font-weight: 500;
-    font-family: SantanderText-Regular;
-    letter-spacing: 0.3px;
-    font-size: 16px
+      font-weight: 500;
+      font-family: SantanderText-Regular;
+      letter-spacing: 0.3px;
+      font-size: 16px;
+    }
   }
+  li.toplist.listhead {
+    border-bottom: 2px solid #6f7779;
+    background-color: #6f7779;
   }
-  li.toplist.listhead{
-    border-bottom: 2px solid #6F7779;
-    background-color:#6F7779;
+  li.toplist.listhead:hover {
+    border-bottom: 2px solid #6f7779;
+    background-color: #6f7779;
   }
-  li.toplist.listhead:hover{
-    border-bottom: 2px solid #6F7779;
-    background-color:#6F7779;
-  }
-  li.toplist:hover{
-    background-color:#000;
+  li.toplist:hover {
+    background-color: #000;
     border-bottom: 2px solid;
   }
 
-  li.listhead{
+  li.listhead {
     border-bottom: 2px solid #ec0000;
     background-color: #ec0000;
   }
-  li.listhead:hover{
+  li.listhead:hover {
     border-bottom: 2px solid #ec0000;
-  } 
+  }
 }
 ul.listiconhide li::after {
   display: none;
 }
 .tblinputbx {
-  background-color: #DEEDF2;
+  background-color: #deedf2;
   padding: 10px;
   border-radius: 6px;
   width: 100%;
@@ -245,8 +237,8 @@ ul.listiconhide li::after {
   column-gap: 10px;
 }
 .mainboxfooterbtn:hover {
-  background-color:  #000 !important;
-  border: 1px solid  #000 !important;
+  background-color: #000 !important;
+  border: 1px solid #000 !important;
 }
 .mainboxfooterbtn {
   background-color: #ec0000;
@@ -426,15 +418,14 @@ ul.listiconhide li::after {
     text-align: end;
   }
 }
-/**/
 
 .listiconhide {
   li {
     padding: 10px;
     column-gap: 15px;
   }
-  li:hover{
-    background-color: #6F7779;
+  li:hover {
+    background-color: #6f7779;
   }
   li.listhead {
     background-color: #ec0000;
@@ -460,9 +451,6 @@ ul.listiconhide li::after {
 }
 
 .innerpgtab {
-  // .contentwhtbx{
-  //   padding: 20px;
-  // }
   .tabcontainer {
     width: 100%;
     position: relative;
@@ -472,7 +460,6 @@ ul.listiconhide li::after {
   }
   .listitems {
     border: 0px;
-    // border-top: 1px solid #989898;
   }
 }
 .lfttabs {
@@ -576,12 +563,6 @@ ul.listiconhide li::after {
   width: 100%;
 }
 
-// .innertabwhtbx{
-//   overflow-y: auto;
-//   height: 700px;
-// }
-/**/
-
 @media (max-width: 1200px) {
   .visitnamebx {
     width: 25%;
@@ -589,8 +570,8 @@ ul.listiconhide li::after {
   .detailbx {
     width: 68%;
   }
-  .bgcolor{
-    .innerpgcntnt{
+  .bgcolor {
+    .innerpgcntnt {
       max-width: 90%;
     }
   }
@@ -610,10 +591,10 @@ ul.listiconhide li::after {
   .visitnamebx {
     width: 100%;
     margin: auto;
-    .listcntnt{
+    .listcntnt {
       overflow: auto;
     }
-    .listitems{
+    .listitems {
       margin-bottom: 15px;
     }
   }
@@ -660,10 +641,10 @@ ul.listiconhide li::after {
   }
 }
 @media (max-width: 390px) {
-  .detailbximage{
-    img{
+  .detailbximage {
+    img {
       width: 100%;
       padding: 0px 10px;
     }
   }
-  }
+}

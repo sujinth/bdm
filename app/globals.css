@@ -577,8 +577,8 @@ body::-webkit-scrollbar-thumb {
 }
 .banner-loader.col{
   overflow: auto;
-  position: absolute;
-  top: 50%;
+  /* position: absolute;
+  top: 50%; */
 } 
 
 .modaltabcontent{
