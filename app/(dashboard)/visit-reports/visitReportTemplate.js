@@ -437,7 +437,7 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Function for handle onchangFunctionality
   const handleFormChange = (name, value) => {
-    if(value.trim() === '') return
+
     setFormValues(prevValues => ({
       ...prevValues,
       [name]: value
@@ -627,7 +627,7 @@ const VisitReportTemplate = ({ selectedData }) => {
   //  Handle continue button
   const handleContinueButton = () =>{
     const {  flagHealthCheck   } = selectedReportData;
-    if(formValues.reviewDate ==''){
+    if(formValues.reviewDate.trim() ==''){
         setPopupContent((prevState) => ({
           ...prevState,
           duelOption : false,
@@ -635,7 +635,7 @@ const VisitReportTemplate = ({ selectedData }) => {
           show: true,
           onClick : handleClick 
         }));
-    }else if(flagHealthCheck == 'N' && formValues.reviewPeriod ==''){
+    }else if(flagHealthCheck == 'N' && formValues.reviewPeriod.trim() ==''){
         setPopupContent((prevState) => ({
           ...prevState,
           duelOption : false,
@@ -643,7 +643,7 @@ const VisitReportTemplate = ({ selectedData }) => {
           show: true,
           onClick : handleClick 
         }));
-    }else if(formValues.dealerAttendees ==''){
+    }else if(formValues.dealerAttendees.trim() ==''){
         setPopupContent((prevState) => ({
           ...prevState,
           duelOption : false,
@@ -651,7 +651,7 @@ const VisitReportTemplate = ({ selectedData }) => {
           show: true,
           onClick : handleClick 
         }));
-    }else if(formValues.scukAttendees ==''){
+    }else if(formValues.scukAttendees.trim() ==''){
         setPopupContent((prevState) => ({
           ...prevState,
           duelOption : false,
