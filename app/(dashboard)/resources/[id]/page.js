@@ -116,6 +116,11 @@ const ResourcesList = () => {
                                 <img src="/excel.svg" alt="excel" />
                               </span>
                             )}
+                            {item.doctype === "powerpoint" && (
+                              <span>
+                                <img src="/powerpoint.png" alt="powerpoint" />
+                              </span>
+                            )}
                           </Nav.Link>
                         </Nav.Item>
                       ))}
