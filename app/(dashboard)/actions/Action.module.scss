@@ -39,21 +39,20 @@
   font-family: SantanderHead-Bold;
   letter-spacing: 0.3px;
 }
-.mainboxfooter{
+.mainboxfooter {
   position: absolute;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px -5px #695e5e;
-    display: flex;
-    justify-content: flex-end;
-    column-gap: 10px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px -5px #695e5e;
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 10px;
 }
 .contentwhtbx {
   background-color: #fff;
-  // height: 750px;
   padding: 20px 0;
   form {
     overflow-y: auto;
@@ -72,19 +71,19 @@
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background:#6F7779;
+    background: #6f7779;
     border-radius: 10px;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #6F7779;
+    background: #6f7779;
   }
 }
-.logobottomtext{
-    font-family: SantanderHead-Bold;
-    letter-spacing: 0.3px;
-    font-size: 18px;
+.logobottomtext {
+  font-family: SantanderHead-Bold;
+  letter-spacing: 0.3px;
+  font-size: 18px;
 }
 .listcntnt {
   li {
@@ -103,16 +102,13 @@
     margin-bottom: 10px;
     width: fit-content;
     cursor: pointer;
-     border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #fff;
   }
   li:hover {
     border-bottom: 2px solid #ec0000;
   }
   li:nth-child(odd) {
     background: #fff;
-  }
-  li:not(:last-child) {
-    // border-bottom: 1px solid #989898;
   }
   li a {
     width: 100%;
@@ -122,17 +118,6 @@
     padding: 10px;
     padding-right: 20px;
   }
-  // li::after {
-  //   content: "";
-  //   position: absolute;
-  //   top: 15px;
-  //   right: 15px;
-  //   background-image: url(/player.svg);
-  //   background-repeat: no-repeat;
-  //   display: inline-block;
-  //   width: 20px;
-  //   height: 20px;
-  // }
 }
 .listitems {
   border: none;
@@ -141,7 +126,7 @@
   height: 500px;
   overflow: auto;
   li.listhead {
-    background-color: #6F7779;
+    background-color: #6f7779;
   }
 }
 .listhead {
@@ -153,13 +138,9 @@
   }
 }
 .innercontentwhtbx {
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
   display: flex;
   align-items: center;
   flex-direction: column;
-  // min-height: 750px;
 }
 .textcntr {
   text-align: center;
@@ -194,7 +175,6 @@
     margin-bottom: 20px;
     font-family: SantanderHead-Bold;
     letter-spacing: 0.3px;
-
   }
 }
 
@@ -206,8 +186,8 @@
   .detailbx {
     width: 68%;
   }
-  .bgcolor{
-    .innerpgcntnt{
+  .bgcolor {
+    .innerpgcntnt {
       max-width: 90%;
     }
   }
@@ -224,10 +204,10 @@
   .visitnamebx {
     width: 100%;
     margin: auto;
-    .listcntnt{
+    .listcntnt {
       overflow: auto;
     }
-    .listitems{
+    .listitems {
       margin-bottom: 15px;
     }
   }
@@ -246,10 +226,10 @@
   }
 }
 @media (max-width: 390px) {
-  .detailbximage{
-    img{
+  .detailbximage {
+    img {
       width: 100%;
       padding: 0px 10px;
     }
   }
-  }
+}

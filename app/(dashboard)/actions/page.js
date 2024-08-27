@@ -51,7 +51,7 @@ const Action = () => {
       setPageName("Dealer Groups");
       pageNameData = "Dealer Groups";
     } else if (goBackToPage.pageThree) {
-      setPageTitle("Incomplete Actions")
+      setPageTitle("Incomplete Actions");
       setPageName("Visit Reports");
       pageNameData = "Visit Reports";
     }
@@ -263,7 +263,9 @@ const Action = () => {
           setPopupContent((prevState) => ({
             ...prevState,
             titleContent: "",
-            detailContent: visitNameResponse?.data?.result?.message || "Something went wrong, please try again later.",
+            detailContent:
+              visitNameResponse?.data?.result?.message ||
+              "Something went wrong, please try again later.",
             show: true,
             onClick: clickOk,
           }));
@@ -271,11 +273,11 @@ const Action = () => {
       }
     } catch (error) {
       console.log("error in api call : ", error);
-      let errorMessage
-      if(error?.response?.data?.message){
+      let errorMessage;
+      if (error?.response?.data?.message) {
         errorMessage = error.response.data.message;
       } else {
-        errorMessage =  "Something went wrong, please try again later.";
+        errorMessage = "Something went wrong, please try again later.";
       }
       if (flagSave == "N") {
         setPopupContent((prevState) => ({
@@ -326,7 +328,9 @@ const Action = () => {
             {/* Content need to show in visit name side bar */}
             {pageName == "Visit Name" ? (
               <>
-                {loaderInSideBar ? <Loader /> : 
+                {loaderInSideBar ? (
+                  <Loader />
+                ) : (
                   <div className={Styles.listitems}>
                     <ul className={Styles.listcntnt}>
                       {delearshipVisitReport.map((item, index) => (
@@ -350,22 +354,26 @@ const Action = () => {
                       ))}
                     </ul>
                   </div>
-                }
+                )}
               </>
             ) : null}
 
             {/* Content need to show in dealer group side bar */}
             {pageName == "Dealer Groups" ? (
               <>
-                {loaderInSideBar ? <Loader /> : 
+                {loaderInSideBar ? (
+                  <Loader />
+                ) : (
                   <Tabs
                     id="controlled-tab-example"
                     className="tabbtn"
                     onSelect={handleSelect}
                   >
                     <Tab eventKey="Dealer Group" title="Dealer Group">
-                      { dealerGroup?.length ? 
-                        <div className={`${Styles.listitems} ${Styles.tablist1} `}>
+                      {dealerGroup?.length ? (
+                        <div
+                          className={`${Styles.listitems} ${Styles.tablist1} `}
+                        >
                           <div className={Styles.listtoptitle}>
                             My Dealers Group
                           </div>
@@ -386,15 +394,16 @@ const Action = () => {
                               >
                                 {item?.dealerGroupName}
                               </li>
-                            ))
-                          }
-                        </ul>
-                      </div> :
-                      null }
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
                     </Tab>
                     <Tab eventKey="Dealer" title="Dealer">
-                      {dealership.length ? 
-                        <div className={`${Styles.listitems} ${Styles.tablist2} `}>
+                      {dealership.length ? (
+                        <div
+                          className={`${Styles.listitems} ${Styles.tablist2} `}
+                        >
                           <div className={Styles.listtoptitle}>My Dealers</div>
                           <ul className={Styles.listcntnt}>
                             {dealership.map((item, index) => (
@@ -415,20 +424,20 @@ const Action = () => {
                               </li>
                             ))}
                           </ul>
-                        </div> :
-                        null
-                      }
+                        </div>
+                      ) : null}
                     </Tab>
                   </Tabs>
-                }
+                )}
               </>
-              
             ) : null}
 
             {/* Content need to show in visit report side bar */}
             {pageName == "Visit Reports" ? (
               <>
-                {loaderInSideBar ? <Loader /> : 
+                {loaderInSideBar ? (
+                  <Loader />
+                ) : (
                   <div className={Styles.listitems}>
                     <ul className={Styles.listcntnt}>
                       {incompleteActions.map((item, index) => (
@@ -445,7 +454,7 @@ const Action = () => {
                       ))}
                     </ul>
                   </div>
-                }
+                )}
               </>
             ) : null}
           </div>
@@ -462,26 +471,27 @@ const Action = () => {
               incompleteActions[currentIncompleteAction]?.formdata ? (
                 <div>
                   <div id="root"></div>
-                      <div className={Styles.mainboxfooter}>
-                          <Button onClick={() => submitData("Y")} children="Save" />
-                          <Button onClick={() => submitData("N")} children="Submit" />
-                      </div>  
+                  <div className={Styles.mainboxfooter}>
+                    <Button onClick={() => submitData("Y")} children="Save" />
+                    <Button onClick={() => submitData("N")} children="Submit" />
+                  </div>
                 </div>
               ) : (
                 <div
                   className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx}`}
                 >
-                {/* Empty selected body */}
+                  {/* Empty selected body */}
                   <div
                     className={`${Styles.textcntr} ${Styles.logobottomtext} ${Styles.pdB20} ${Styles.ftw600}`}
                   >
                     {goBackToPage.pageTwo
                       ? "Select a dealership from the left"
-                      : "Select a report from the left"
-                    }
+                      : "Select a report from the left"}
                   </div>
-                <div className={Styles.detailbximage}><img src="/select-image.png" alt="Select a report" /></div>
-              </div>
+                  <div className={Styles.detailbximage}>
+                    <img src="/select-image.png" alt="Select a report" />
+                  </div>
+                </div>
               )}
             </div>
           </div>

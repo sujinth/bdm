@@ -180,9 +180,14 @@ body {
       letter-spacing: 0.3px;
       font-size: 16px;
       padding: 5px;
+      border-bottom: none;
+      display: block;
+      height: 33px;
+      line-height: 1;
     }
     button.nav-link:hover{
       color: #141313;
+      border-bottom: none;
     }
     button.nav-link.active{
       background-color: #ffffff;
@@ -572,7 +577,9 @@ body::-webkit-scrollbar-thumb {
 }
 .banner-loader.col{
   overflow: auto;
-}
+  /* position: absolute;
+  top: 50%; */
+} 
 
 .modaltabcontent{
   .modal-header{

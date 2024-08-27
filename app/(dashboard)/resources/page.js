@@ -1,3 +1,9 @@
+//////////////////////////////////////////////////////////////////////////////////
+//                                                                              //
+//                           File for listing resources                         //
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
+
 "use client";
 import Link from "next/link";
 import axios from "axios";
@@ -6,7 +12,8 @@ import { useEffect, useState } from "react";
 import Styles from "./resources.module.scss";
 import Loader from "@/app/components/commen/Loader/Loader";
 
-const resources = () => {
+// Function for resources main component
+const Resources = () => {
   const session = useSession();
   const [resorcesList, setResourcesList] = useState([]);
   const [pageLoader, setPageLoader] = useState(false);
@@ -56,25 +63,9 @@ const resources = () => {
             )}
           </div>
         </div>
-        {/* <div className={Styles.detailbx}>
-          <div className={Styles.titlebx}>Details</div>
-          <div
-            className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}
-          >
-            <div>
-              <img className={Styles.logoimage} src="/logo.png" alt="logo" />
-              <div
-                className={`${Styles.textcntr} ${Styles.pdT20} ${Styles.ftw600} `}
-              >
-                {" "}
-                Select a report from the left
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );
 };
 
-export default resources;
+export default Resources;
