@@ -37,6 +37,7 @@ const Action = () => {
   const { setPopupContent } = usePopupContent();
   const [loaderInSideBar, setLoaderInSideBar] = useState(false);
   const [submitLoader, setSubmitLoader] = useState(false);
+  const [triggerApi, setTriggerApi] = useState(false);
   const session = useSession();
   const router = useRouter();
 
@@ -56,7 +57,7 @@ const Action = () => {
       pageNameData = "Visit Reports";
     }
     getVisitName(pageNameData);
-  }, [goBackToPage, session.data?.user?.id]);
+  }, [goBackToPage, session.data?.user?.id, triggerApi]);
 
   // Handle HTML content injection on formData change
   useEffect(() => {
@@ -80,6 +81,10 @@ const Action = () => {
       // Cases for each api call
       switch (pageNameData) {
         case "Visit Name":
+          // Update previous data
+          setIncompleteActions([]);
+          setCurrentIncompleteAction();
+
           // API call to next server for delearship visit report
           const visitNameResponse = await axios.post(
             `/api/actions/dealershipVisitReports`,
@@ -100,6 +105,10 @@ const Action = () => {
           break;
 
         case "Dealer Groups":
+          // Update previous data
+          setIncompleteActions([]);
+          setCurrentIncompleteAction();
+
           // API call to next server for incomplete delearship report
           const dealerGroupResponse = await axios.post(
             `/api/actions/incompleteDealership`,
@@ -132,10 +141,6 @@ const Action = () => {
           break;
 
         case "Visit Reports":
-          // Update previous data
-          setIncompleteActions([]);
-          setCurrentIncompleteAction();
-
           // API call to next server for incompleted actions report
           const incompleteActions = await axios.post(
             `/api/actions/incompleteActions`,
@@ -270,6 +275,9 @@ const Action = () => {
             onClick: clickOk,
           }));
         }
+      }
+      if (flagSave == "Y") {
+        setTriggerApi(!triggerApi);
       }
     } catch (error) {
       console.log("error in api call : ", error);
