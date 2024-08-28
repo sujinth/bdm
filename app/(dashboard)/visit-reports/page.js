@@ -20,7 +20,7 @@ const VisitReport = () => {
   const [selectedDealer, setSelectedDealerData] = useState({});
   const [dealers, setDealers] = useState({});
   const [isReportsSelected, setReportsSelected] = useState(false);
-  const [loaderInSideBar, setLoaderInSideBar] = useState(false);
+  const [loaderInSideBar, setLoaderInSideBar] = useState(true);
 
   // Fetch dealers' details based on user ID
   async function getDealersDetails() {
@@ -29,17 +29,19 @@ const VisitReport = () => {
           if (!userId) {
             throw new Error("User ID not found");
           }
-          setLoaderInSideBar(true);
+          setLoaderInSideBar(true)
           const response = await axios.get(`/api/dealers?userid=${userId}`);
           if (Object.keys(response.data.result).length !=0) {
               // delete response.data.result.dealergroup
               setDealers(response.data.result);
+              setLoaderInSideBar(false);
+          }else{
+             setLoaderInSideBar(false);
           }
       } catch (error) {
           console.log("Error:", error.message);
-      }finally{
-        setLoaderInSideBar(false);
       }
+
   }
   
   const selectedData = useMemo(() => {
@@ -53,15 +55,16 @@ const VisitReport = () => {
           if (!userId) {
               throw new Error('User ID not found');
           }
-          setLoaderInSideBar(true);
+
           const response = await axios.get(`/api/visitReports/dealershipVisitreportsTemplate?userId=${userId}`);
           if (response.data.result?.length !== 0) {
               setVisitReports(response.data.result.root);
+              setLoaderInSideBar(false);
+          }else{
+              setLoaderInSideBar(false);
           }
       } catch (error) {
           console.log("Error:->", error.message);
-      }finally{
-        setLoaderInSideBar(false);
       }
   }
 
