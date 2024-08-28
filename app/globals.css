@@ -572,14 +572,17 @@ body::-webkit-scrollbar-thumb {
     width: 75%;
     max-width: 75%;
     /* padding-right: 0px; */
-
+    
   }
 }
 .banner-loader.col{
   overflow: auto;
-  /* position: absolute;
-  top: 50%; */
 } 
+.banner-loader2.col{
+  overflow: auto;
+  position: absolute;
+  top: 50%;
+}
 
 .modaltabcontent{
   .modal-header{

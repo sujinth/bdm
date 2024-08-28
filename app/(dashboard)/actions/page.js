@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { handleHTMLContent } from "../../utils/htmlUtils";
 import { usePopupContent } from "@/app/contexts/popupContext";
 import Loader from "../../components/commen/Loader/Loader";
+import Loader2 from "@/app/components/commen/Loader/Loader2";
 
 // Action component
 const Action = () => {
@@ -498,7 +499,7 @@ const Action = () => {
           {/* Content need to show under details */}
           <div className={Styles.detailbx}>
             <div className={Styles.titlebx}>{pageTitle}</div>
-            {submitLoader ? <Loader /> : null}
+            {submitLoader ? <Loader2 /> : null}
             <div
               className={`${Styles.contentwhtbx} ${Styles.innercontentwhtbx} `}
             >
