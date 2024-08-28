@@ -30,6 +30,7 @@ const Resources = () => {
       if (!userId) {
         throw new Error("User id not found.");
       }
+      setResourcesList([]);
       setPageLoader(true);
       const response = await axios.post("/api/resorces", { userId: userId });
       setPageLoader(false);
@@ -51,8 +52,8 @@ const Resources = () => {
         <div className={Styles.visitnamebx}>
           <div className={Styles.titlebx}>Visit Name</div>
           <div className={Styles.listitems}>
-            {resorcesList?.length == 0 && pageLoader ? <Loader /> : null}
-            {resorcesList?.length !== 0 && (
+            {pageLoader ? <Loader /> : null}
+            {resorcesList?.length !== 0 || pageLoader ? (
               <ul className={Styles.listcntnt}>
                 {resorcesList?.map((item, idx) => (
                   <li key={idx}>
@@ -60,6 +61,8 @@ const Resources = () => {
                   </li>
                 ))}
               </ul>
+            ) : (
+              <div>No data available</div>
             )}
           </div>
         </div>

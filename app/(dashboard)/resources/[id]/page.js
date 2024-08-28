@@ -93,7 +93,7 @@ const ResourcesList = () => {
                   {resources.filterChildResources?.length == 0 && pageLoader ? (
                     <Loader />
                   ) : null}
-                  {resources.filterChildResources?.length > 0 && (
+                  {resources.filterChildResources?.length > 0 || pageLoader ? (
                     <Nav variant="pills" className=" ">
                       {resources.filterChildResources.map((item, idx) => (
                         <Nav.Item key={idx} className={Styles.lfttabs}>
@@ -125,6 +125,8 @@ const ResourcesList = () => {
                         </Nav.Item>
                       ))}
                     </Nav>
+                  ) : (
+                    <div>No data available</div>
                   )}
                 </div>
               </Col>

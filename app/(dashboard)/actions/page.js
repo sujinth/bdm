@@ -220,7 +220,7 @@ const Action = () => {
       } else {
         setPopupContent((prevState) => ({
           ...prevState,
-          duelOption : false,
+          duelOption: false,
           titleContent: "",
           detailContent: "Please select at least one action.",
           show: true,
@@ -259,7 +259,7 @@ const Action = () => {
           setPopupContent((prevState) => ({
             ...prevState,
             titleContent: "",
-            duelOption : false,
+            duelOption: false,
             detailContent: "Actions updated successfilly.",
             show: true,
             onClick: clickOk,
@@ -270,7 +270,7 @@ const Action = () => {
           setPopupContent((prevState) => ({
             ...prevState,
             titleContent: "",
-            duelOption : false,
+            duelOption: false,
             detailContent:
               visitNameResponse?.data?.result?.message ||
               "Something went wrong, please try again later.",
@@ -293,7 +293,7 @@ const Action = () => {
       if (flagSave == "N") {
         setPopupContent((prevState) => ({
           ...prevState,
-          duelOption : false,
+          duelOption: false,
           titleContent: "",
           detailContent: errorMessage,
           show: true,
@@ -344,27 +344,35 @@ const Action = () => {
                   <Loader />
                 ) : (
                   <div className={Styles.listitems}>
-                    <ul className={Styles.listcntnt}>
-                      {delearshipVisitReport.map((item, index) => (
-                        <li
-                          key={index + "visitName"}
-                          onClick={() => {
-                            setGoBackToPage({
-                              pageOne: false,
-                              pageTwo: true,
-                              pageThree: false,
-                            });
-                            setPageName("Dealer Groups");
-                            setFlagTabbedView(item?.flagTabbedView);
-                            setFlagHealthCheck(item?.flagHealthCheck);
-                            setSelectedFormId(item?.formId);
-                            setPageTitle(item?.formName);
-                          }}
-                        >
-                          {item?.formName}
-                        </li>
-                      ))}
-                    </ul>
+                    {delearshipVisitReport?.length ? (
+                      <ul className={Styles.listcntnt}>
+                        {delearshipVisitReport.map((item, index) => (
+                          <li
+                            key={index + "visitName"}
+                            onClick={() => {
+                              setGoBackToPage({
+                                pageOne: false,
+                                pageTwo: true,
+                                pageThree: false,
+                              });
+                              setPageName("Dealer Groups");
+                              setFlagTabbedView(item?.flagTabbedView);
+                              setFlagHealthCheck(item?.flagHealthCheck);
+                              setSelectedFormId(item?.formId);
+                              setPageTitle(item?.formName);
+                            }}
+                          >
+                            {item?.formName}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div
+                        className={`${Styles.listitems} ${Styles.tablist1} `}
+                      >
+                        No data available
+                      </div>
+                    )}
                   </div>
                 )}
               </>
@@ -409,7 +417,13 @@ const Action = () => {
                             ))}
                           </ul>
                         </div>
-                      ) : null}
+                      ) : (
+                        <div
+                          className={`${Styles.listitems} ${Styles.tablist1} `}
+                        >
+                          No data available
+                        </div>
+                      )}
                     </Tab>
                     <Tab eventKey="Dealer" title="Dealer">
                       {dealership.length ? (
@@ -437,7 +451,13 @@ const Action = () => {
                             ))}
                           </ul>
                         </div>
-                      ) : null}
+                      ) : (
+                        <div
+                          className={`${Styles.listitems} ${Styles.tablist1} `}
+                        >
+                          No data available
+                        </div>
+                      )}
                     </Tab>
                   </Tabs>
                 )}
@@ -451,20 +471,24 @@ const Action = () => {
                   <Loader />
                 ) : (
                   <div className={Styles.listitems}>
-                    <ul className={Styles.listcntnt}>
-                      {incompleteActions.map((item, index) => (
-                        <li
-                          key={index + "visitReports"}
-                          onClick={(e) => {
-                            setCurrentIncompleteAction(e?.target?.value);
-                            setCartId(item.cartid);
-                          }}
-                          value={index}
-                        >
-                          {item?.dateandtime}
-                        </li>
-                      ))}
-                    </ul>
+                    {incompleteActions?.length ? (
+                      <ul className={Styles.listcntnt}>
+                        {incompleteActions.map((item, index) => (
+                          <li
+                            key={index + "visitReports"}
+                            onClick={(e) => {
+                              setCurrentIncompleteAction(e?.target?.value);
+                              setCartId(item.cartid);
+                            }}
+                            value={index}
+                          >
+                            {item?.dateandtime}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div>No data available</div>
+                    )}
                   </div>
                 )}
               </>
