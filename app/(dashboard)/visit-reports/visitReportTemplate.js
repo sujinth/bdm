@@ -455,7 +455,7 @@ const VisitReportTemplate = ({ selectedData }) => {
           oemAttendees1 : '',
           totalquestioncount1 : totalquestioncount,
           strFormControlInfo1 : formControlListId || '',
-          emailContent : false,
+          emailContent : true,
           totalresult : 1
         
       }
