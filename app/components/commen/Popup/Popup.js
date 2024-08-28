@@ -21,22 +21,23 @@ const Popup = () => {
         show={popupContent.show}
         onHide={popupContent.onClick}
         aria-labelledby="contained-modal-title-vcenter"
+        className={Styles.modalwrap}
         centered
       >
         <Modal.Body className={Styles.modalbodywrap}>
-          <div id="readmore">
-            <div>
-              <div>
-                <b>{popupContent.titleContent}</b>
-                <p>{popupContent.detailContent}</p>
-              </div>
-            </div>
+          <div id="readmore" className={Styles.modalcontentwrap}>
+            <b>{popupContent.titleContent}</b>
+            <p>{popupContent.detailContent}</p>
           </div>
           <Row>
             {popupContent.duelOption && (
               <>
                 <Col>
-                  <button type="button" className={Styles.modalbutton} onClick={popupContent.onClickYes}>
+                  <button
+                    type="button"
+                    className={Styles.modalbutton}
+                    onClick={popupContent.onClickYes}
+                  >
                     Yes
                   </button>{" "}
                 </Col>

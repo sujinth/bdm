@@ -4,13 +4,20 @@
 //                                                                              //
 //////////////////////////////////////////////////////////////////////////////////
 
+.modalwrap :first-child {
+  width: 350px;
+}
+
 .modalbodywrap {
   text-align: center;
-  padding: 40px 25px;
+  padding: 24px !important;
+  .modalcontentwrap {
+    width: 100% !important;
+  }
 }
 
 .modalbodywrap p {
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 .modalbutton {
