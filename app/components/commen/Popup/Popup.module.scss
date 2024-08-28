@@ -4,13 +4,11 @@
 //                                                                              //
 //////////////////////////////////////////////////////////////////////////////////
 
-.modalwrap :first-child {
-  width: 350px;
-}
+
 
 .modalbodywrap {
   text-align: center;
-  padding: 24px !important;
+  padding: 40px !important;
   .modalcontentwrap {
     width: 100% !important;
   }
@@ -18,6 +16,7 @@
 
 .modalbodywrap p {
   margin-bottom: 25px;
+  font-size: 16px;
 }
 
 .modalbutton {
@@ -27,6 +26,8 @@
   color: #fff;
   height: 35px;
   border-radius: 7px;
+  max-width: 125px;
+
 }
 
 .modalOkButton {
@@ -36,5 +37,5 @@
   color: #fff;
   height: 35px;
   border-radius: 7px;
-  max-width: 100px;
+  max-width: 125px;
 }
