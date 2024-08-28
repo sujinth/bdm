@@ -18,7 +18,7 @@ const InnerHeader = () => {
   const [show, setShow] = useState(false);
   const session = useSession();
   const pathName = usePathname();
-  const [headerText, setHeaderText] = useState("Visits Reports");
+  const [headerText, setHeaderText] = useState("");
   const loggedIn = !!session.data;
   const { handleGoBack } = useDashboard();
 

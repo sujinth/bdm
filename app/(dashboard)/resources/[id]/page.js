@@ -24,11 +24,11 @@ const ResourcesList = () => {
   const params = useParams();
   const resourceId = params.id;
   const [resourcesList, setResourcesList] = useState([]);
-  const [pageLoader, setPageLoader] = useState(false);
+  const [pageLoader, setPageLoader] = useState(true);
 
   useEffect(() => {
     getResources();
-  }, [session]);
+  }, [session.data?.user?.id]);
 
   // Function for memorise resources data
   const resources = useMemo(() => {
@@ -49,7 +49,7 @@ const ResourcesList = () => {
     try {
       let userId = session.data?.user?.id;
       if (!userId) {
-        throw new Error("Something went wrong");
+        throw new Error("User id not found.");
       }
       setPageLoader(true);
       const response = await axios.post("/api/resorces", { userId });
@@ -59,6 +59,9 @@ const ResourcesList = () => {
       }
     } catch (error) {
       console.log(error.message);
+      if (error.message != "User id not found.") {
+        setPageLoader(false);
+      }
     }
   }
 

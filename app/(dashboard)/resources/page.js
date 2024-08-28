@@ -16,12 +16,12 @@ import Loader from "@/app/components/commen/Loader/Loader";
 const Resources = () => {
   const session = useSession();
   const [resorcesList, setResourcesList] = useState([]);
-  const [pageLoader, setPageLoader] = useState(false);
+  const [pageLoader, setPageLoader] = useState(true);
 
   // If any changes happen in session below useEffect will render
   useEffect(() => {
     getResources();
-  }, [session]);
+  }, [session.data?.user?.id]);
 
   // Function for fetch resorces
   async function getResources() {
@@ -44,6 +44,9 @@ const Resources = () => {
       }
     } catch (error) {
       console.log(error.message);
+      if (error.message != "User id not found.") {
+        setPageLoader(false);
+      }
     }
   }
   return (
