@@ -26,9 +26,9 @@ const Popup = () => {
       >
         <Modal.Body className={Styles.modalbodywrap}>
           <div id="readmore" className={Styles.modalcontentwrap}>
-            <b>{popupContent.titleContent}</b>
-            <p>{popupContent.detailContent}</p>
-          </div>
+                <b>{popupContent.titleContent}</b>
+                <p>{popupContent.detailContent}</p>
+              </div>
           <Row>
             {popupContent.duelOption && (
               <>
