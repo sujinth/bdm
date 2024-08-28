@@ -220,6 +220,7 @@ const Action = () => {
       } else {
         setPopupContent((prevState) => ({
           ...prevState,
+          duelOption : false,
           titleContent: "",
           detailContent: "Please select at least one action.",
           show: true,
@@ -258,6 +259,7 @@ const Action = () => {
           setPopupContent((prevState) => ({
             ...prevState,
             titleContent: "",
+            duelOption : false,
             detailContent: "Actions updated successfilly.",
             show: true,
             onClick: clickOk,
@@ -268,6 +270,7 @@ const Action = () => {
           setPopupContent((prevState) => ({
             ...prevState,
             titleContent: "",
+            duelOption : false,
             detailContent:
               visitNameResponse?.data?.result?.message ||
               "Something went wrong, please try again later.",
@@ -290,6 +293,7 @@ const Action = () => {
       if (flagSave == "N") {
         setPopupContent((prevState) => ({
           ...prevState,
+          duelOption : false,
           titleContent: "",
           detailContent: errorMessage,
           show: true,

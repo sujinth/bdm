@@ -19,7 +19,7 @@ export async function GET(request) {
     const response = await axios.get(
       `${
         config.VISITREPORTS
-      }?userid=100&lastupdatedttm=${"2012-03-12 05:49:32"}`,
+      }?userid=${userId}&lastupdatedttm=${config.LAST_UPDATED_TTM}`,
       {
         httpsAgent: agent,
       }

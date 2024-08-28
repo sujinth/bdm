@@ -60,7 +60,92 @@ const VisitReportTemplate = ({ selectedData }) => {
     visitReportList : false
   })
 
+  // Memoize formData to avoid unnecessary re-renders
+  const formData = useMemo(() => selectedReportData, [selectedReportData]);
 
+  useEffect(()=>{
+    if(formData?.flagTabbedView === 'N'){
+
+        // Get the input element by its name attribute
+        const txtDateTimeElement = document.querySelector('input[name="txtDateTime"]');
+        const txtDealershipNameElement = document.querySelector('input[name="txtDealershipName"]');   
+        
+        if (txtDateTimeElement) {
+
+            // Format the date and time as DD/MM/YYYY HH:mm:ss
+            const now = moment();
+            const formattedDateTime = now.format('DD/MM/YYYY HH:mm:ss');
+            txtDateTimeElement.value = formattedDateTime;
+        }
+        if(txtDealershipNameElement){
+
+            txtDealershipNameElement.value = formData?.formName;
+        }
+    }
+  })
+  // Handle HTML content injection on formData change
+  useEffect(() => {
+    if (formData?.formInfo && (!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'N')) {
+          handleHTMLContent(formData.formInfo, 'root');
+    }
+    if((!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'Y')){
+          let rootId  =  document.getElementById('root')
+          rootId.innerHTML = ''
+    }
+  }, [formData?.formInfo,goBackToPage.pageFour]);
+
+  useEffect(() => {
+    if (formData?.flagTabbedView === 'Y') {
+        setIsLastTabSelected(false);
+    } else {
+        setIsLastTabSelected(true);
+    }
+  }, [formData]);
+
+  useEffect(() => {
+    const tabs = document.querySelectorAll('#tb2 li a');
+    tabs.forEach(tab => tab.addEventListener('click', handleTabClick));
+    
+    // Cleanup: Remove event listeners when the component unmounts or dependencies change
+    return () => {
+      tabs.forEach(tab => tab.removeEventListener('click', handleTabClick));
+    };
+  },[isActive]);
+  
+  // Visit report lists
+  useEffect(()=>{
+    if(session.data?.user?.id && !apiHandleRef.current.visitReportList){
+      apiHandleRef.current.visitReportList = true;
+      getVisitReportList()
+    }
+  },[session.data?.user?.id])
+  
+  useEffect(()=>{
+    initiallyFetchSavedFormDataStorage()
+  },[session.data?.user?.id,goBackToPage.pageFour,selectedExistingVisitReportData])
+
+  useEffect(()=>{
+    if(isRemovedSavedData && Object.keys(selectedExistingVisitReportData).length == 0){
+      handleHTMLContent(formData.formInfo, 'root');
+      setIsRemovedSavedData(false);
+      setIsLastTabSelected(false);
+      setIsActive(!isActive)
+     }
+  },[selectedExistingVisitReportData,isRemovedSavedData])
+
+  useEffect(()=>{
+    if(isActiveFollowUpReport && goBackToPage.pageFour){
+      handleHTMLContent(selectedExistingVisitReportData.newFormdata, 'root');
+      setIsActive(!isActive);
+    }
+    if(!goBackToPage.pageFour && formData?.flagTabbedView === 'Y'){
+       setIsLastTabSelected(false);
+    }
+    if(Object.keys(selectedExistingVisitReportData).length ==0 && !goBackToPage.pageFour && formData?.flagTabbedView === 'Y'){
+      setFormValuesFromLocalStorage();
+    }
+  },[goBackToPage.pageFour])
+  
   const clearPreviousState= () =>{
     setIsActiveFollowUpReport(false);
     setImageList((prev)=>(
@@ -71,9 +156,6 @@ const VisitReportTemplate = ({ selectedData }) => {
     ))
   }
 
-  // Memoize formData to avoid unnecessary re-renders
-  const formData = useMemo(() => selectedReportData, [selectedReportData]);
-  
   // Function for get form element values
   const fetchFormElementValues = async()=>{
 
@@ -216,8 +298,6 @@ const VisitReportTemplate = ({ selectedData }) => {
           
   }
 
-
-
   // const handleSubmitAlert = () =>{
   //     setPopupContent((prevState) => ({
   //       ...prevState,
@@ -232,11 +312,56 @@ const VisitReportTemplate = ({ selectedData }) => {
         router.push("/home");
         handleClick();
   }
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    try{
-      e.preventDefault();
 
+  // Function for send email 
+  const sendEmailPopUp=()=>{
+    setPopupContent((prevState) => ({
+      ...prevState,
+      titleContent: "",
+      duelOption : true,
+      detailContent: "Would you like to email these details ?",
+      show: true,
+      onClickNo : sendEmailNo,
+      onClickYes : sendEmailYes
+    }));
+  }
+
+  function sendEmailYes(){
+    let { recipientList} = recipients;
+    if(recipientList == ""){
+        setPopupContent((prevState) => ({
+          ...prevState,
+          duelOption : false,
+          detailContent: "At least one recepient required.",
+          show: true,
+          onClick : handleClick
+        }));
+    }else{
+        let sendEmailFlag = true;
+
+        setPopupContent((prevState) => ({
+          ...prevState,
+          detailContent: "",
+          show: false,
+        }));
+        handleSubmit(sendEmailFlag);
+    }
+  }
+  // Handle Function while clicking send mail no
+  function sendEmailNo(){
+      let sendEmailFlag = false;
+      // handleClick();
+      setPopupContent((prevState) => ({
+        ...prevState,
+        detailContent: "",
+        show: false,
+      }));
+      handleSubmit(sendEmailFlag);
+  }
+  // Handle form submission
+  const handleSubmit = async (sendEmailFlag) => {
+    try{
+      
       // fetch form values
       const {
         formControlListId, 
@@ -262,29 +387,36 @@ const VisitReportTemplate = ({ selectedData }) => {
           throw new Error('User ID not found');
       }
 
-      //----------Handle dealership name & dealership id 
-      let dealershipName = selectedDealer?.name;
-      let dealershipid  = selectedDealer?.id;
-      let reviewperiod = ''
-      if(selectedDealer.flagdealergroup == 'Y'){
-           dealershipid = selectedDealer.dealerGroupId;
-           dealershipName = selectedDealer.dealerGroupName
-      }
-      if(selectedDealer.flagHealthCheck == 'Y'){
-           reviewperiod = formValues?.reviewPeriod;
-      }
-      
-      //----------Convert date format YYYY-MM-DD -> DD/MM/YYYY
-      let reviewDate = formValues?.reviewDate;
-      if(reviewDate){
-        reviewDate = moment(reviewDate,'YYYY-MM-DD').format('DD/MM/YYYY')
-      }
 
       //--------- recipients
       let { recipientList, recipientBccList, recipientCcList} = recipients;
       recipientList = recipientList.join(',');
       recipientBccList = recipientBccList.join(',');
       recipientCcList = recipientCcList.join(',');
+
+      // Clearing the recipients
+      if(!sendEmailFlag){
+          recipientList = "";
+          recipientBccList = "";
+          recipientCcList = ""
+      }
+
+      //----------Handle dealership name & dealership id 
+      let dealershipName = selectedDealer?.name;
+      let dealershipid  = selectedDealer?.id;
+
+      if(selectedDealer.flagdealergroup == 'Y'){
+           dealershipid = selectedDealer.dealerGroupId;
+           dealershipName = selectedDealer.dealerGroupName
+      }
+
+      //----------Convert date format YYYY-MM-DD -> DD/MM/YYYY
+      let reviewDate = formValues?.reviewDate;
+      if(reviewDate){
+        reviewDate = moment(reviewDate,'YYYY-MM-DD').format('DD/MM/YYYY')
+      }
+
+
 
       
       // _____REQUEST BODY______
@@ -360,46 +492,6 @@ const VisitReportTemplate = ({ selectedData }) => {
     }
   };
 
-  useEffect(()=>{
-    if(formData?.flagTabbedView === 'N'){
-
-        // Get the input element by its name attribute
-        const txtDateTimeElement = document.querySelector('input[name="txtDateTime"]');
-        const txtDealershipNameElement = document.querySelector('input[name="txtDealershipName"]');   
-        
-        if (txtDateTimeElement) {
-
-            // Format the date and time as DD/MM/YYYY HH:mm:ss
-            const now = moment();
-            const formattedDateTime = now.format('DD/MM/YYYY HH:mm:ss');
-            txtDateTimeElement.value = formattedDateTime;
-        }
-        if(txtDealershipNameElement){
-
-            txtDealershipNameElement.value = formData?.formName;
-        }
-    }
-  })
-
-  // Handle HTML content injection on formData change
-  useEffect(() => {
-    if (formData?.formInfo && (!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'N')) {
-          handleHTMLContent(formData.formInfo, 'root');
-    }
-    if((!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'Y')){
-          let rootId  =  document.getElementById('root')
-          rootId.innerHTML = ''
-    }
-  }, [formData?.formInfo,goBackToPage.pageFour]);
-
-  useEffect(() => {
-    if (formData?.flagTabbedView === 'Y') {
-        setIsLastTabSelected(false);
-    } else {
-        setIsLastTabSelected(true);
-    }
-  }, [formData]);
-
   // Function for handle tab click
   const handleTabClick = (event) => {
 
@@ -424,17 +516,6 @@ const VisitReportTemplate = ({ selectedData }) => {
     }
   };
 
-  useEffect(() => {
-    const tabs = document.querySelectorAll('#tb2 li a');
-    tabs.forEach(tab => tab.addEventListener('click', handleTabClick));
-    
-    // Cleanup: Remove event listeners when the component unmounts or dependencies change
-    return () => {
-      tabs.forEach(tab => tab.removeEventListener('click', handleTabClick));
-    };
-  },[isActive]);
-  
-
   // Function for handle onchangFunctionality
   const handleFormChange = (name, value) => {
 
@@ -446,8 +527,30 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Save visit report form in local storage
   const handleLandingFormSaveButton = (e) => {
-    e.preventDefault();
-    localStorage.setItem('visitReportForm',JSON.stringify(formValues))
+    try{
+      e.preventDefault();
+      const userId = session.data?.user?.id;
+      if (!userId) {
+          throw new Error('User ID not found');
+      }
+      let savedData = {
+            [userId] : formValues
+      }
+       // Retrieve stored data from localStorage
+       let storedSavedData = JSON.parse(localStorage.getItem("visitReportForm")) || {};
+       if (storedSavedData[userId]) {
+             storedSavedData[userId] = savedData[userId]
+       }else {
+            // If no user data exists, add the new user with form data
+            storedSavedData = {
+              ...storedSavedData,
+              [userId]: savedData[userId],
+            };
+      }
+      localStorage.setItem('visitReportForm',JSON.stringify(storedSavedData))
+    }catch(error){
+      console.log("err ->",error.message)
+    }
   };
   
   // For fetching the visit report list
@@ -488,14 +591,6 @@ const VisitReportTemplate = ({ selectedData }) => {
         setLoaderInSideBar(false);
       }
   }
-
-  // Visit report lists
-  useEffect(()=>{
-    if(session.data?.user?.id && !apiHandleRef.current.visitReportList){
-      apiHandleRef.current.visitReportList = true;
-      getVisitReportList()
-    }
-  },[session.data?.user?.id])
 
   // Fuction for handle exisiting visit report data 
   const handleSelectExistingVisitReportData = (e,item) =>{
@@ -585,32 +680,46 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Function set value from localstorage
   const setFormValuesFromLocalStorage =()=>{
-
-      // Fetch saved form data from the local storage
-      let getFormData = JSON.parse(localStorage.getItem('visitReportForm'));
-
-      // Format the date as YYYY-MM-DD (or other desired format)
-      const now = new Date();
-      const formattedToDayDate = now.toISOString().split('T')[0];
-
-      // Dealership name
-      let dealershipName =  "";
-      if(formData.flagHealthCheck == 'Y'){
-        if(selectedDealer.flagdealergroup == 'Y'){
-           dealershipName = selectedDealer.dealerGroupName;
-        }else{
-          dealershipName = selectedDealer.name;
+    try{
+        const userId = session.data?.user?.id;
+        if (!userId) {
+            throw new Error('User ID not found');
         }
-      }
+        // Fetch saved form data from the local storage
+        let getFormData = JSON.parse(localStorage.getItem('visitReportForm')) || {};
+
+        // Format the date as YYYY-MM-DD (or other desired format)
+        const now = new Date();
+        const formattedToDayDate = now.toISOString().split('T')[0];
+
+        // Dealership name
+        let dealershipName =  "";
+        if(formData.flagHealthCheck == 'Y'){
+          if(selectedDealer.flagdealergroup == 'Y'){
+            dealershipName = selectedDealer.dealerGroupName;
+          }else{
+            dealershipName = selectedDealer.name;
+          }
+        }
+
+        let dealerAttendees = "";
+        let scukAttendees = "";
+        let reviewPeriod = "";
+        let savedData = getFormData?.[userId]
+        if(savedData){
+           dealerAttendees = savedData?.dealerAttendees
+           scukAttendees =  savedData?.scukAttendees
+           reviewPeriod = savedData?.reviewPeriod
+        }
 
         // Set data from locastorage
         setFormValues((prev) => ({
           ...prev,
           reviewDate: formattedToDayDate, // Update the review date with the formatted date
-          dealerAttendees: getFormData?.dealerAttendees || "",
-          scukAttendees:  getFormData?.scukAttendees || "",
-          txtDealershipName: dealershipName || "", // Use the dealership name if available
-          reviewPeriod: getFormData?.reviewPeriod || "",
+          dealerAttendees: dealerAttendees,
+          scukAttendees:  scukAttendees,
+          txtDealershipName: dealershipName, // Use the dealership name if available
+          reviewPeriod: reviewPeriod,
         }));
         // setFormValues((prev) => ({
         //   ...prev,
@@ -620,6 +729,10 @@ const VisitReportTemplate = ({ selectedData }) => {
         //   txtDealershipName: dealershipName || "", // Use the dealership name if available
         //   reviewPeriod: prev.reviewPeriod === "" ? (getFormData?.reviewPeriod || "") : prev.reviewPeriod,
         // }));
+    }catch(error){
+
+    }
+      
 
      
   }
@@ -672,19 +785,6 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   }
 
-  useEffect(()=>{
-    if(isActiveFollowUpReport && goBackToPage.pageFour){
-      handleHTMLContent(selectedExistingVisitReportData.newFormdata, 'root');
-      setIsActive(!isActive);
-    }
-    if(!goBackToPage.pageFour && formData?.flagTabbedView === 'Y'){
-       setIsLastTabSelected(false);
-    }
-    if(Object.keys(selectedExistingVisitReportData).length ==0 && !goBackToPage.pageFour && formData?.flagTabbedView === 'Y'){
-      setFormValuesFromLocalStorage();
-    }
-  },[goBackToPage.pageFour])
-
   // Handle functiopn follow up report
   const handleFollowUpReport=()=>{
     if (formData?.flagTabbedView === 'Y') {
@@ -730,7 +830,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                 show: true,
                 onClick : handleClick
               }));
-              alert(response.data.result.root.emailresend[0].message)
+              // alert(response.data.result.root.emailresend[0].message)
             }else{
               setPopupContent((prevState) => ({
                 ...prevState,
@@ -875,12 +975,14 @@ console.log("formControlResult",formControlResult);
               delete storedSavedData[userId][formId]
               // Save the updated data back to localStorage
               localStorage.setItem("savedData", JSON.stringify(storedSavedData));
-              if(flag){
-                setIsRemovedSavedData(true);
-              }
+
              
            } 
           } 
+          // flag handling updating real dom 
+          if(flag){
+            setIsRemovedSavedData(true);
+          }
       }catch(err){
         console.log("error",err.message);
         
@@ -941,11 +1043,19 @@ console.log("formControlResult",formControlResult);
               }else if(elementId.substring(0, 3) === 'hid'){
                   let element = document.getElementById(elementId);
                   
-                  if(formElementResultArray[i] == 'Yes' && element){
-                      element.value = formElementResultArray[i]
-                  }else if(formElementResultArray[i] == 'Yes' && element){
-
+                  if(element){
                     element.value = formElementResultArray[i]
+                      if(element.value !== '0'){
+
+                        let hidElementNum = elementId.split('hid_')
+                        // fetching based on the name 
+                        let chkElement = document.getElementsByName(`chk_${hidElementNum?.[1]}[]`);
+                        for(let ele of chkElement){
+                            if(ele.value == formElementResultArray[i]){
+                                ele.checked = true
+                            }
+                        }
+                      }
                   }
               }else {    
 
@@ -1031,22 +1141,26 @@ console.log("formControlResult",formControlResult);
   }
 
   const handleMiddleFormCancelButton =()=>{
-    setFormValues((prev)=>({...prev, dealerAttendees : "", scukAttendees :"",reviewPeriod : ""}));  
-    localStorage.removeItem("visitReportForm");
-  }
-  
-  useEffect(()=>{
-    initiallyFetchSavedFormDataStorage()
-  },[session.data?.user?.id,goBackToPage.pageFour,selectedExistingVisitReportData])
+    try{
 
-  useEffect(()=>{
-    if(isRemovedSavedData && Object.keys(selectedExistingVisitReportData).length == 0){
-      handleHTMLContent(formData.formInfo, 'root');
-      setIsRemovedSavedData(false);
-      setIsLastTabSelected(false)
-     }
-  },[selectedExistingVisitReportData,isRemovedSavedData])
-  console.log("form values",formValues);
+        const userId = session.data?.user?.id; 
+            if (!userId) {
+              throw new Error('User ID not found');
+          }
+        // Retrieve stored data from localStorage
+        let storedSavedData = JSON.parse(localStorage.getItem("visitReportForm")) || {};
+        // Check if data for the user already exists
+        if (storedSavedData?.[userId]) {
+            delete storedSavedData[userId]
+            // Save the updated data back to localStorage
+            localStorage.setItem("visitReportForm", JSON.stringify(storedSavedData));
+            setFormValues((prev)=>({...prev, dealerAttendees : "", scukAttendees :"",reviewPeriod : ""})); 
+        }
+    }catch(error){
+
+    }
+
+  }
   
   return (
     <div className={Styles.bgcolor}>
@@ -1343,7 +1457,7 @@ console.log("formControlResult",formControlResult);
                   </div>
                   {(Object.keys(selectedExistingVisitReportData).length == 0 
                   || isActiveFollowUpReport ) &&
-                  <CustomButton type="submit"      onClick={handleSubmit}>
+                  <CustomButton type="submit"      onClick={sendEmailPopUp}>
                       Submit
                   </CustomButton>}
                 </div>
@@ -1465,39 +1579,46 @@ const MemoisedVisitReportComponent = memo(VisitReportForm);
 const PopoverComponent = ({ id, label, recipients, setRecipients, flag, recipientList, isAllredyExistVisitReport}) => {
   const [inputValue, setInputValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
-  
+  const [showPopover, setShowPopover] = useState(false); 
+
   // Function for add recipient
-  const addRecipient=()=>{
+  const addRecipient=(e)=>{
+    try{
+      e.preventDefault()
+      if (inputValue.trim() === '') return;
+      let listName = '';
+      let updatedList = [];
+      switch (flag) {
+        case 'ADD_RECIPIENT':
+          listName = 'recipientList';
+          
+          updatedList = [...recipients.recipientList];
+          break;
+        case 'ADD_BCC':
+          listName = 'recipientBccList';
+          updatedList = [...recipients.recipientBccList];
+          break;
+        case 'ADD_CC':
+          listName = 'recipientCcList';
+          updatedList = [...recipients.recipientCcList];
+          break;
+        default:
+          console.log("Unknown flag");
+      }
 
-    if (inputValue.trim() === '') return;
-    let listName = '';
-    let updatedList = [];
-    switch (flag) {
-      case 'ADD_RECIPIENT':
-        listName = 'recipientList';
+      if(updatedList.includes(inputValue)){
+        setErrorMessage(`${inputValue} already exists.`);
+      }else{
+        updatedList.push(inputValue);
+        setRecipients((prev)=>(
+          {...prev,[listName] : updatedList}
+        ))
+        setInputValue("")
+        setErrorMessage(''); 
+      }
+    }catch(err){
+        console.log("error ->",error);
         
-        updatedList = [...recipients.recipientList];
-        break;
-      case 'ADD_BCC':
-        listName = 'recipientBccList';
-        updatedList = [...recipients.recipientBccList];
-        break;
-      case 'ADD_CC':
-        listName = 'recipientCcList';
-        updatedList = [...recipients.recipientCcList];
-        break;
-      default:
-        console.log("Unknown flag");
-    }
-
-    if(updatedList.includes(inputValue)){
-      setErrorMessage(`${inputValue} already exists.`);
-    }else{
-      updatedList.push(inputValue);
-      setRecipients((prev)=>(
-        {...prev,[listName] : updatedList}
-      ))
-      setErrorMessage(''); 
     }
   }
   // Funvtion for remove recipient 
@@ -1524,19 +1645,31 @@ const PopoverComponent = ({ id, label, recipients, setRecipients, flag, recipien
     ));
     
   }
-
+  // Handle popover toggle (open/close)
+  const handleToggle = (nextShow) => {
+    setShowPopover(nextShow);
+    if (!nextShow) {
+      // If popover is closing, reset state
+      setErrorMessage('');
+      setInputValue('');
+    }
+  };
   return (
     <>
         <OverlayTrigger
           trigger="click"
           placement="top"
           rootClose
+          onToggle={handleToggle}
+          show={showPopover}
           overlay={
             <Popover id={`${id}-popover`}>
               <Popover.Body>
                 {!isAllredyExistVisitReport && <div className={`${Styles.flex} ${Styles.addsearchrow} `} >
-                  <input type='text' onChange={(e)=>setInputValue(e.target.value.trim())} placeholder={label} />
-                  <button type='button' value={inputValue} onClick={() => addRecipient()}  className={Styles.addbtn}>Add</button>
+                  <form onSubmit={addRecipient} className='d-flex'>
+                    <input type="email"  value={inputValue}   onChange={(e)=>setInputValue(e.target.value.trim())} placeholder={label} />
+                    <button type='submit'   className={Styles.addbtn}>Add</button>
+                  </form>
                 </div>}
                 {errorMessage && <div className={Styles.errorMessage}>{errorMessage}</div>}
                 <div className={Styles.boxmailcontent}>
