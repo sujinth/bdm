@@ -25,7 +25,7 @@ const Coaching = () => {
     setShow(true);
     setActiveModule(modulename);
   };
-  console.log(moduleStatus);
+
 
   return (
     <>

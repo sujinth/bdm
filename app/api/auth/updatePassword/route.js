@@ -8,8 +8,7 @@ const agent = new https.Agent({
 export async function POST(request) {
   try {
     const { userId, txtCPassword } = await request.json();
-    console.log("userId", userId);
-    console.log("txtCPassword", txtCPassword);
+
     // At request level
     const response = await axios.post(
       `${config.CHANGE_PASSWORD}?userid=${userId}&txtPassWord=${txtCPassword}`,
@@ -18,7 +17,6 @@ export async function POST(request) {
         httpsAgent: agent,
       }
     );
-    console.log("response", response.data);
     return new Response(
       JSON.stringify({ message: "success", result: response.data }),
       {

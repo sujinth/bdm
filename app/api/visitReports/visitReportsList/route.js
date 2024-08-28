@@ -11,8 +11,6 @@ export async function POST(request) {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
     const { body } =  await request.json();
-
-    console.log("--------------BEFORE---------------");
     let formData = new FormData();
     for (let key in body) {
       formData.append(key, body[key]);
@@ -24,7 +22,8 @@ export async function POST(request) {
         httpsAgent: agent,
       }
     );
-    console.log("--------------AFTER---------------");
+console.log("response.data ",response.data );
+
     return new Response(
       JSON.stringify({ message: "success", result: response.data }),
       {

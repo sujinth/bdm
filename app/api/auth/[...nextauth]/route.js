@@ -64,18 +64,6 @@ const handler = NextAuth({
     },
     async redirect(props) {
       const { baseUrl } = props;
-      console.log("baseUrl", baseUrl);
-      // let { url } = props;
-
-      //     // const cleanedUpUrl = new URL(url);
-      //     // console.log("cleanedUpUrl",cleanedUpUrl);
-      //     // cleanedUpUrl.searchParams.delete("callbackUrl");
-      //     // url = cleanedUpUrl.toString();
-      //     // console.log("url-->",url);
-      //     // // // Allows relative callback URLs
-      //     // if (url.startsWith("/")) return `${baseUrl}${url}`
-      //     // // // Allows callback URLs on the same origin
-      //     // else if (new URL(url).origin === baseUrl) return url
       return `${baseUrl}/login`;
     },
   },

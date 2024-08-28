@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+
 // Pages
 import Styles from "./visitreport.module.scss";
 import VisitReportTemplate from "./visitReportTemplate";
@@ -19,7 +20,6 @@ const VisitReport = () => {
   const [selectedDealer, setSelectedDealerData] = useState({});
   const [dealers, setDealers] = useState({});
   const [isReportsSelected, setReportsSelected] = useState(false);
-  const [flagDealergroup, setFlagDealergroup] = useState("Y");
   const [loaderInSideBar, setLoaderInSideBar] = useState(false);
 
   // Fetch dealers' details based on user ID
@@ -75,7 +75,8 @@ const VisitReport = () => {
       setReportsSelected(false);
     }
   }, [goBackToPage.pageTwo]);
-
+  
+  // Function for handle select visit report data
   const handleVisitReportsData = (item) => {
     setSelectedReportData(item);
     getDealersDetails();
@@ -97,8 +98,6 @@ const VisitReport = () => {
     }));
   };
 
-
-  
   return (
     <>
       {Object.keys(selectedDealer).length !== 0 && goBackToPage.pageThree ? (
@@ -114,30 +113,33 @@ const VisitReport = () => {
                     <div className={Styles.titlebx}>
                       Visit Name
                     </div>
-                    {loaderInSideBar ? 
-                    <Loader /> : 
-                    (visitReports?.length !== 0 && <div className={Styles.listitems}>
-                      <ul className={Styles.listcntnt}>
-                        {visitReports.map((item, idx) => (
-                          <li
-                            key={idx}
-                            onClick={() => handleVisitReportsData(item)}
-                          >
-                            {item?.formName}
-                          </li>
-                        ))}
-      
-                      </ul>
-                    </div>)
-                    }
-                     
+                    {loaderInSideBar ? (
+                      <Loader />
+                    ) : (
+                      visitReports?.length !== 0 ? (
+                        <div className={Styles.listitems}>
+                          <ul className={Styles.listcntnt}>
+                            {visitReports.map((item, idx) => (
+                              <li
+                                key={idx}
+                                onClick={() => handleVisitReportsData(item)}
+                              >
+                                {item?.formName}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : 
+                      (<span>No data found</span>)
+                    )}
+                                        
                   </>
                 )}
               {!isReportsSelected &&
                 goBackToPage.pageTwo &&
                 (loaderInSideBar ? 
                   <Loader /> : 
-                ((Object.keys(dealers).length !== 0)  && (
+                ((Object.keys(dealers).length !== 0)  ? (
                   <div className={`${dealers?.dealergroup && dealers?.dealership ? '' : `${Styles.dealersingle}`}`}>
                   <Tabs id="controlled-tab-example" className="tabbtn">
                     {dealers?.dealergroup && (
@@ -186,7 +188,7 @@ const VisitReport = () => {
                     )}
                   </Tabs>
                   </div>
-                )))
+                ) : <span>No data found</span>))
                 }
             </div>
             <div className={Styles.detailbx}>

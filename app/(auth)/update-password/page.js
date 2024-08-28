@@ -121,7 +121,6 @@ const Updatepassword = () => {
             requestBody
           );
           let responseData = response.data.result;
-          console.log("responseData", responseData);
 
           if (responseData.length !== 0) {
             if (responseData.root?.status !== "0") {
@@ -157,7 +156,6 @@ const Updatepassword = () => {
       console.error("Login failed:", error);
     }
   };
-  console.log("formFields", formFields);
   const handleCancelbtn = () => {
     setErrorMessage((prev) => ({ ...prev, txtFEmailErrorMsg: "" }));
     router.push("/home");

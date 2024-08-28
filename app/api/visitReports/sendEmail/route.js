@@ -9,7 +9,6 @@ const agent = new https.Agent({
 export async function POST(request){
     try{
         const { body } =  await request.json();
-        console.log("Send email",body);
         
         let formData = new FormData();
         for (let key in body) {

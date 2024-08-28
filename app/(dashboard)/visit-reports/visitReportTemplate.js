@@ -22,18 +22,15 @@ import Styles from './visitreport.module.scss';
 const VisitReportTemplate = ({ selectedData }) => {
 
   const ABSPATH = process.env.NEXT_PUBLIC_APP_PUBLIC_ABSPATH;
-  // console.log("selectedData",selectedData);
   const { selectedReportData, selectedDealer } = selectedData;
 
   // session
   const session = useSession();
   const router = useRouter();
-
   // useContext
   const { setPopupContent, handleClick} = usePopupContent();
   const { setGoBackToPage, goBackToPage } = useDashboard();
   // States
-  const [imagePopupVisible, setImagePopupVisible] = useState(false);
   const [isLastTabSelected, setIsLastTabSelected] = useState(false);
   const [visitReportList, setVisitReportList] = useState([])
   const [selectedElement, setSelectedElement] = useState(null);
@@ -54,6 +51,7 @@ const VisitReportTemplate = ({ selectedData }) => {
     image12 : '',
     image13 : ''
   })
+  
   // useRef
   const liTagNewFormRef = useRef(null);
   const apiHandleRef = useRef({
@@ -63,6 +61,7 @@ const VisitReportTemplate = ({ selectedData }) => {
   // Memoize formData to avoid unnecessary re-renders
   const formData = useMemo(() => selectedReportData, [selectedReportData]);
 
+  // Case flagTabbedView = false  setting the date time and dealership name
   useEffect(()=>{
     if(formData?.flagTabbedView === 'N'){
 
@@ -83,6 +82,7 @@ const VisitReportTemplate = ({ selectedData }) => {
         }
     }
   })
+
   // Handle HTML content injection on formData change
   useEffect(() => {
     if (formData?.formInfo && (!goBackToPage.pageFour && selectedReportData.flagTabbedView == 'N')) {
@@ -94,6 +94,7 @@ const VisitReportTemplate = ({ selectedData }) => {
     }
   }, [formData?.formInfo,goBackToPage.pageFour]);
 
+  // Handle tab state of tab selected
   useEffect(() => {
     if (formData?.flagTabbedView === 'Y') {
         setIsLastTabSelected(false);
@@ -112,7 +113,7 @@ const VisitReportTemplate = ({ selectedData }) => {
     };
   },[isActive]);
   
-  // Visit report lists
+  // Get visit report lists
   useEffect(()=>{
     if(session.data?.user?.id && !apiHandleRef.current.visitReportList){
       apiHandleRef.current.visitReportList = true;
@@ -120,23 +121,43 @@ const VisitReportTemplate = ({ selectedData }) => {
     }
   },[session.data?.user?.id])
   
+  // Initially set saved data from local storage
   useEffect(()=>{
     initiallyFetchSavedFormDataStorage()
   },[session.data?.user?.id,goBackToPage.pageFour,selectedExistingVisitReportData])
 
+  // While canceling the saved data this useEffect will render
   useEffect(()=>{
-    if(isRemovedSavedData && Object.keys(selectedExistingVisitReportData).length == 0){
+    if(isRemovedSavedData){
       handleHTMLContent(formData.formInfo, 'root');
-      setIsRemovedSavedData(false);
-      setIsLastTabSelected(false);
-      setIsActive(!isActive)
+      if(selectedReportData.flagTabbedView == 'Y' ){
+          setIsLastTabSelected(false);
+        }
+        setIsRemovedSavedData(false);
+        setIsActive(!isActive)
      }
   },[selectedExistingVisitReportData,isRemovedSavedData])
 
+  // Attach recipient existing data to into initial state
   useEffect(()=>{
-    if(isActiveFollowUpReport && goBackToPage.pageFour){
-      handleHTMLContent(selectedExistingVisitReportData.newFormdata, 'root');
-      setIsActive(!isActive);
+    if(Object.keys(selectedExistingVisitReportData).length !== 0 && goBackToPage.pageFour){
+        if(selectedExistingVisitReportData?.emailaddresslist){
+            setRecipients((prev)=>({...prev,recipientList : selectedExistingVisitReportData?.emailaddresslist.split(',')}))
+        }
+        if(selectedExistingVisitReportData?.emailaddresslistbcc){
+          setRecipients((prev)=>({...prev,recipientBccList : selectedExistingVisitReportData?.emailaddresslistbcc.split(',')}))
+        }
+        if(selectedExistingVisitReportData?.emailaddresslistcc){
+          setRecipients((prev)=>({...prev,recipientCcList : selectedExistingVisitReportData?.emailaddresslistcc.split(',')}))
+        }
+    }
+    
+  },[selectedExistingVisitReportData,goBackToPage.pageFour])
+
+  useEffect(()=>{
+    if((isActiveFollowUpReport && goBackToPage.pageFour) || (isActiveFollowUpReport && formData.flagTabbedView == 'N')){
+        handleHTMLContent(selectedExistingVisitReportData.newFormdata, 'root');
+        setIsActive(!isActive);
     }
     if(!goBackToPage.pageFour && formData?.flagTabbedView === 'Y'){
        setIsLastTabSelected(false);
@@ -144,8 +165,9 @@ const VisitReportTemplate = ({ selectedData }) => {
     if(Object.keys(selectedExistingVisitReportData).length ==0 && !goBackToPage.pageFour && formData?.flagTabbedView === 'Y'){
       setFormValuesFromLocalStorage();
     }
-  },[goBackToPage.pageFour])
+  },[goBackToPage.pageFour,isActiveFollowUpReport,selectedExistingVisitReportData])
   
+  // Function for clear previous image state and recipient state
   const clearPreviousState= () =>{
     setIsActiveFollowUpReport(false);
     setImageList((prev)=>(
@@ -208,7 +230,6 @@ const VisitReportTemplate = ({ selectedData }) => {
           }
           formElementIdUpdatedList += `${elementId}@@,`
         }else if(elementId.substring(0, 2) === 'rd'){
-          // const chkElements = arr.filter(item => item.startsWith("chk"));
             let arrLength = cleanIds[i][1];
              let eleId = ''
             for(let j=1; j<=arrLength ; j++){
@@ -232,12 +253,8 @@ const VisitReportTemplate = ({ selectedData }) => {
             elementContent = document.getElementById(elementId)?.value || '';
 
         }
-        // console.log("elementId",cleanIds);
-        
         valuesArray.push(elementContent);
       }
-
-      
 
       // flagTabbedView === 'N'
       let txtDateTimeElement = '';
@@ -275,10 +292,6 @@ const VisitReportTemplate = ({ selectedData }) => {
 
       const formControlListId = formElementIdUpdatedList
 
-      // console.log("formElementIdUpdatedList",formElementIdUpdatedList);
-      // console.log("formElementIdList",formElementIdList);
-      // console.log("valuesArray",valuesArray);
-      
       // Join the items with `^@^` as the separator
       const formControlResult  = await formatDynamicOutput(valuesArray);
 
@@ -295,19 +308,9 @@ const VisitReportTemplate = ({ selectedData }) => {
         nextReviewDate,
         totalquestioncount
       }
-          
   }
 
-  // const handleSubmitAlert = () =>{
-  //     setPopupContent((prevState) => ({
-  //       ...prevState,
-  //       titleContent: "",
-  //       duelOption : true,
-  //       detailContent: "Have you compleated all tabs?",
-  //       show: true,
-  //       onClickYes : handleSubmit
-  //     }));
-  // }
+  // Function for handle success alert
   const handleSubmitSuccesAlert =()=>{
         router.push("/home");
         handleClick();
@@ -326,6 +329,7 @@ const VisitReportTemplate = ({ selectedData }) => {
     }));
   }
 
+  // Handle Function while clicking send mail Yes
   function sendEmailYes(){
     let { recipientList} = recipients;
     if(recipientList == ""){
@@ -338,7 +342,6 @@ const VisitReportTemplate = ({ selectedData }) => {
         }));
     }else{
         let sendEmailFlag = true;
-
         setPopupContent((prevState) => ({
           ...prevState,
           detailContent: "",
@@ -347,7 +350,8 @@ const VisitReportTemplate = ({ selectedData }) => {
         handleSubmit(sendEmailFlag);
     }
   }
-  // Handle Function while clicking send mail no
+
+  // Handle Function while clicking send mail No
   function sendEmailNo(){
       let sendEmailFlag = false;
       // handleClick();
@@ -358,6 +362,7 @@ const VisitReportTemplate = ({ selectedData }) => {
       }));
       handleSubmit(sendEmailFlag);
   }
+
   // Handle form submission
   const handleSubmit = async (sendEmailFlag) => {
     try{
@@ -376,10 +381,6 @@ const VisitReportTemplate = ({ selectedData }) => {
         nextReviewDate,
         totalquestioncount
       } = await fetchFormElementValues();
-
-      // output
-      console.log('formControlListId',formControlListId);
-      console.log("formControlResult",formControlResult);
 
       //---------- user ID
       const userId = session.data?.user?.id;
@@ -416,12 +417,8 @@ const VisitReportTemplate = ({ selectedData }) => {
         reviewDate = moment(reviewDate,'YYYY-MM-DD').format('DD/MM/YYYY')
       }
 
-
-
-      
       // _____REQUEST BODY______
       let requestBodyObj = {
-
           userid : userId,
           cartid : selectedExistingVisitReportData?.cartid || "", 
           followUpCartId1 : selectedExistingVisitReportData?.cartid || "", 
@@ -459,11 +456,13 @@ const VisitReportTemplate = ({ selectedData }) => {
           totalresult : 1
         
       }
-      console.log("request obj",requestBodyObj);
+
+      // Converting to form data
       let formDatas = new FormData();
       for( let key in requestBodyObj){
           formDatas.append(key, requestBodyObj[key])
       }
+
       let response = await axios.post('/api/visitReports/postDealershipVisitReport',formDatas);
       if(response.data.result.root.status){
         // Clearing the saved data
@@ -518,7 +517,6 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Function for handle onchangFunctionality
   const handleFormChange = (name, value) => {
-
     setFormValues(prevValues => ({
       ...prevValues,
       [name]: value
@@ -594,9 +592,8 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Fuction for handle exisiting visit report data 
   const handleSelectExistingVisitReportData = (e,item) =>{
-    console.log("item =>",item);
-    setIsActive(!isActive)
 
+    setIsActive(!isActive)
     // Handle style for selected item
     if (selectedElement) {
         selectedElement.classList.remove(Styles.listhead);
@@ -652,7 +649,6 @@ const VisitReportTemplate = ({ selectedData }) => {
   const handleClickNewForm = () =>{
 
     setIsActive(!isActive)
-
     // Handle li click selected style
     if (selectedElement) {
         selectedElement.classList.remove(Styles.listhead);
@@ -666,7 +662,6 @@ const VisitReportTemplate = ({ selectedData }) => {
 
     if(goBackToPage.pageFour && formData?.formInfo ){
       // __________________Tabbbed view exisiting data_______________
- 
       setIsLastTabSelected(false);
       handleHTMLContent(formData?.formInfo , 'root');
     }else if(selectedReportData.flagTabbedView == 'N'){
@@ -721,14 +716,6 @@ const VisitReportTemplate = ({ selectedData }) => {
           txtDealershipName: dealershipName, // Use the dealership name if available
           reviewPeriod: reviewPeriod,
         }));
-        // setFormValues((prev) => ({
-        //   ...prev,
-        //   reviewDate: formattedToDayDate, // Update the review date with the formatted date
-        //   dealerAttendees: prev.dealerAttendees === "" ? (getFormData?.dealerAttendees || "") : prev.dealerAttendees,
-        //   scukAttendees: prev.scukAttendees === "" ? (getFormData?.scukAttendees || "") : prev.scukAttendees,
-        //   txtDealershipName: dealershipName || "", // Use the dealership name if available
-        //   reviewPeriod: prev.reviewPeriod === "" ? (getFormData?.reviewPeriod || "") : prev.reviewPeriod,
-        // }));
     }catch(error){
 
     }
@@ -803,7 +790,7 @@ const VisitReportTemplate = ({ selectedData }) => {
         if (!userId) {
             throw new Error('User ID not found');
         }
-        if(selectedExistingVisitReportData?.emailaddresslist  !== ''){
+        if(recipients.recipientList.length  !== 0){
           
             // _____REQUEST BODY______
             let requestBodyObj = {
@@ -811,7 +798,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                   doAction : "sendMail",
                   userid : userId,
                   dealershipVisitreportCartId1 : selectedExistingVisitReportData?.cartid || "", 
-                  recepientEmails1 : selectedExistingVisitReportData?.emailaddresslist || "", 
+                  recepientEmails1 : recipients.recipientList.join(',')  || "", 
                   flagdealergroup1 : selectedDealer?.flagdealergroup || '',
                   flagtabbedview1  : selectedReportData?.flagTabbedView || '',
                   flagHealthCheck1 : selectedReportData.flagHealthCheck || '',
@@ -820,6 +807,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                 }
             }   
 
+            
             let response = await axios.post('/api/visitReports/sendEmail',requestBodyObj);
             if(response.data.result.root?.emailresend?.[0]?.status ==1){
               // response.data.result.root.emailresend[0].message
@@ -859,8 +847,6 @@ const VisitReportTemplate = ({ selectedData }) => {
   // Function for handle template form save
   const handleTemplateFormSaveButton =async()=>{
         try{
-            // let test = document.getElementById('txtAttendees').value 
-            // console.log("test value", test);
             // fetch form values
             const {
               formControlListId, 
@@ -890,7 +876,6 @@ const VisitReportTemplate = ({ selectedData }) => {
             if(flagdealergroup  == 'Y'){
                 dealershipId = dealerGroupId;
             }
-console.log("formControlResult",formControlResult);
 
             //-------> Saved object
             const savedData ={
@@ -947,7 +932,6 @@ console.log("formControlResult",formControlResult);
 
             // Save the updated data back to localStorage
             localStorage.setItem("savedData", JSON.stringify(storedSavedData));
-            console.log("savedData",savedData);
             
         }catch(err){
           console.log('Error ',err.message);
@@ -975,8 +959,6 @@ console.log("formControlResult",formControlResult);
               delete storedSavedData[userId][formId]
               // Save the updated data back to localStorage
               localStorage.setItem("savedData", JSON.stringify(storedSavedData));
-
-             
            } 
           } 
           // flag handling updating real dom 
@@ -997,10 +979,6 @@ console.log("formControlResult",formControlResult);
       try{
         let formElementIdArray = formControlId.split(',');
         let formElementResultArray = formControlResult.split('^@^');
-        console.log("formControlId",formControlId);
-        console.log("formControlResult",formControlResult);
-        
-
 
         // Split the input string at '@@1' to get an array of IDs without suffixes
         let cleanIds = formElementIdArray.map(item => item.split('@@'));
@@ -1017,7 +995,6 @@ console.log("formControlResult",formControlResult);
                 }
 
               }else if(elementId.substring(0, 3) === 'chk'){
-                console.log(cleanIds[i]);
                 
                 let eleIndex = cleanIds[i][1];
                   let chkBox = document.getElementById(`${elementId}${eleIndex}`)
@@ -1033,8 +1010,6 @@ console.log("formControlResult",formControlResult);
                   let eleIndex = cleanIds[i][1]; //example id rd42
                   let element  = document.getElementById(`${elementId}${eleIndex}`);
                   if(element){
-                    console.log(element);
-                    console.log("formElementResultArray[i]",formElementResultArray[i]);
                     if(element.value == formElementResultArray[i]){
                       element.checked = true;
                     }
@@ -1057,22 +1032,16 @@ console.log("formControlResult",formControlResult);
                         }
                       }
                   }
-              }else {    
-
-                
+              }else {             
                 let element = document.getElementById(elementId);
                 if(element){
                   element.value = formElementResultArray[i]
                 }
-          
               }
-
           }
-     
         }
         
         return null;
-      
       }catch(error){
         
       }
@@ -1155,6 +1124,11 @@ console.log("formControlResult",formControlResult);
             // Save the updated data back to localStorage
             localStorage.setItem("visitReportForm", JSON.stringify(storedSavedData));
             setFormValues((prev)=>({...prev, dealerAttendees : "", scukAttendees :"",reviewPeriod : ""})); 
+        }else if(!storedSavedData?.[userId] && Object.keys(selectedExistingVisitReportData).length !==0){
+            // Format the date as YYYY-MM-DD (or other desired format)
+            const now = new Date();
+            const formattedToDayDate = now.toISOString().split('T')[0];
+             setFormValues((prev)=>({...prev, reviewDate : formattedToDayDate, dealerAttendees : "", scukAttendees :"",reviewPeriod : ""}));
         }
     }catch(error){
 
@@ -1165,6 +1139,7 @@ console.log("formControlResult",formControlResult);
   return (
     <div className={Styles.bgcolor}>
       <div className={`${Styles.container} ${Styles.innerpgcntnt}`}>
+
         {/* Visit Name Section */}
         <div className={Styles.visitnamebx}>
           <div className={Styles.titlebx}>Visit Name</div>
@@ -1187,6 +1162,7 @@ console.log("formControlResult",formControlResult);
             </ul>
           </div>
         </div>
+
         {/* Form Detail Section */}
         <div className={Styles.detailbx}>
         <div className={Styles.titlebx}>
@@ -1213,7 +1189,6 @@ console.log("formControlResult",formControlResult);
             {/* Footer with Buttons */}
             {isLastTabSelected && <div className={Styles.mainboxfooter}>
                 <div className={`${Styles.flex} ${Styles.btnrow}  ${Styles.rowreverse}`}>
-
 
                 {/* Action Buttons  */}
                 {(Object.keys(selectedExistingVisitReportData).length !== 0 && 
@@ -1403,16 +1378,11 @@ console.log("formControlResult",formControlResult);
                         <div className={Styles.searchbox}>
                           <PopoverComponent 
                             id="addRecipientsBtn" 
-                            label={Object.keys(selectedExistingVisitReportData).length !== 0 && !isActiveFollowUpReport ? `View Recipients` : `Add Recipients`}   recipients={recipients} 
+                            label={Object.keys(selectedExistingVisitReportData).length !== 0 && !isActiveFollowUpReport ? `View Recipients` : `Add Recipients`} 
+                            recipients={recipients} 
                             setRecipients={setRecipients} 
                             flag={'ADD_RECIPIENT'} 
-                            recipientList={
-                              Object.keys(selectedExistingVisitReportData).length !== 0 && !isActiveFollowUpReport
-                              ?  (selectedExistingVisitReportData?.emailaddresslist 
-                                  ? selectedExistingVisitReportData?.emailaddresslist.split(',') 
-                                  : []
-                                ) 
-                              : recipients.recipientList} 
+                            recipientList={recipients.recipientList} 
                             isAllredyExistVisitReport={Object.keys(selectedExistingVisitReportData).length !== 0 && !isActiveFollowUpReport}/>
                         </div>
                         <div className={Styles.searchbox}>
@@ -1424,14 +1394,7 @@ console.log("formControlResult",formControlResult);
                             recipients={recipients} 
                             setRecipients={setRecipients} 
                             flag={'ADD_BCC'} 
-                            recipientList={
-                              Object.keys(selectedExistingVisitReportData).length !== 0  && !isActiveFollowUpReport
-                              ? (selectedExistingVisitReportData?.emailaddresslistbcc 
-                                  ? selectedExistingVisitReportData.emailaddresslistbcc.split(',') 
-                                  : []
-                                ) 
-                              : recipients.recipientBccList
-                            }
+                            recipientList={recipients.recipientBccList}
                             isAllredyExistVisitReport={Object.keys(selectedExistingVisitReportData).length !== 0 && !isActiveFollowUpReport}/>
                         </div>
                         <div className={Styles.searchbox}>
@@ -1443,13 +1406,7 @@ console.log("formControlResult",formControlResult);
                             recipients={recipients} 
                             setRecipients={setRecipients} 
                             flag={'ADD_CC'} 
-                            recipientList={
-                              Object.keys(selectedExistingVisitReportData).length !== 0 && !isActiveFollowUpReport
-                              ? (selectedExistingVisitReportData?.emailaddresslistcc 
-                                ? selectedExistingVisitReportData?.emailaddresslistcc?.split(',') 
-                              : []
-                            ) 
-                            : recipients.recipientCcList} 
+                            recipientList={recipients.recipientCcList} 
                             isAllredyExistVisitReport={Object.keys(selectedExistingVisitReportData).length !== 0 && !isActiveFollowUpReport}/>
                         </div>
                       </>
@@ -1457,7 +1414,7 @@ console.log("formControlResult",formControlResult);
                   </div>
                   {(Object.keys(selectedExistingVisitReportData).length == 0 
                   || isActiveFollowUpReport ) &&
-                  <CustomButton type="submit"      onClick={sendEmailPopUp}>
+                  <CustomButton type="submit"      onClick={(e)=>formData.flagRecipient === 'Y' ? sendEmailPopUp() : handleSubmit(false)}>
                       Submit
                   </CustomButton>}
                 </div>
@@ -1475,8 +1432,6 @@ export default VisitReportTemplate;
 function VisitReportForm({handleContinueButton, handleSaveButton,
 handleFormChange, formValues, formData, isReadOnly, handleFollowUpReport, isAllreadyExistVisitReport, isActiveFollowUpReport, handleMiddleFormCancelButton}){
 
-
-console.log("*************",formValues);
 
   return(
     <>
@@ -1580,6 +1535,8 @@ const PopoverComponent = ({ id, label, recipients, setRecipients, flag, recipien
   const [inputValue, setInputValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
   const [showPopover, setShowPopover] = useState(false); 
+  
+ 
 
   // Function for add recipient
   const addRecipient=(e)=>{
@@ -1624,7 +1581,6 @@ const PopoverComponent = ({ id, label, recipients, setRecipients, flag, recipien
   // Funvtion for remove recipient 
   const removeRecipient=(recipient)=>{
     let listName = '';
-    let updatedList = [];
     switch (flag) {
       case 'ADD_RECIPIENT':
         listName = 'recipientList';
@@ -1665,22 +1621,22 @@ const PopoverComponent = ({ id, label, recipients, setRecipients, flag, recipien
           overlay={
             <Popover id={`${id}-popover`}>
               <Popover.Body>
-                {!isAllredyExistVisitReport && <div className={`${Styles.flex} ${Styles.addsearchrow} `} >
+                <div className={`${Styles.flex} ${Styles.addsearchrow} `} >
                   <form onSubmit={addRecipient} className='d-flex'>
-                    <input type="email"  value={inputValue}   onChange={(e)=>setInputValue(e.target.value.trim())} placeholder={label} />
+                    <input type="email"  value={inputValue}   onChange={(e)=>setInputValue(e.target.value.trim())} placeholder="Add Recipients" />
                     <button type='submit'   className={Styles.addbtn}>Add</button>
                   </form>
-                </div>}
+                </div>
                 {errorMessage && <div className={Styles.errorMessage}>{errorMessage}</div>}
                 <div className={Styles.boxmailcontent}>
                     {recipientList?.length!==0 && recipientList?.map((recipient,index)=>(
                       <div key={index} className={`${Styles.flex} ${Styles.mailtext} `}>
                         <div>{recipient}</div>
-                        {!isAllredyExistVisitReport && <button type='button' onClick={()=>removeRecipient(recipient)}><img src="../../close-border.svg" alt="close" />
-                        </button>}
+                        <button type='button' onClick={()=>removeRecipient(recipient)}><img src="../../close-border.svg" alt="close" />
+                        </button>
                     </div>
                     ))}
-                    {recipientList?.length == 0 && isAllredyExistVisitReport && <span>No data found.</span>}
+                    {/* {recipientList?.length == 0 && isAllredyExistVisitReport && <span>No data found.</span>} */}
                 </div>
               </Popover.Body>
             </Popover>

@@ -12,16 +12,16 @@ const PopupContext = createContext();
 export const PopupProvider = ({ children }) => {
   // Function for set in default onclick value
   const handleClick = () => {
-    setPopupContent({
+    setPopupContent((prev)=>({
+      ...prev,
       titleContent: "",
       detailContent: "",
       responseValue: true,
-      duelOption: false,
       show: false,
       onClick: handleClick,
       onClickYes: handleClick,
       onClickNo: handleClick,
-    });
+    }));
   };
 
   const [popupContent, setPopupContent] = useState({
