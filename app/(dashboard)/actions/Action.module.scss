@@ -120,7 +120,12 @@
   }
 }
 .selectedItem{
-  color: red;
+  border-bottom: 2px solid #ec0000 !important;
+}
+.nodata{
+  color: #ec0000;
+  font-weight: 700;
+  text-align: center;
 }
 .listitems {
   border: none;

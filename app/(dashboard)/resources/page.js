@@ -56,7 +56,7 @@ const Resources = () => {
           <div className={Styles.titlebx}>Visit Name</div>
           <div className={Styles.listitems}>
             {pageLoader ? <Loader /> : null}
-            {resorcesList?.length !== 0 || pageLoader ? (
+            {false ? (
               <ul className={Styles.listcntnt}>
                 {resorcesList?.map((item, idx) => (
                   <li key={idx}>
@@ -65,7 +65,7 @@ const Resources = () => {
                 ))}
               </ul>
             ) : (
-              <div>No data available</div>
+              <div className={Styles.nodata}>No data available</div>
             )}
           </div>
         </div>

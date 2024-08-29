@@ -359,6 +359,13 @@ ul.listiconhide li::after {
     box-shadow: 0px 1px 25px -12px #999;
   }
 }
+.nodata{
+  color: #ec0000;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 60px;
+
+}
 .addsearchrow {
   align-items: center;
   .addbtn {

@@ -114,8 +114,8 @@ body {
   background-color: transparent !important;
   border-color: var(--bs-btn-hover-border-color);
 }
-#addImage-popover{
-  max-width: 360px !important;
+#addRecipientsBtn-popover, #addBccBtn-popover, #addCcBtn-popover{
+  min-height: 225px;
 }
 #addRecipientsBtn-popover{
   min-height: 225px;

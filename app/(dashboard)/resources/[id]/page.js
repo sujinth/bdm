@@ -129,7 +129,7 @@ const ResourcesList = () => {
                       ))}
                     </Nav>
                   ) : (
-                    <div>No data available</div>
+                    <div className={Styles.nodata}>No data available</div>
                   )}
                 </div>
               </Col>

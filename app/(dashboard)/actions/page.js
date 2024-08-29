@@ -370,7 +370,7 @@ const Action = () => {
                       </ul>
                     ) : (
                       <div
-                        className={`${Styles.listitems} ${Styles.tablist1} `}
+                        className={`${Styles.listitems} ${Styles.nodata} `}
                       >
                         No data available
                       </div>
@@ -421,7 +421,7 @@ const Action = () => {
                         </div>
                       ) : (
                         <div
-                          className={`${Styles.listitems} ${Styles.tablist1} `}
+                          className={`${Styles.listitems} ${Styles.nodata} `}
                         >
                           No data available
                         </div>
@@ -455,7 +455,7 @@ const Action = () => {
                         </div>
                       ) : (
                         <div
-                          className={`${Styles.listitems} ${Styles.tablist1} `}
+                          className={`${Styles.listitems} ${Styles.nodata} `}
                         >
                           No data available
                         </div>
@@ -491,7 +491,7 @@ const Action = () => {
                         ))}
                       </ul>
                     ) : (
-                      <div>No data available</div>
+                      <div className={Styles.nodata}>No data available</div>
                     )}
                   </div>
                 )}
