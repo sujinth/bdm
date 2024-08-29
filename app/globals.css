@@ -280,8 +280,10 @@ body {
 .nav-pills  {
   /* padding-left: 25px !important; */
   padding-right: 10px;
-  height: 500px;
+  min-height: 270px;
+  height: 400px;
   overflow: auto;
+  align-content: flex-start;
 }
 
 /* .nav-pills .nav-item:last-child {

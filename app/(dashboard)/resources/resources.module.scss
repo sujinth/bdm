@@ -105,9 +105,10 @@
 .listcntnt {
   padding-left: 25px !important;
   padding-right: 10px;
-  overflow: auto;
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
+  min-height: 270px;
 }
 .listcntnt li {
   width: 45%;
@@ -115,6 +116,8 @@
 }
 .listitems {
   border: none;
+  height: 400px;
+  overflow: auto;
   li.listhead {
     background-color: #6f7779;
   }
