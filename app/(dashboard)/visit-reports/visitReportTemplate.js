@@ -1124,7 +1124,7 @@ const VisitReportTemplate = ({ selectedData }) => {
             // Save the updated data back to localStorage
             localStorage.setItem("visitReportForm", JSON.stringify(storedSavedData));
             setFormValues((prev)=>({...prev, dealerAttendees : "", scukAttendees :"",reviewPeriod : ""})); 
-        }else if(!storedSavedData?.[userId] && Object.keys(selectedExistingVisitReportData).length !==0){
+        }else {
             // Format the date as YYYY-MM-DD (or other desired format)
             const now = new Date();
             const formattedToDayDate = now.toISOString().split('T')[0];
@@ -1231,141 +1231,135 @@ const VisitReportTemplate = ({ selectedData }) => {
                   {formData.flagImage === 'Y' && (
                     <div className={Styles.imageaddoption}>
                       <OverlayTrigger
-                        trigger="click"
-                        placement="top"
-                        rootClose
-                        overlay={
-                          <Popover id={`addImage-popover`} >
-                          <Popover.Body className={Styles.imagepopover}>
+                          trigger="click"
+                          placement="top"
+                          rootClose
+                          overlay={
+                            <Popover id={`addImage-popover`} >
+                              <Popover.Body className={Styles.imagepopover}>
 
-                          {/* No image found */}
-                          {Object.keys(selectedExistingVisitReportData).length !== 0 && 
-                            !isActiveFollowUpReport &&
-                            selectedExistingVisitReportData?.imageone =='' && 
-                            selectedExistingVisitReportData?.imagetwo =='' && 
-                            selectedExistingVisitReportData?.imagethree =='' && 
-                            <span>No image found.</span>
-                          }
-                          
-                          {/* Image 1 */}
-                          {Object.keys(selectedExistingVisitReportData).length !== 0 && 
-                          !isActiveFollowUpReport 
-                          && selectedExistingVisitReportData?.imageone  && 
-                              <img 
-                                src={ABSPATH + selectedExistingVisitReportData?.imageone}
-                                alt="Visit report image" 
-                                style={{ width: '100px', height: '100px' }}
-                                className={Styles.addMediaImage} 
-                              />
-                          }
-                 
-         
-                          {((Object.keys(selectedExistingVisitReportData).length == 0) || (Object.keys(selectedExistingVisitReportData).length !== 0 && isActiveFollowUpReport)) && 
-                          <label htmlFor="fileInput11" className={Styles.fileLabel}>
-                            {imageList.image11.length > 0 ? (
-                              <img  
-                                  src={URL.createObjectURL(imageList.image11[0])}
-                                  alt="image1 preview" 
-                                  style={{ width: '100px', height: '100px' }}
-                                  className={Styles.addMediaImage} 
-                              />
-                            ) : 
-                              <img 
-                                src="../../addmedia.svg" 
-                                alt="Add media" 
-                                style={{ width: '100px', height: '100px' }}
-                                className={Styles.addMediaImage} 
-                              />
-                            }
-                          </label>
-                          }
-
-                          <input
-                            type="file"
-                            id="fileInput11"
-                            onChange={(e)=>{setImageList((prev) => ({ ...prev, image11 : e.target.files }))}}
-                            style={{ display: 'none' }}
-                          />
-        
-                          {/* Image 2 */}
-                          {Object.keys(selectedExistingVisitReportData).length !== 0 && 
-                          !isActiveFollowUpReport 
-                          && selectedExistingVisitReportData?.imagetwo  && 
-                              <img 
-                                src={ABSPATH + selectedExistingVisitReportData?.imagetwo}
-                                alt="Visit report image" 
-                                style={{ width: '100px', height: '100px' }}
-                                className={Styles.addMediaImage} 
-                              />
-                          }
-                          {((Object.keys(selectedExistingVisitReportData).length == 0) || (Object.keys(selectedExistingVisitReportData).length !== 0 && isActiveFollowUpReport)) && 
-                          <label htmlFor="fileInput12" className={Styles.fileLabel}>
-                              {imageList.image12?.length > 0 ? (
+                              {/* No image found */}
+                              {Object.keys(selectedExistingVisitReportData).length !== 0 && 
+                                !isActiveFollowUpReport &&
+                                selectedExistingVisitReportData?.imageone =='' && 
+                                selectedExistingVisitReportData?.imagetwo =='' && 
+                                selectedExistingVisitReportData?.imagethree =='' && 
+                                <span>No image found.</span>
+                              }
+                              
+                              {/* -----------------Image 1--------------- */}
+                              {Object.keys(selectedExistingVisitReportData).length !== 0 && 
+                              !isActiveFollowUpReport 
+                              && selectedExistingVisitReportData?.imageone  && 
+                                  <img 
+                                    src={ABSPATH + selectedExistingVisitReportData?.imageone}
+                                    alt="Visit report image" 
+                                    style={{ width: '100px', height: '100px' }}
+                                    className={Styles.addMediaImage} 
+                                  />
+                              }
+                              {((Object.keys(selectedExistingVisitReportData).length == 0) || (Object.keys(selectedExistingVisitReportData).length !== 0 && isActiveFollowUpReport)) && 
+                              <label htmlFor="fileInput11" className={Styles.fileLabel}>
+                                {imageList.image11.length > 0 ? (
                                   <img  
-                                      src={URL.createObjectURL(imageList.image12[0])}
+                                      src={URL.createObjectURL(imageList.image11[0])}
                                       alt="image1 preview" 
                                       style={{ width: '100px', height: '100px' }}
                                       className={Styles.addMediaImage} 
                                   />
-                              ) : 
-                                  <img 
+                                ) : 
+                                    <img 
                                       src="../../addmedia.svg" 
                                       alt="Add media" 
                                       style={{ width: '100px', height: '100px' }}
                                       className={Styles.addMediaImage} 
-                                  />
-                          }
-                          </label>}
-
-                          <input
-                            type="file"
-                            id="fileInput12"
-                            onChange={(e)=>{setImageList((prev) => ({ ...prev, image12 : e.target.files }))}}
-                            style={{ display: 'none' }}
-                          />
-
-                          {/* Image 3 */}
-                          {Object.keys(selectedExistingVisitReportData).length !== 0 && 
-                          !isActiveFollowUpReport 
-                          && selectedExistingVisitReportData?.imagethree  && 
-                              <img 
-                                src={ABSPATH + selectedExistingVisitReportData?.imagethree}
-                                alt="Visit report image" 
-                                style={{ width: '100px', height: '100px' }}
-                                className={Styles.addMediaImage} 
+                                    />
+                                }
+                              </label>
+                              }
+                              <input
+                                type="file"
+                                id="fileInput11"
+                                onChange={(e)=>{setImageList((prev) => ({ ...prev, image11 : e.target.files }))}}
+                                style={{ display: 'none' }}
                               />
-                          }
-                          {((Object.keys(selectedExistingVisitReportData).length == 0) || (Object.keys(selectedExistingVisitReportData).length !== 0 && isActiveFollowUpReport)) && 
-                          <label htmlFor="fileInput13" className={Styles.fileLabel}>
-                            {imageList.image13?.length >0 ? (
-                                <img  
-                                    src={URL.createObjectURL(imageList.image13[0])}
-                                    alt="image1 preview" 
+            
+                              {/* ----------Image 2------------- */}
+                              {Object.keys(selectedExistingVisitReportData).length !== 0 && 
+                              !isActiveFollowUpReport 
+                              && selectedExistingVisitReportData?.imagetwo  && 
+                                  <img 
+                                    src={ABSPATH + selectedExistingVisitReportData?.imagetwo}
+                                    alt="Visit report image" 
                                     style={{ width: '100px', height: '100px' }}
                                     className={Styles.addMediaImage} 
-                                />
-                            ) : 
-                                <img 
-                                    src="../../addmedia.svg" 
-                                    alt="Add media" 
-                                    style={{ width: '100px', height: '100px' }}
-                                    className={Styles.addMediaImage} 
-                                />
-                            }
-                          </label> }
-                          <input
-                            type="file"
-                            id="fileInput13"
-                            onChange={(e)=>{setImageList((prev) => ({ ...prev, image13 : e.target.files }))}}
-                            style={{ display: 'none' }}
-                          />
+                                  />
+                              }
+                              {((Object.keys(selectedExistingVisitReportData).length == 0) || (Object.keys(selectedExistingVisitReportData).length !== 0 && isActiveFollowUpReport)) && 
+                              <label htmlFor="fileInput12" className={Styles.fileLabel}>
+                                  {imageList.image12?.length > 0 ? (
+                                      <img  
+                                          src={URL.createObjectURL(imageList.image12[0])}
+                                          alt="image1 preview" 
+                                          style={{ width: '100px', height: '100px' }}
+                                          className={Styles.addMediaImage} 
+                                      />
+                                  ) : 
+                                      <img 
+                                          src="../../addmedia.svg" 
+                                          alt="Add media" 
+                                          style={{ width: '100px', height: '100px' }}
+                                          className={Styles.addMediaImage} 
+                                      />
+                              }
+                              </label>}
+                              <input
+                                type="file"
+                                id="fileInput12"
+                                onChange={(e)=>{setImageList((prev) => ({ ...prev, image12 : e.target.files }))}}
+                                style={{ display: 'none' }}
+                              />
 
-                          </Popover.Body>
-                          </Popover>
-                        }
-                      >
+                              {/* ---------------Image 3---------------- */}
+                              {Object.keys(selectedExistingVisitReportData).length !== 0 && 
+                              !isActiveFollowUpReport 
+                              && selectedExistingVisitReportData?.imagethree  && 
+                                  <img 
+                                    src={ABSPATH + selectedExistingVisitReportData?.imagethree}
+                                    alt="Visit report image" 
+                                    style={{ width: '100px', height: '100px' }}
+                                    className={Styles.addMediaImage} 
+                                  />
+                              }
+                              {((Object.keys(selectedExistingVisitReportData).length == 0) || (Object.keys(selectedExistingVisitReportData).length !== 0 && isActiveFollowUpReport)) && 
+                              <label htmlFor="fileInput13" className={Styles.fileLabel}>
+                                {imageList.image13?.length >0 ? (
+                                    <img  
+                                        src={URL.createObjectURL(imageList.image13[0])}
+                                        alt="image1 preview" 
+                                        style={{ width: '100px', height: '100px' }}
+                                        className={Styles.addMediaImage} 
+                                    />
+                                ) : 
+                                    <img 
+                                        src="../../addmedia.svg" 
+                                        alt="Add media" 
+                                        style={{ width: '100px', height: '100px' }}
+                                        className={Styles.addMediaImage} 
+                                    />
+                                }
+                              </label> }
+                              <input
+                                type="file"
+                                id="fileInput13"
+                                onChange={(e)=>{setImageList((prev) => ({ ...prev, image13 : e.target.files }))}}
+                                style={{ display: 'none' }}
+                              />
+                              </Popover.Body>
+                            </Popover>
+                          }>
                         <Button  className={`${Styles.recipientsbtn} ${Styles.mainboxfooterbtn} ${Styles.flex} `}>
-                        {Object.keys(selectedExistingVisitReportData).length !== 0 && !isActiveFollowUpReport ? `View Images` : `Add Images`} <img src="../../addimage.svg" alt="message.svg" />
+                           {Object.keys(selectedExistingVisitReportData).length !== 0 && !isActiveFollowUpReport ? `View Images` : `Add Images`} <img src="../../addimage.svg" alt="message.svg" />
                         </Button>
                       </OverlayTrigger>
                     </div>
@@ -1382,6 +1376,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                           <PopoverComponent 
                             id="addRecipientsBtn" 
                             label={Object.keys(selectedExistingVisitReportData).length !== 0 && !isActiveFollowUpReport ? `View Recipients` : `Add Recipients`} 
+                            placeholder="Add Recipients"
                             recipients={recipients} 
                             setRecipients={setRecipients} 
                             flag={'ADD_RECIPIENT'} 
@@ -1394,6 +1389,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                             label={Object.keys(selectedExistingVisitReportData).length !== 0 
                               && !isActiveFollowUpReport 
                               ? `View Bcc` : `Add Bcc`}  
+                            placeholder="Add Bcc"
                             recipients={recipients} 
                             setRecipients={setRecipients} 
                             flag={'ADD_BCC'} 
@@ -1406,6 +1402,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                             label={Object.keys(selectedExistingVisitReportData).length !== 0  
                               && !isActiveFollowUpReport 
                               ? `View Cc` : `Add Cc`} 
+                            placeholder="Add Cc"
                             recipients={recipients} 
                             setRecipients={setRecipients} 
                             flag={'ADD_CC'} 
@@ -1534,7 +1531,7 @@ handleFormChange, formValues, formData, isReadOnly, handleFollowUpReport, isAllr
 }
 const MemoisedVisitReportComponent = memo(VisitReportForm);
 
-const PopoverComponent = ({ id, label, recipients, setRecipients, flag, recipientList, isAllredyExistVisitReport}) => {
+const PopoverComponent = ({ id, label, placeholder, recipients, setRecipients, flag, recipientList, isAllredyExistVisitReport}) => {
   const [inputValue, setInputValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
   const [showPopover, setShowPopover] = useState(false); 
@@ -1577,7 +1574,7 @@ const PopoverComponent = ({ id, label, recipients, setRecipients, flag, recipien
         setErrorMessage(''); 
       }
     }catch(err){
-        console.log("error ->",error);
+        console.log("error ->",err);
         
     }
   }
@@ -1626,7 +1623,7 @@ const PopoverComponent = ({ id, label, recipients, setRecipients, flag, recipien
               <Popover.Body>
                 <div className={`${Styles.flex} ${Styles.addsearchrow} `} >
                   <form onSubmit={addRecipient} className='d-flex'>
-                    <input type="email"  value={inputValue}   onChange={(e)=>setInputValue(e.target.value.trim())} placeholder="Add Recipients" />
+                    <input type="email"  value={inputValue}   onChange={(e)=>setInputValue(e.target.value.trim())} placeholder={placeholder} />
                     <button type='submit'   className={Styles.addbtn}>Add</button>
                   </form>
                 </div>

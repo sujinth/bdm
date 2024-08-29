@@ -22,8 +22,6 @@ export async function POST(request) {
         httpsAgent: agent,
       }
     );
-console.log("response.data ",response.data );
-
     return new Response(
       JSON.stringify({ message: "success", result: response.data }),
       {

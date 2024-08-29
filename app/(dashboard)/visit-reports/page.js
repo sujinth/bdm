@@ -23,7 +23,7 @@ const VisitReport = () => {
   const [loaderInSideBar, setLoaderInSideBar] = useState(true);
 
   // Fetch dealers' details based on user ID
-  async function getDealersDetails() {
+  async function getDealersDetails(visitReportData) {
     try {
           const userId = session.data?.user?.id;
           if (!userId) {
@@ -32,8 +32,12 @@ const VisitReport = () => {
           setLoaderInSideBar(true)
           const response = await axios.get(`/api/dealers?userid=${userId}`);
           if (Object.keys(response.data.result).length !=0) {
-              // delete response.data.result.dealergroup
-              setDealers(response.data.result);
+
+              // Case of normal form delete delergroup
+              if(visitReportData?.flagTabbedView == 'N'){
+                 delete  response.data.result?.dealergroup
+              }
+              setDealers(response.data.result)
               setLoaderInSideBar(false);
           }else{
              setLoaderInSideBar(false);
@@ -82,7 +86,7 @@ const VisitReport = () => {
   // Function for handle select visit report data
   const handleVisitReportsData = (item) => {
     setSelectedReportData(item);
-    getDealersDetails();
+    getDealersDetails(item);
     setReportsSelected(true);
     setGoBackToPage((prev) => ({ ...prev, pageOne: false, pageTwo: true }));
   };
