@@ -1235,8 +1235,8 @@ const VisitReportTemplate = ({ selectedData }) => {
                         placement="top"
                         rootClose
                         overlay={
-                          <Popover id={`addImage-popover`}>
-                          <Popover.Body>
+                          <Popover id={`addImage-popover`} >
+                          <Popover.Body className={Styles.imagepopover}>
 
                           {/* No image found */}
                           {Object.keys(selectedExistingVisitReportData).length !== 0 && 
@@ -1273,6 +1273,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                               <img 
                                 src="../../addmedia.svg" 
                                 alt="Add media" 
+                                style={{ width: '100px', height: '100px' }}
                                 className={Styles.addMediaImage} 
                               />
                             }
@@ -1310,6 +1311,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                                   <img 
                                       src="../../addmedia.svg" 
                                       alt="Add media" 
+                                      style={{ width: '100px', height: '100px' }}
                                       className={Styles.addMediaImage} 
                                   />
                           }
@@ -1346,6 +1348,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                                 <img 
                                     src="../../addmedia.svg" 
                                     alt="Add media" 
+                                    style={{ width: '100px', height: '100px' }}
                                     className={Styles.addMediaImage} 
                                 />
                             }

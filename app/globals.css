@@ -114,10 +114,18 @@ body {
   background-color: transparent !important;
   border-color: var(--bs-btn-hover-border-color);
 }
-
+#addImage-popover{
+  max-width: 360px !important;
+}
+#addRecipientsBtn-popover{
+  min-height: 225px;
+}
 #popover-positioned-top {
   width: 200px !important;
   height: 120px !important;
+}
+.userguidepopup .modal-dialog{
+  max-width: 1000px !important;
 }
 .popover-body {
   padding: 0px;
