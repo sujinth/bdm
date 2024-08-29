@@ -117,8 +117,8 @@ body {
 #addRecipientsBtn-popover, #addBccBtn-popover, #addCcBtn-popover{
   min-height: 225px;
 }
-#addRecipientsBtn-popover{
-  min-height: 225px;
+#addImage-popover{
+  max-width: 365px;
 }
 #popover-positioned-top {
   width: 200px !important;
