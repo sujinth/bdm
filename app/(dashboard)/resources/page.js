@@ -56,7 +56,7 @@ const Resources = () => {
           <div className={Styles.titlebx}>Visit Name</div>
           <div className={Styles.listitems}>
             {pageLoader ? <Loader /> : null}
-            {false ? (
+            {resorcesList?.length !== 0 || pageLoader ? (
               <ul className={Styles.listcntnt}>
                 {resorcesList?.map((item, idx) => (
                   <li key={idx}>
