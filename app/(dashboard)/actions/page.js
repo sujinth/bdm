@@ -38,6 +38,7 @@ const Action = () => {
   const { setPopupContent } = usePopupContent();
   const [loaderInSideBar, setLoaderInSideBar] = useState(false);
   const [submitLoader, setSubmitLoader] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("");
   const [triggerApi, setTriggerApi] = useState(false);
   const session = useSession();
   const router = useRouter();
@@ -477,9 +478,11 @@ const Action = () => {
                         {incompleteActions.map((item, index) => (
                           <li
                             key={index + "visitReports"}
+                            className={selectedItem == index + "visitReports" ? Styles.selectedItem : null}
                             onClick={(e) => {
                               setCurrentIncompleteAction(e?.target?.value);
                               setCartId(item.cartid);
+                              setSelectedItem(index + "visitReports");
                             }}
                             value={index}
                           >
