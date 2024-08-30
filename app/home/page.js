@@ -26,9 +26,15 @@ const Home = () => {
   const session = useSession();
 
   // Page number update while comming to home page.
-  useEffect(()=>{
-    setGoBackToPage((prev) => ({ ...prev, pageOne: true, pageTwo: false,pageThree : false,pageFour : false }));
-  },[])
+  useEffect(() => {
+    setGoBackToPage((prev) => ({
+      ...prev,
+      pageOne: true,
+      pageTwo: false,
+      pageThree: false,
+      pageFour: false,
+    }));
+  }, []);
 
   // useEffect for triger fetch home page data function
   useEffect(() => {
@@ -88,97 +94,88 @@ const Home = () => {
       {/* Header */}
       <InnerHeader />
       {!imageUrl && imageLoader ? <Loader /> : null}
-      {imageUrl ? 
-        <div className={Styles.homeImage} dangerouslySetInnerHTML={{ __html: imageUrl }} /> :
-        null
-      }
+      {imageUrl ? (
+        <div
+          className={Styles.homeImage}
+          dangerouslySetInnerHTML={{ __html: imageUrl }}
+        />
+      ) : null}
       <div className={Styles.bgcolor}>
         <div className={Styles.container}>
           <div className={Styles.pdT0B85}>
-           
             <div className={`${Styles.flex} ${Styles.pdT50}  ${Styles.clgp20}`}>
               <div className={Styles.cntntbox}>
-                  <div
-                    className={`${Styles.boxtile} ${Styles.brdradius} `}
-                  >
-                    <div
-                      className={Styles.iconbrborderradius}>
-                      <img
-                        className={Styles.pd10}
-                        src="/report.svg"
-                        alt="report"
-                      />
-                    </div>
-                    <Link href="/visit-reports"
-                      className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
-                    >
-                      Visit Reports
-                    </Link>
+                <div className={`${Styles.boxtile} ${Styles.brdradius} `}>
+                  <div className={Styles.iconbrborderradius}>
+                    <img
+                      className={Styles.pd10}
+                      src="/report.svg"
+                      alt="report"
+                    />
                   </div>
-               
-              </div>
-
-              <div className={Styles.cntntbox}>
-                
-                <div
-                    className={`${Styles.boxtile} ${Styles.brdradius} ${Styles.actionbox}`}
+                  <Link
+                    href="/visit-reports"
+                    className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
                   >
-                    <div
-                      className={Styles.iconbrborderradius}>
-                      <img
-                        className={Styles.pd10}
-                        src="/action.png"
-                        alt="Actions"
-                      />
-                    </div>
-                    <Link href="/actions"
-                      className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
-                    >
-                      Actions
-                    </Link>
-                  </div>
-                
+                    Visit Reports
+                  </Link>
+                </div>
               </div>
 
               <div className={Styles.cntntbox}>
                 <div
-                    className={`${Styles.boxtile} ${Styles.brdradius} `}
-                  >
-                    <div
-                      className={Styles.iconbrborderradius}>
-                      <img
-                        className={Styles.pd10}
-                        src="/communication.svg"
-                        alt="Coaching"
-                      />
-                    </div>
-                    <Link href="https://santander.learnondemand.co.uk/login/"
-                      className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
-                    >
-                      Coaching
-                    </Link>
+                  className={`${Styles.boxtile} ${Styles.brdradius} ${Styles.actionbox}`}
+                >
+                  <div className={Styles.iconbrborderradius}>
+                    <img
+                      className={Styles.pd10}
+                      src="/action.png"
+                      alt="Actions"
+                    />
                   </div>
+                  <Link
+                    href="/actions"
+                    className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
+                  >
+                    Actions
+                  </Link>
+                </div>
               </div>
 
               <div className={Styles.cntntbox}>
-                
-                <div
-                    className={`${Styles.boxtile} ${Styles.brdradius} `}
-                  >
-                    <div
-                      className={Styles.iconbrborderradius}>
-                      <img
-                        className={Styles.pd10}
-                        src="/resources.svg"
-                        alt="report"
-                      />
-                    </div>
-                    <Link href="/resources"
-                      className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
-                    >
-                      Resources
-                    </Link>
+                <div className={`${Styles.boxtile} ${Styles.brdradius} `}>
+                  <div className={Styles.iconbrborderradius}>
+                    <img
+                      className={Styles.pd10}
+                      src="/communication.svg"
+                      alt="Coaching"
+                    />
                   </div>
+                  <Link
+                    href="https://santander.learnondemand.co.uk/login/"
+                    className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
+                  >
+                    Coaching
+                  </Link>
+                </div>
+              </div>
+
+              <div className={Styles.cntntbox}>
+                <div className={`${Styles.boxtile} ${Styles.brdradius} `}>
+                  <div className={Styles.iconbrborderradius}>
+                    <img
+                      className={Styles.pd10}
+                      src="/resources.svg"
+                      alt="report"
+                    />
+                  </div>
+                  <Link
+                    href="/resources"
+                    className={`${Styles.tilebtn} ${Styles.whttxt} ${Styles.pd10} ${Styles.fntw600}`}
+                  >
+                    Resources
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -198,7 +195,7 @@ const Home = () => {
                   >
                     {apiResponse.title}
                   </div>
-                  
+
                   <div className={Styles.fntclgry}>{apiResponse.date}</div>
                   <div>{apiResponse.desc}</div>
                 </div>

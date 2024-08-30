@@ -1,3 +1,8 @@
+//////////////////////////////////////////////////////////////////////////////////
+//                                                                              //
+//        File for showing visit report list & dealer list functionality        //
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
 
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
@@ -25,51 +30,51 @@ const VisitReport = () => {
   // Fetch dealers' details based on user ID
   async function getDealersDetails(visitReportData) {
     try {
-          const userId = session.data?.user?.id;
-          if (!userId) {
-            throw new Error("User ID not found");
-          }
-          setLoaderInSideBar(true)
-          const response = await axios.get(`/api/dealers?userid=${userId}`);
-          if (Object.keys(response.data.result).length !=0) {
-
-              // Case of normal form delete delergroup
-              if(visitReportData?.flagTabbedView == 'N'){
-                 delete  response.data.result?.dealergroup
-              }
-              setDealers(response.data.result)
-              setLoaderInSideBar(false);
-          }else{
-             setLoaderInSideBar(false);
-          }
-      } catch (error) {
-          console.log("Error:", error.message);
+      const userId = session.data?.user?.id;
+      if (!userId) {
+        throw new Error("User ID not found");
       }
-
+      setLoaderInSideBar(true);
+      const response = await axios.get(`/api/dealers?userid=${userId}`);
+      if (Object.keys(response.data.result).length != 0) {
+        // Case of normal form delete delergroup
+        if (visitReportData?.flagTabbedView == "N") {
+          delete response.data.result?.dealergroup;
+        }
+        setDealers(response.data.result);
+        setLoaderInSideBar(false);
+      } else {
+        setLoaderInSideBar(false);
+      }
+    } catch (error) {
+      console.log("Error:", error.message);
+    }
   }
-  
+
   const selectedData = useMemo(() => {
     return { selectedReportData, selectedDealer };
   }, [selectedReportData, selectedDealer]);
 
   // Fetch visit reports based on user ID
   async function getVisitReports() {
-      try {
-          const userId = session.data?.user?.id;
-          if (!userId) {
-              throw new Error('User ID not found');
-          }
-
-          const response = await axios.get(`/api/visitReports/dealershipVisitreportsTemplate?userId=${userId}`);
-          if (response.data.result?.length !== 0) {
-              setVisitReports(response.data.result.root);
-              setLoaderInSideBar(false);
-          }else{
-              setLoaderInSideBar(false);
-          }
-      } catch (error) {
-          console.log("Error:->", error.message);
+    try {
+      const userId = session.data?.user?.id;
+      if (!userId) {
+        throw new Error("User ID not found");
       }
+
+      const response = await axios.get(
+        `/api/visitReports/dealershipVisitreportsTemplate?userId=${userId}`
+      );
+      if (response.data.result?.length !== 0) {
+        setVisitReports(response.data.result.root);
+        setLoaderInSideBar(false);
+      } else {
+        setLoaderInSideBar(false);
+      }
+    } catch (error) {
+      console.log("Error:->", error.message);
+    }
   }
 
   useEffect(() => {
@@ -82,7 +87,7 @@ const VisitReport = () => {
       setReportsSelected(false);
     }
   }, [goBackToPage.pageTwo]);
-  
+
   // Function for handle select visit report data
   const handleVisitReportsData = (item) => {
     setSelectedReportData(item);
@@ -93,7 +98,6 @@ const VisitReport = () => {
 
   // Handle click on a dealer item
   const handleClickDealer = (item, flagdealergroup) => {
-
     // Overwriting the flagdealergroup value in the item object
     const updatedItem = { ...item, flagdealergroup: flagdealergroup };
     setSelectedDealerData(updatedItem);
@@ -112,91 +116,116 @@ const VisitReport = () => {
       ) : (
         <div className={Styles.bgcolor}>
           <div className={`${Styles.container} ${Styles.innerpgcntnt}`}>
-            <div  className={Styles.visitnamebx}>
-              {!isReportsSelected &&
-                goBackToPage.pageOne &&
-                 (
-                  <>
-                    <div className={Styles.titlebx}>
-                      Visit Name
+            <div className={Styles.visitnamebx}>
+              {!isReportsSelected && goBackToPage.pageOne && (
+                <>
+                  <div className={Styles.titlebx}>Visit Name</div>
+                  {loaderInSideBar ? (
+                    <Loader />
+                  ) : visitReports?.length !== 0 ? (
+                    <div className={Styles.listitems}>
+                      <ul className={Styles.listcntnt}>
+                        {visitReports.map((item, idx) => (
+                          <li
+                            key={idx}
+                            onClick={() => handleVisitReportsData(item)}
+                          >
+                            {item?.formName}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    {loaderInSideBar ? (
-                      <Loader />
-                    ) : (
-                      visitReports?.length !== 0 ? (
-                        <div className={Styles.listitems}>
-                          <ul className={Styles.listcntnt}>
-                            {visitReports.map((item, idx) => (
-                              <li
-                                key={idx}
-                                onClick={() => handleVisitReportsData(item)}
-                              >
-                                {item?.formName}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ) : 
-                      (<span>No data found</span>)
-                    )}
-                                        
-                  </>
-                )}
+                  ) : (
+                    <div className={`${Styles.listitems} ${Styles.nodata} `}>
+                      No data available
+                    </div>
+                  )}
+                </>
+              )}
               {!isReportsSelected &&
                 goBackToPage.pageTwo &&
-                (loaderInSideBar ? 
-                  <Loader /> : 
-                ((Object.keys(dealers).length !== 0)  ? (
-                  <div className={`${dealers?.dealergroup && dealers?.dealership ? '' : `${Styles.dealersingle}`}`}>
-                  <Tabs id="controlled-tab-example" className="tabbtn">
-                    {dealers?.dealergroup && (
-                      <Tab
-                        eventKey="DealerGroup"
-                        title={dealers.dealergroup ? "Dealer Group" : ""}
-                      >
-                        <div className={`${Styles.listitems}`}>
-                          <div className={Styles.listtoptitle}>
-                            My Dealers Group
-                          </div>
-                          <ul className={Styles.listcntnt}>
-                            {dealers.dealergroup?.[0]?.dealergroup?.map(
-                              (item, index) => (
-                                <li
-                                  key={index}
-                                  onClick={() => handleClickDealer(item, "Y")}
+                (loaderInSideBar ? (
+                  <Loader />
+                ) : Object.keys(dealers).length !== 0 ? (
+                  <div
+                    className={`${
+                      dealers?.dealergroup && dealers?.dealership
+                        ? ""
+                        : `${Styles.dealersingle}`
+                    }`}
+                  >
+                    <Tabs id="controlled-tab-example" className="tabbtn">
+                      {dealers?.dealergroup && (
+                        <Tab
+                          eventKey="DealerGroup"
+                          title={dealers.dealergroup ? "Dealer Group" : ""}
+                        >
+                          <div className={`${Styles.listitems}`}>
+                            <div className={Styles.listtoptitle}>
+                              My Dealers Group
+                            </div>
+                            <ul className={Styles.listcntnt}>
+                              {dealers.dealergroup.length ? (
+                                dealers.dealergroup?.[0]?.dealergroup?.map(
+                                  (item, index) => (
+                                    <li
+                                      key={index}
+                                      onClick={() =>
+                                        handleClickDealer(item, "Y")
+                                      }
+                                    >
+                                      {item?.dealerGroupName}
+                                    </li>
+                                  )
+                                )
+                              ) : (
+                                <div
+                                  className={`${Styles.listitems} ${Styles.nodata} `}
                                 >
-                                  {item?.dealerGroupName}
-                                </li>
-                              )
-                            )}
-                          </ul>
-                        </div>
-                      </Tab>
-                    )}
-                    {dealers?.dealership && (
-                      <Tab
-                        eventKey="Dealer"
-                        title={dealers.dealership ? "Dealer" : ""}
-                      >
-                        <div className={`${Styles.listitems}`}>
-                          <div className={Styles.listtoptitle}>My Dealers</div>
-                          <ul className={Styles.listcntnt}>
-                            {dealers?.dealership?.map((item, index) => (
-                              <li
-                                key={index}
-                                onClick={() => handleClickDealer(item, "N")}
-                              >
-                                {item?.name}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </Tab>
-                    )}
-                  </Tabs>
+                                  No data available
+                                </div>
+                              )}
+                            </ul>
+                          </div>
+                        </Tab>
+                      )}
+                      {dealers?.dealership && (
+                        <Tab
+                          eventKey="Dealer"
+                          title={dealers.dealership ? "Dealer" : ""}
+                        >
+                          <div className={`${Styles.listitems}`}>
+                            <div className={Styles.listtoptitle}>
+                              My Dealers
+                            </div>
+                            <ul className={Styles.listcntnt}>
+                              {dealers?.dealership.length ? (
+                                dealers?.dealership?.map((item, index) => (
+                                  <li
+                                    key={index}
+                                    onClick={() => handleClickDealer(item, "N")}
+                                  >
+                                    {item?.name}
+                                  </li>
+                                ))
+                              ) : (
+                                <div
+                                  className={`${Styles.listitems} ${Styles.nodata} `}
+                                >
+                                  No data available
+                                </div>
+                              )}
+                            </ul>
+                          </div>
+                        </Tab>
+                      )}
+                    </Tabs>
                   </div>
-                ) : <span>No data found</span>))
-                }
+                ) : (
+                  <div className={`${Styles.listitems} ${Styles.nodata} `}>
+                    No data available
+                  </div>
+                ))}
             </div>
             <div className={Styles.detailbx}>
               <div className={Styles.titlebx}>
@@ -209,7 +238,6 @@ const VisitReport = () => {
               >
                 {/* Body */}
                 <div>
-                  
                   <div
                     className={`${Styles.textcntr} ${Styles.logobottomtext} ${Styles.pdT20} ${Styles.ftw600}`}
                   >
@@ -219,13 +247,15 @@ const VisitReport = () => {
                   </div>
                 </div>
               </div>
-              <div className={Styles.detailbximage}><img src="/select-image.png" alt="Select a report" /></div>
+              <div className={Styles.detailbximage}>
+                <img src="/select-image.png" alt="Select a report" />
+              </div>
             </div>
           </div>
         </div>
       )}
     </>
   );
-}
+};
 
 export default VisitReport;

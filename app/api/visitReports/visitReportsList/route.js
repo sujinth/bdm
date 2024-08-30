@@ -1,6 +1,6 @@
 import axios from "axios";
-import https from 'https';
-import config from '../../../../config/config';
+import https from "https";
+import config from "../../../../config/config";
 
 const agent = new https.Agent({
   rejectUnauthorized: false,
@@ -9,13 +9,13 @@ const agent = new https.Agent({
 export async function POST(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId');
-    const { body } =  await request.json();
+    const userId = searchParams.get("userId");
+    const { body } = await request.json();
     let formData = new FormData();
     for (let key in body) {
       formData.append(key, body[key]);
     }
-    const response = await axios.post( 
+    const response = await axios.post(
       `${config.DEALERSHIP_VISIT_REPORT_LIST}?userid=${userId}`,
       formData,
       {

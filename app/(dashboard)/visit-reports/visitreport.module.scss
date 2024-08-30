@@ -56,11 +56,11 @@
 .detailbx {
   width: 68%;
   position: relative;
-  .detailbximage{
+  .detailbximage {
     text-align: center;
     padding-top: 15px;
   }
-  .logobottomtext{
+  .logobottomtext {
     font-size: 18px;
   }
 }
@@ -106,33 +106,32 @@
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #6F7779;
+    background: #6f7779;
     border-radius: 10px;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #6F7779;
+    background: #6f7779;
   }
-  
 }
-.dealersingle{
-  ul:first-child{
-  li{
-    width: 100% !important;
-    button{
-      cursor: auto !important;
+.dealersingle {
+  ul:first-child {
+    li {
+      width: 100% !important;
+      button {
+        cursor: auto !important;
+      }
     }
   }
 }
-}
 .listcntnt {
-  padding-left:25px !important;
+  padding-left: 25px !important;
   padding-right: 10px;
   height: 540px;
   overflow: auto;
   li {
-    height:auto;
+    height: auto;
     display: flex;
     align-items: center;
     position: relative;
@@ -181,7 +180,7 @@
 .listitems {
   // border: 1px solid #989898;
   li.listhead {
-    background-color: #6F7779;
+    background-color: #6f7779;
   }
   .listtoptitle {
     background-color: #ec0000;
@@ -197,7 +196,6 @@
     margin-bottom: 20px;
     font-family: SantanderHead-Bold;
     letter-spacing: 0.3px;
-
   }
 }
 
@@ -223,48 +221,48 @@
 .ftw600 {
   font-weight: 600;
 }
-ul.listiconhide{
+ul.listiconhide {
   padding-left: 0px !important;
-  li{
+  li {
     border-bottom: 2px solid #fff;
     font-weight: 600;
     font-family: SantanderText-Bold;
     letter-spacing: 0.3px;
     font-size: 16px;
-    margin-left:15px;
+    margin-left: 15px;
   }
-  li.toplist{
-    width:100%;
+  li.toplist {
+    width: 100%;
     padding-top: 0px;
     padding-bottom: 0px;
-    border-bottom: 2px solid #6F7779;
-    background-color:#6F7779;
-    margin-left:0px;
-    a{
-      color: #fff!important;
+    border-bottom: 2px solid #6f7779;
+    background-color: #6f7779;
+    margin-left: 0px;
+    a {
+      color: #fff !important;
       font-weight: 500;
       font-family: SantanderText-Regular;
       letter-spacing: 0.3px;
-      font-size: 16px
+      font-size: 16px;
     }
   }
-  li.toplist.listhead{
-    border-bottom: 2px solid #6F7779;
-    background-color:#6F7779;
+  li.toplist.listhead {
+    border-bottom: 2px solid #6f7779;
+    background-color: #6f7779;
   }
-  li.toplist.listhead:hover{
-    border-bottom: 2px solid #6F7779;
-    background-color:#6F7779;
+  li.toplist.listhead:hover {
+    border-bottom: 2px solid #6f7779;
+    background-color: #6f7779;
   }
-  li.toplist:hover{
-    background-color:#000;
+  li.toplist:hover {
+    background-color: #000;
     border-bottom: 2px solid;
   }
-  li.listhead{
+  li.listhead {
     border-bottom: 2px solid #ec0000;
     background-color: #fff;
   }
-  li.listhead:hover{
+  li.listhead:hover {
     border-bottom: 2px solid #ec0000;
   }
 }
@@ -272,7 +270,7 @@ ul.listiconhide li::after {
   display: none;
 }
 .tblinputbx {
-  background-color: #DEEDF2;
+  background-color: #deedf2;
   padding: 10px;
   border-radius: 6px;
   width: 100%;
@@ -309,9 +307,8 @@ ul.listiconhide li::after {
 }
 .btnrow {
   justify-content: space-between;
-  
 }
-.rowreverse{
+.rowreverse {
   flex-direction: row-reverse;
 }
 .rowrhtbtn {
@@ -347,10 +344,10 @@ ul.listiconhide li::after {
     margin-left: 7px;
   }
 }
- 
+
 .recipientsbtn:hover {
-  background-color:  #000 !important;
-  border: 1px solid  #000 !important;
+  background-color: #000 !important;
+  border: 1px solid #000 !important;
 }
 
 .imageaddoption {
@@ -383,7 +380,7 @@ ul.listiconhide li::after {
     box-shadow: 0px 1px 25px -12px #999;
   }
 }
-.addsearchrow input[type="email"]{
+.addsearchrow input[type="email"] {
   width: 160px;
   margin-bottom: 0;
 }
@@ -434,7 +431,7 @@ ul.listiconhide li::after {
     color: #eee;
   }
 }
-.errorMessage{
+.errorMessage {
   color: #ce131b;
   font-weight: 500;
   padding: 8px 0px;
@@ -464,12 +461,11 @@ ul.listiconhide li::after {
   .detailbx {
     width: 68%;
   }
-  .bgcolor{
-    .innerpgcntnt{
+  .bgcolor {
+    .innerpgcntnt {
       max-width: 90%;
     }
   }
-  
 }
 @media (max-width: 992px) {
   .visitnamebx {
@@ -486,10 +482,10 @@ ul.listiconhide li::after {
     // .titlebx{
     //   margin-bottom: 0px;
     // }
-    .listcntnt{
+    .listcntnt {
       overflow: auto;
     }
-    .listitems{
+    .listitems {
       margin-bottom: 15px;
     }
   }
@@ -506,6 +502,11 @@ ul.listiconhide li::after {
     overflow-y: auto;
   }
 }
+.nodata{
+  color: #ec0000;
+  font-weight: 700;
+  text-align: center;
+}
 @media (max-width: 535px) {
   .btnrow,
   .rowrhtbtn {
@@ -518,14 +519,14 @@ ul.listiconhide li::after {
   }
 }
 @media (max-width: 390px) {
-.detailbximage{
-  img{
-    width: 100%;
-    padding: 0px 10px;
+  .detailbximage {
+    img {
+      width: 100%;
+      padding: 0px 10px;
+    }
   }
 }
-}
-.imagepopover{
+.imagepopover {
   display: flex;
   background-color: #e9e9e9;
   gap: 15px;

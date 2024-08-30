@@ -1,6 +1,6 @@
-import axios from 'axios';
-import https from 'https';
-import config from '../../../../config/config';
+import axios from "axios";
+import https from "https";
+import config from "../../../../config/config";
 
 const agent = new https.Agent({
   rejectUnauthorized: false,
@@ -17,13 +17,11 @@ export async function GET(request) {
       );
     }
     const response = await axios.get(
-      `${
-        config.VISITREPORTS
-      }?userid=${userId}&lastupdatedttm=${config.LAST_UPDATED_TTM}`,
+      `${config.VISITREPORTS}?userid=${userId}&lastupdatedttm=${config.LAST_UPDATED_TTM}`,
       {
         httpsAgent: agent,
       }
-    );
+    ); 
     return new Response(
       JSON.stringify({ message: "success", result: response.data }),
       { status: 200 }
