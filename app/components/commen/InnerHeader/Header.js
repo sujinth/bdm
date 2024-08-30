@@ -31,7 +31,7 @@ const InnerHeader = () => {
     document.getElementById("menupopup").style.display = "block";
     document.body.style.overflow = "hidden";
     document.body.classList.add("menuopen");
-
+    window.scrollTo(0, 0);
     // Add event listener to detect clicks outside of the menu
     document.addEventListener("mousedown", handleClickOutside);
   };
