@@ -197,7 +197,7 @@ const Home = () => {
                   </div>
 
                   <div className={Styles.fntclgry}>{apiResponse.date}</div>
-                  <div>{apiResponse.desc}</div>
+                  <div dangerouslySetInnerHTML={{ __html: apiResponse.desc }} />
                 </div>
               </div>
             </div>

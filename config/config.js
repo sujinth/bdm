@@ -5,7 +5,7 @@ const LOGIN = `${ABSPATH}login.php`;
 const CHANGE_PASSWORD = `${ABSPATH}changepassword.php`;
 const FORGOT_PASSWORD = `${ABSPATH}forgotpassword.php`;
 const COACHINGMODULE = `${ABSPATH}coachingmodule.php`;
-const RESOURCE = `https://www.scmibusiness.co.uk/ipadapp/resources.php`;
+const RESOURCE = `${ABSPATH}resources.php`;
 const DELEARSHIP_VISIT_REPORTS = `${ABSPATH}incomplete_dealershipvisitreportstemplate.php`;
 const INCOMPLETE_DEALERSHIP = `${ABSPATH}incomplete_dealership.php`;
 const INCOMPLETE_ACTION = `${ABSPATH}incomplete_reportlist.php`;
@@ -16,7 +16,7 @@ const DEALERSHIP_VISIT_REPORT_LIST = `${ABSPATH}dealershipvisitreportresultlist.
 const POST_DEALERSHIP_VISIT_REPORT_RESPONSE = `${ABSPATH}dealershipvisitreportresponse.php`;
 const VISIT_REPORT_SEND_EMAIL = `${ABSPATH}emailapi.php`;
 const HOME_PAGE_IMG_URL = `${ABSPATH}midbar-image.php`;
-const NEWS = `https://www.scmibusiness.co.uk/ipadapp/news.php`;
+const NEWS = `${ABSPATH}news.php`;
 
 module.exports = {
   LAST_UPDATED_TTM,
