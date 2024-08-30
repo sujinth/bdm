@@ -112,8 +112,8 @@
     line-height: normal;
   }
   button {
-    background-color: #555555;
-    border: 1px solid #555555;
+    background-color: #6F7779;
+    border: 1px solid #6F7779;
     width: 70px;
     height: 28px;
     display: flex;
@@ -121,8 +121,8 @@
     justify-content: center;
   }
   button:hover {
-    background-color: #373737 !important;
-    border: 1px solid #373737;
+    background-color: #000 !important;
+    border: 1px solid #000;
   }
 }
 .listitems {
@@ -196,7 +196,7 @@
 }
 .nextbtn {
   button {
-    background-color: #555555;
+    background-color: #6F7779;
     border: 0px;
     width: 100px;
     position: relative;

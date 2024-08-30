@@ -194,7 +194,7 @@ body {
       line-height: 1;
     }
     button.nav-link:hover{
-      color: #141313;
+      color: #000;
       border-bottom: none;
     }
     button.nav-link.active{
@@ -419,8 +419,8 @@ body::-webkit-scrollbar-thumb {
     width: 100px;
   }
   button:hover {
-    background-color:  #000 !important;
-    border: 0px solid  #000 !important;
+    background-color:  #CC0000 !important;
+    border: 0px solid  #CC0000 !important;
   }
 }
 .position-relative {

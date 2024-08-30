@@ -281,6 +281,13 @@ ul.listiconhide li::after {
   tr:not(:last-child) td {
     padding-bottom: 5px;
   }
+  .detailtbltd{
+    font-family:SantanderText-Bold ;
+  }
+  .tblinputbx{
+    background-color: #fff;
+    border:1px solid #9BC3D3;
+  }
   td {
     width: 50%;
   }

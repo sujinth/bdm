@@ -1593,7 +1593,7 @@ function VisitReportForm({
         <table className={Styles.detailtbl}>
           <tbody>
             <tr>
-              <td>Review Date</td>
+              <td className={Styles.detailtbltd}>Review Date</td>
               <td>
                 <input
                   className={Styles.tblinputbx}
@@ -1608,7 +1608,7 @@ function VisitReportForm({
               </td>
             </tr>
             <tr>
-              <td>
+              <td className={Styles.detailtbltd}>
                 {formData.flagHealthCheck == "Y" ? "Dealer" : "Review Period"}
               </td>
               <td>
@@ -1638,7 +1638,7 @@ function VisitReportForm({
               </td>
             </tr>
             <tr>
-              <td>Dealer Attendees</td>
+              <td className={Styles.detailtbltd}>Dealer Attendees</td>
               <td>
                 <textarea
                   className={Styles.tblinputbx}
@@ -1652,7 +1652,7 @@ function VisitReportForm({
               </td>
             </tr>
             <tr>
-              <td>SCUK Attendees</td>
+              <td className={Styles.detailtbltd}>SCUK Attendees</td>
               <td>
                 <textarea
                   className={Styles.tblinputbx}
