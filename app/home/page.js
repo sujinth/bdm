@@ -40,7 +40,7 @@ const Home = () => {
   useEffect(() => {
     fetchImagUrlForHomePage();
     getData();
-  }, [session]);
+  }, [session.data?.user?.id]);
 
   // Function for fetch image url
   async function fetchImagUrlForHomePage() {
