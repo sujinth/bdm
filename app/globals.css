@@ -161,9 +161,12 @@ body {
     padding-left: 7px !important;
     justify-content: space-between;
     border-radius: 21px;
+    border-bottom: 0px !important;
   .nav-link.active{
     background-color: #067cfe;
+     border-bottom: 0px;
   }
+
   .nav-link.active{
     background-color: #EC0000;
         color: #fff;
@@ -207,7 +210,7 @@ body {
     }
   }
   :hover {
-    background-color: #f8f9fa;
+    background-color: #fff;
     color: #080808;
 
   }
@@ -353,35 +356,20 @@ body {
     padding-top: 10px;
   }
 }
-
-::-webkit-scrollbar {
+/* Scrollbar width */
+.listitems::-webkit-scrollbar {
   width: 5px;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+/* Track of the scrollbar */
+.listitems::-webkit-scrollbar-track {
+  background: #eeeeee;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
+/* Scrollbar thumb (the draggable part) */
+.listitems::-webkit-scrollbar-thumb {
   background: #6F7779;
-  border-radius: 10px;
-}
-
-body::-webkit-scrollbar {
-  width: 12px;
-}
-
-/* Track */
-body::-webkit-scrollbar-track {
-  background: #fdfdfd;
-}
-
-/* Handle */
-body::-webkit-scrollbar-thumb {
-  background: #6F7779;
-  border-radius: 0px;
+  border-radius: 10px; /* Adjust radius as needed */
 }
 .contractform {
   .labelinput {
@@ -492,13 +480,13 @@ body::-webkit-scrollbar-thumb {
     justify-content: space-between;
   }
   .nextbtn {
-    background-color: #555555;
+    background-color: #6F7779;
     border: 0px;
     width: 100px;
     position: relative;
   }
   .nextbtn:hover {
-    background-color: #555555 !important;
+    background-color: #000 !important;
   }
   .nextbtn::after {
     content: "";
@@ -512,7 +500,7 @@ body::-webkit-scrollbar-thumb {
     height: -moz-fit-content;
     height: fit-content;
     border-style: solid;
-    border-color: transparent transparent transparent #555555;
+    border-color: transparent transparent transparent #6F7779;
   }
 }
 
@@ -534,7 +522,7 @@ body::-webkit-scrollbar-thumb {
 }
 .coachingmodalcontent{
   .modal-header{
-    background-color: #555555;
+    background-color: #6F7779;
     color: #fff;
     justify-content: center;
   }
@@ -554,7 +542,7 @@ body::-webkit-scrollbar-thumb {
     text-transform: uppercase;
   }
   .btn.btn-primary:hover{
-    background-color:  #000 !important;
+    background-color:  #CC0000 !important;
   }
 }
 .bg-dark{
@@ -689,7 +677,7 @@ body::-webkit-scrollbar-thumb {
       height:480px;
     }
   }
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     width: 3px;
   }
   
@@ -700,7 +688,7 @@ body::-webkit-scrollbar-thumb {
   
   body::-webkit-scrollbar {
     width: 5px;
-  }
+  } */
 }
 @media (max-width: 768px) {
   .flex {

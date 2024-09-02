@@ -47,7 +47,7 @@
   flex-wrap: wrap;
   row-gap: 15px;
   column-gap: 15px;
-  padding: 0px 0px 50px;
+  padding: 0px 0px 70px;
   justify-content: space-between;
 }
 .visitnamebx {
@@ -100,7 +100,7 @@
 
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #eeeeee;
     border-radius: 10px;
   }
 
@@ -110,10 +110,7 @@
     border-radius: 10px;
   }
 
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #6f7779;
-  }
+  
 }
 .dealersingle {
   ul:first-child {
@@ -124,6 +121,21 @@
       }
     }
   }
+}
+/* Scrollbar width */
+.listcntnt::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track of the scrollbar */
+.listcntnt::-webkit-scrollbar-track {
+  background: #eeeeee;
+}
+
+/* Scrollbar thumb (the draggable part) */
+.listcntnt::-webkit-scrollbar-thumb {
+  background: #6F7779;
+  border-radius: 10px; /* Adjust radius as needed */
 }
 .listcntnt {
   padding-left: 25px !important;
@@ -283,6 +295,7 @@ ul.listiconhide li::after {
   }
   .detailtbltd{
     font-family:SantanderText-Bold ;
+    color: #000;
   }
   .tblinputbx{
     background-color: #fff;
@@ -305,7 +318,7 @@ ul.listiconhide li::after {
 }
 .mainboxfooter {
   position: absolute;
-  bottom: 0px;
+  bottom: -15px;
   left: 0px;
   right: 0px;
   padding: 20px;
@@ -353,8 +366,8 @@ ul.listiconhide li::after {
 }
 
 .recipientsbtn:hover {
-  background-color: #000 !important;
-  border: 1px solid #000 !important;
+  background-color: #CC0000 !important;
+  border: 1px solid #CC0000 !important;
 }
 
 .imageaddoption {

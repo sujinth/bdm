@@ -333,7 +333,7 @@
 
   /* Track */
   ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
+    background: #eeeeee;
     border-radius: 10px;
   }
 
@@ -343,10 +343,7 @@
     border-radius: 10px;
   }
 
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #6F7779;
-  }
+ 
 }
 .cntntbox a {
   .brdradius {
@@ -370,8 +367,8 @@
     padding-left: 55px;
   }
   .bgred:hover {
-    background-color: #000000;
-    border: 1px solid #000000;
+    background-color: #CC0000;
+    border: 1px solid #CC0000;
   }
 }
 .readbtn {

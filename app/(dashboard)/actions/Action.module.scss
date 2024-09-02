@@ -14,7 +14,7 @@
   flex-wrap: wrap;
   row-gap: 15px;
   column-gap: 15px;
-  padding: 0px 0px 50px;
+  padding: 0px 0px 70px;
   justify-content: space-between;
 }
 .visitnamebx {
@@ -41,7 +41,7 @@
 }
 .mainboxfooter {
   position: absolute;
-  bottom: 0px;
+  bottom: -15px;
   left: 0px;
   right: 0px;
   padding: 20px;
@@ -65,7 +65,7 @@
 
   /* Track */
   ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
+    background: #eeeeee;
     border-radius: 10px;
   }
 
@@ -74,16 +74,26 @@
     background: #6f7779;
     border-radius: 10px;
   }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #6f7779;
-  }
 }
 .logobottomtext {
   font-family: SantanderHead-Bold;
   letter-spacing: 0.3px;
   font-size: 18px;
+}
+/* Scrollbar width */
+.listitems::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track of the scrollbar */
+.listitems::-webkit-scrollbar-track {
+  background: #eeeeee;
+}
+
+/* Scrollbar thumb (the draggable part) */
+.listitems::-webkit-scrollbar-thumb {
+  background: #6F7779;
+  border-radius: 10px; /* Adjust radius as needed */
 }
 .listcntnt {
   li {
@@ -150,10 +160,12 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 60vh;
-  overflow: auto;
+  // height: 60vh;
+  // overflow: auto;
   padding-top: 0;
+  width: 100%;
 }
+
 .textcntr {
   text-align: center;
 }
@@ -231,9 +243,9 @@
     height: 200px;
     padding-right: 15px;
   }
-  .innercontentwhtbx {
-    overflow-y: auto;
-  }
+  // .innercontentwhtbx {
+  //   overflow-y: auto;
+  // }
 }
 @media (max-width: 390px) {
   .detailbximage {
