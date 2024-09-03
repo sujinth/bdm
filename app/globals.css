@@ -642,7 +642,10 @@ body {
     
   }
 }
-
+button{
+  font-weight: 600;
+  font-family: 'SantanderText-Bold';
+}
 @media (max-width: 1200px) {
   .col {
     overflow-x: scroll;
