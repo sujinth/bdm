@@ -476,3 +476,30 @@
     }
   }
 }
+@-moz-document url-prefix() {
+  .sidebarmenu {
+  scrollbar-width: thin; 
+  scrollbar-color: #6F7779 #eeeeee; 
+  }
+  .sidebarmenu::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  
+  .sidebarmenu::-webkit-scrollbar-track {
+    background: #eeeeee;
+  }
+
+
+  .sidebarmenu::-webkit-scrollbar-thumb {
+    background: #6f7779;
+    border-radius: 10px;
+  }
+  .ftw600{
+    font-weight: 500;
+  }
+  .menulist {
+   
+    font-weight: 500;
+  }
+}

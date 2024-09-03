@@ -281,3 +281,11 @@ a.loginbtn {
   }
 }
 }
+@-moz-document url-prefix() {
+  .loginbtn {
+    font-weight: 500;
+  }
+  .frgtlnk {
+    font-weight: 500;
+  }
+}

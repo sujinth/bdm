@@ -53,7 +53,7 @@
   font-style: normal;
 }
 body {
-  color: rgb(var(--foreground-rgb)) ;
+  color: #000 ;
   font-family: SantanderText-Regular ;
   font-size: 14px ;
   position: relative;
@@ -714,6 +714,45 @@ body {
     overflow: auto;
     height: 220px;
     display: block;
+  }
+}
+}
+@-moz-document url-prefix() {
+.listitems {
+  scrollbar-width: thin; 
+  scrollbar-color: #6F7779 #eeeeee; 
+}
+.listitems::-webkit-scrollbar {
+  width: 5px;
+}
+
+.listitems::-webkit-scrollbar-track {
+  background: #eeeeee;
+}
+
+.listitems::-webkit-scrollbar-thumb {
+  background: #6F7779;
+}
+.ftw600{
+  font-weight: 500;
+}
+.tabbtn {
+  li {
+    font-weight: 500;
+  }
+}
+.contractform {
+.form-select, input {
+    font-weight: 500;
+  }
+  .form-control::placeholder {
+    
+    font-weight: 500;
+  }
+}
+.custom-select-dropdown.show {
+  .dropdown-item {
+    font-weight: 500;
   }
 }
 }

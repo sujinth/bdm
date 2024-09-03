@@ -87,3 +87,9 @@
     height: 25px;
   }
 }
+@-moz-document url-prefix() {
+.footericontxt {
+  
+  font-weight: 500;
+}
+}

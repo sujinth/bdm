@@ -30,3 +30,12 @@
     font-weight: 700;
   }
 }
+@-moz-document url-prefix() {
+  .detailNews {
+    .contentBox {
+      .title {
+        font-weight: 500;
+      }
+    }
+  }
+}

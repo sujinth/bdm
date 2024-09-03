@@ -672,3 +672,58 @@ ul.listiconhide li::after {
     }
   }
 }
+@-moz-document url-prefix() {
+ 
+.listitems {
+  scrollbar-width: thin; 
+  scrollbar-color: #6F7779 #eeeeee; 
+}
+.listitems::-webkit-scrollbar {
+  width: 5px;
+}
+
+.listitems::-webkit-scrollbar-track {
+  background: #eeeeee;
+}
+.listitems::-webkit-scrollbar-thumb {
+  background: #6F7779;
+  border-radius: 10px; 
+}
+
+.contentwhtbx form{
+  scrollbar-width: thin; 
+  scrollbar-color: #6F7779 #eeeeee; 
+}
+  .contentwhtbx form::-webkit-scrollbar {
+    width: 5px;
+  }
+  .contentwhtbx form::-webkit-scrollbar-track {
+    background: #eeeeee;
+  }
+  .contentwhtbx form::-webkit-scrollbar-thumb {
+    background: #6f7779;
+    border-radius: 10px;
+  }
+  ul.listiconhide {
+    li {
+      
+      font-weight: 500;
+    }
+  }
+  .ftw600, .titlebx {
+    font-weight: 500;
+  }
+  .cntnttitle, .mainboxfooterbtn, .bold {
+    font-weight: 500;
+  }
+  .addsearchrow {
+    .addbtn {
+      font-weight: 500;
+    }
+  }
+  .lfttabs a {
+    .tabmenu {
+      font-weight: 500;
+    }
+  }
+}

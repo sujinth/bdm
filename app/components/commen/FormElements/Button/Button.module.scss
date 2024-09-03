@@ -26,3 +26,9 @@
     width: max-content;
   }
 }
+@-moz-document url-prefix() {
+  .button {
+    
+    font-weight: 500;
+  }
+  }
