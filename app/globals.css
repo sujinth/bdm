@@ -136,9 +136,17 @@ body {
   padding: 7px;
   width: 100%;
 }
-.popover-body div:not(:last-child) button {
-  border-bottom: 1px solid #cacaca;
+.popover-body button {
+  background-color: transparent;
+  img{
+    background-color: transparent;
+    
+  }
 }
+/* .popover-body div:not(:last-child) button {
+  border-bottom: 1px solid #cacaca;
+} */ 
+
 #searchpopover-positioned {
   padding: 10px !important;
   height: 250px !important;

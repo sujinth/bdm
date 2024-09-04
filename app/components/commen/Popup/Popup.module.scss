@@ -8,6 +8,8 @@
 
 .modalbodywrap {
   text-align: center;
+  color: #000;
+  font-family: 'SantanderText-Regular';
   padding: 40px !important;
   .modalcontentwrap {
     width: 100% !important;
@@ -16,7 +18,9 @@
 
 .modalbodywrap p {
   margin-bottom: 25px;
-  font-size: 16px;
+  font-size: 16px; 
+  color: #000;
+  font-family: 'SantanderText-Regular';
 }
 
 .modalbutton {
@@ -29,6 +33,9 @@
   max-width: 125px;
 
 }
+.modalbutton:hover{
+  background-color: #CC0000;
+}
 
 .modalOkButton {
   width: 100%;
@@ -38,4 +45,7 @@
   height: 35px;
   border-radius: 7px;
   max-width: 125px;
+}
+.modalOkButton:hover { 
+  background-color: #CC0000;
 }
