@@ -403,16 +403,26 @@ ul.listiconhide li::after {
 .addsearchrow input[type="email"] {
   width: 160px;
   margin-bottom: 0;
+  border-radius: 3px 0px 0px 3px;
+  border-right: 0px;
+}
+.addsearchrow input[type="email"]:focus-visible{
+  outline: 0px;
 }
 .addsearchrow {
   align-items: center;
   .addbtn {
-    background-color: #000;
+    background-color: #6F7779;
     color: #fff;
     padding: 0px 23px;
     font-weight: 600;
     height: 50px;
     border: none;
+    border-radius: 0px 3px 3px 0px;
+   
+  }
+  .addbtn:hover{
+    background-color: #000;
   }
   .searchrow {
     width: 70%;
