@@ -223,7 +223,7 @@ body {
   }
   button:hover,
   button:focus {
-    border: 0px;
+    /* border: 0px; */
     border-radius: 0px;
     color: #fff;
   }
