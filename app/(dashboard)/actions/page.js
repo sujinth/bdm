@@ -336,7 +336,7 @@ const Action = () => {
     <>
       <div className={Styles.bgcolor}>
         <div className={`${Styles.container} ${Styles.innerpgcntnt} `}>
-          <div className={`${Styles.visitnamebx} ${Styles.tabcontent} `}>
+          <div className={`${Styles.visitnamebx} ${Styles.actioncontent} `}>
             <div className={Styles.titlebx}>{pageName}</div>
 
             {/* Content need to show in visit name side bar */}

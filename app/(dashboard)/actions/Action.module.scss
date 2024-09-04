@@ -23,6 +23,11 @@
 .detailbx {
   width: 68%;
   position: relative;
+  .detailbximage {
+    text-align: center;
+    padding-top: 15px;
+  }
+  
 }
 .titlebx {
   background-color: #ec0000;
@@ -162,7 +167,7 @@
   flex-direction: column;
   // height: 60vh;
   // overflow: auto;
-  padding-top: 0;
+  //padding-top: 0;
   width: 100%;
 }
 
@@ -201,7 +206,12 @@
     letter-spacing: 0.3px;
   }
 }
-
+.actioncontent .listitems{
+  padding-left: 0px !important;
+}
+.actioncontent .listitems .listcntnt{
+  padding-left: 25px !important;
+}
 //Action-pg
 @media (max-width: 1200px) {
   .visitnamebx {

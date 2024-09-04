@@ -655,6 +655,23 @@ button{
   font-weight: 600;
   font-family: 'SantanderText-Bold';
 }
+
+.innernavpills.nav-pills::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track of the scrollbar */
+.innernavpills.nav-pills::-webkit-scrollbar-track {
+  background: #eeeeee;
+}
+
+/* Scrollbar thumb (the draggable part) */
+.innernavpills.nav-pills::-webkit-scrollbar-thumb {
+  background: #6F7779;
+  border-radius: 10px; /* Adjust radius as needed */
+}
+
+ 
 @media (max-width: 1200px) {
   .col {
     overflow-x: scroll;
@@ -745,6 +762,20 @@ button{
 .listitems::-webkit-scrollbar-thumb {
   background: #6F7779;
 }
+.innernavpills.nav-pills {
+  scrollbar-width: thin; 
+  scrollbar-color: #6F7779 #eeeeee; 
+}
+.innernavpills.nav-pills::-webkit-scrollbar {
+  width: 5px;
+}
+.innernavpills.nav-pills::-webkit-scrollbar-track {
+  background: #eeeeee;
+}
+.innernavpills.nav-pills::-webkit-scrollbar-thumb {
+  background: #6F7779;
+}
+
 .ftw600{
   font-weight: 500;
 }

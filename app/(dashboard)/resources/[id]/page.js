@@ -97,7 +97,7 @@ const ResourcesList = () => {
                     <Loader />
                   ) : null}
                   {resources.filterChildResources?.length > 0 || pageLoader ? (
-                    <Nav variant="pills" className=" ">
+                    <Nav variant="pills" className="innernavpills">
                       {resources.filterChildResources.map((item, idx) => (
                         <Nav.Item key={idx} className={Styles.lfttabs}>
                           <Nav.Link
