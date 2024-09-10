@@ -192,7 +192,7 @@
 .listitems {
   // border: 1px solid #989898;
   li.listhead {
-    background-color: #6f7779;
+    background-color: #DEEDF2;
   }
   .listtoptitle {
     background-color: #ec0000;
@@ -247,28 +247,28 @@ ul.listiconhide {
     width: 100%;
     padding-top: 0px;
     padding-bottom: 0px;
-    border-bottom: 2px solid #6f7779;
-    background-color: #6f7779;
+    border-bottom: 2px solid #DEEDF2;
+    background-color: #DEEDF2;
     margin-left: 0px;
     a {
-      color: #fff !important;
+      color: #000 !important;
       font-weight: 500;
-      font-family: SantanderText-Regular;
+      font-family: SantanderText-Bold;
       letter-spacing: 0.3px;
       font-size: 16px;
     }
   }
   li.toplist.listhead {
-    border-bottom: 2px solid #6f7779;
-    background-color: #6f7779;
+    border-bottom: 2px solid #DEEDF2;
+    background-color: #DEEDF2;
   }
   li.toplist.listhead:hover {
-    border-bottom: 2px solid #6f7779;
-    background-color: #6f7779;
+    border-bottom: 2px solid #DEEDF2;
+    background-color: #DEEDF2;
   }
   li.toplist:hover {
-    background-color: #000;
-    border-bottom: 2px solid;
+    background-color: #9BC3D3;
+    border-bottom: 2px solid #9BC3D3;
   }
   li.listhead {
     border-bottom: 2px solid #ec0000;

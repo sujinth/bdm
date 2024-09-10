@@ -144,7 +144,7 @@
   position: relative;
   padding-left: 30px;
   font-weight: 500;
-  border-bottom: 1px dashed #d6cbcb;
+  border-bottom: 1px dashed #9BC3D3;
   font-family: SantanderHead-Bold;
   font-size: 17px;
   letter-spacing: 0.3px;
@@ -236,11 +236,14 @@
 .bgred {
   background-color: #ec0000;
 }
+.brdblue{
+  border: 1px solid #9BC3D3;
+}
 .cntntbox {
   width: 20%;
   
   .boxtile{
-    border: 1px solid #B6D3DF;
+    border: 1px solid #9BC3D3;
     background-color: #fff;
     padding: 15px;
     .iconbrborderradius{
