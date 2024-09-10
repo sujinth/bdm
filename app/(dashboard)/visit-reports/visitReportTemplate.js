@@ -1167,6 +1167,39 @@ const VisitReportTemplate = ({ selectedData }) => {
     } catch (error) {}
   };
 
+  // Function for submit action
+  const secondFormValidation = (formData) => {
+    if(txtDealerSignature?.value?.trim() == ""){
+      setPopupContent((prevState) => ({
+        ...prevState,
+        titleContent: "",
+        duelOption: false,
+        detailContent: "Please enter Dealer Signature",
+        show: true
+      }));
+    } else if(txtScfSignature?.value?.trim() == ""){
+      setPopupContent((prevState) => ({
+        ...prevState,
+        titleContent: "",
+        duelOption: false,
+        detailContent: "Please enter SCF Reviewer Signature",
+        show: true
+      }));
+    } else if(nextReviewDate?.value?.trim() == ""){
+      setPopupContent((prevState) => ({
+        ...prevState,
+        titleContent: "",
+        duelOption: false,
+        detailContent: "Please enter Next Review Date",
+        show: true
+      }));
+    } else {
+      formData.flagRecipient === "Y"
+      ? sendEmailPopUp()
+      : handleSubmit(false)
+    }
+  }
+
   return (
     <div className={Styles.bgcolor}>
       <div className={`${Styles.container} ${Styles.innerpgcntnt}`}>
@@ -1555,10 +1588,9 @@ const VisitReportTemplate = ({ selectedData }) => {
                   isActiveFollowUpReport) && (
                   <CustomButton
                     type="submit"
-                    onClick={(e) =>
-                      formData.flagRecipient === "Y"
-                        ? sendEmailPopUp()
-                        : handleSubmit(false)
+                    onClick={(e) => {
+                        secondFormValidation(formData);
+                      }
                     }
                   >
                     Submit
