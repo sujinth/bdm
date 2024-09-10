@@ -83,7 +83,7 @@ const VisitReportTemplate = ({ selectedData }) => {
         txtDateTimeElement.value = formattedDateTime;
       }
       if (txtDealershipNameElement) {
-        txtDealershipNameElement.value = formData?.formName;
+        txtDealershipNameElement.value = selectedDealer?.name;
       }
     }
   });
