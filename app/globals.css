@@ -706,18 +706,6 @@ button{
       height:480px;
     }
   }
-  /* ::-webkit-scrollbar {
-    width: 3px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
- 
-    border-radius: 5px;
-  }
-  
-  body::-webkit-scrollbar {
-    width: 5px;
-  } */
 }
 @media (max-width: 768px) {
   .flex {
