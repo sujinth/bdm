@@ -12,6 +12,8 @@ export async function GET(request) {
       httpsAgent: agent,
     });
 
+    console.log(response.data.root, "response 1 -----");
+
     return new Response(
       JSON.stringify({ message: "sucess", result: response.data.root }),
       { status: 200 }
