@@ -6,13 +6,16 @@ const agent = new https.Agent({
   rejectUnauthorized: false,
 });
 
-export async function GET(request) {
+export async function POST(request) {
   try {
-    const response = await axios.get(config.HOME_PAGE_IMG_URL, {
-      httpsAgent: agent,
-    });
+    const { userId, lastupdatedttm } = await request.json();
 
-    console.log(response.data.root, "response 1 -----");
+    const response = await axios.get(
+      `${config.HOME_PAGE_IMG_URL}?userid=${userId}&lastupdatedttm=${lastupdatedttm}`,
+      {
+        httpsAgent: agent,
+      }
+    );
 
     return new Response(
       JSON.stringify({ message: "sucess", result: response.data.root }),

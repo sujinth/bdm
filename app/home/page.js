@@ -45,9 +45,14 @@ const Home = () => {
   // Function for fetch image url
   async function fetchImagUrlForHomePage() {
     try {
+      let userId = session.data?.user?.id || "";
+
       setImageLoader(true);
-      const response = await axios.get("api/homePageImage");
-      console.log(response, "response 2 -----");
+      const response = await axios.post("api/homePageImage", {
+        userId,
+        lastupdatedttm: "2012-03-12 05:49:32",
+      });
+
       setImageLoader(false);
       if (response.data.result.status !== 0) {
         setImageUrl(response.data.result.data.content1);
@@ -95,7 +100,6 @@ const Home = () => {
       {/* Header */}
       <InnerHeader />
       {!imageUrl && imageLoader ? <Loader /> : null}
-      {console.log(imageUrl, "response 3 -----")}
       {imageUrl ? (
         <div
           className={Styles.homeImage}
