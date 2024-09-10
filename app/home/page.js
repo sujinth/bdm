@@ -183,7 +183,7 @@ const Home = () => {
 
             <div className={`${Styles.flex} ${Styles.pdT50}`}>
               <div
-                className={`${Styles.whtbg} ${Styles.pd20} ${Styles.rghtbxcntnt} ${Styles.brdgry} ${Styles.brdradius}`}
+                className={`${Styles.whtbg} ${Styles.pd20} ${Styles.rghtbxcntnt} ${Styles.brdblue} ${Styles.brdradius}`}
               >
                 <div>
                   <div

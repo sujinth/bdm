@@ -94,7 +94,7 @@ const Forgotpassword = () => {
                 )}
                 <div className={Styles.mrgT40}>
                   <button className={Styles.loginbtn} type="submit">
-                    Send
+                  Submit
                   </button>
                 </div>
                 <div className={Styles.mrgT10}>
