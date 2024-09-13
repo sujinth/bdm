@@ -1169,6 +1169,9 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Function for submit action
   const secondFormValidation = (formData) => {
+    let txtDealerSignature = document.getElementById("txtDealerSignature") || "noField";
+    let nextReviewDate = document.getElementById("nextReviewDate") || "noField";
+    let txtScfSignature = document.getElementById("txtScfSignature") || "noField";
     if(txtDealerSignature?.value?.trim() == ""){
       setPopupContent((prevState) => ({
         ...prevState,
