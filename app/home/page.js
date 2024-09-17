@@ -101,10 +101,12 @@ const Home = () => {
       <InnerHeader />
       {!imageUrl && imageLoader ? <Loader /> : null}
       {imageUrl ? (
+        <div className={Styles.homeImage}>
         <div
-          className={Styles.homeImage}
+          className={Styles.container}
           dangerouslySetInnerHTML={{ __html: imageUrl }}
         />
+        </div>
       ) : null}
       <div className={Styles.bgcolor}>
         <div className={Styles.container}>
