@@ -210,6 +210,20 @@ const InnerHeader = () => {
               </button>
             </div>
             <UserGuide show={show} setShow={setShow} />
+            <div
+              className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
+            >
+              <Link href="#" onClick={menuClose}>
+                About
+              </Link>
+            </div>
+            <div
+              className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
+            >
+              <Link href="#" onClick={menuClose}>
+                Feedback
+              </Link>
+            </div>
           </div>
         </div>
       </div>
