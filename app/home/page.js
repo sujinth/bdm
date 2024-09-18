@@ -22,6 +22,7 @@ const Home = () => {
   const [apiResponse, setApiResponse] = useState({});
   const [newsLoader, setNewsLoader] = useState(false);
   const [imageLoader, setImageLoader] = useState(false);
+  const [userGuideUrl, setUserGuideUrl] = useState("");
   const { setGoBackToPage } = useDashboard();
   const session = useSession();
 
@@ -90,6 +91,14 @@ const Home = () => {
           }
         }
       }
+
+      // set user guide url
+      if(response?.data?.result?.userguide?.userguidepath){
+        setUserGuideUrl(response.data.result.userguide.userguidepath);
+      } else {
+        setUserGuideUrl("https://www.scmibusiness.co.uk/sysimgdocs/docs/User-Guide-V1_pg1_1.pdf");
+      }
+      
     } catch (error) {
       console.log("error", error.message);
     }
@@ -98,7 +107,7 @@ const Home = () => {
   return (
     <>
       {/* Header */}
-      <InnerHeader />
+      <InnerHeader userGuideUrl={userGuideUrl}/>
       {!imageUrl && imageLoader ? <Loader /> : null}
       {imageUrl ? (
         <div className={Styles.homeImage}>

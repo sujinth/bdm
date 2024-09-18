@@ -14,7 +14,7 @@ import { useDashboard } from "../../../contexts/layoutContext";
 import Styles from "./Innerheader.module.scss";
 
 // Default function for inner header component
-const InnerHeader = () => {
+const InnerHeader = (props) => {
   const [showUserGuide, setShowUserGuide] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const session = useSession();
@@ -208,18 +208,6 @@ const InnerHeader = () => {
                 User guide
               </button>
             </div>
-            <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}>
-              <button
-                className={Styles.userBtn}
-                type="button"
-                onClick={() => {
-                  setShowAbout(true);
-                  menuClose();
-                }}
-              >
-                About
-              </button>
-            </div>
             <div
               className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
             >
@@ -232,6 +220,18 @@ const InnerHeader = () => {
                 Feedback
               </Link>
             </div>
+            <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}>
+              <button
+                className={Styles.userBtn}
+                type="button"
+                onClick={() => {
+                  setShowAbout(true);
+                  menuClose();
+                }}
+              >
+                About
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -239,7 +239,7 @@ const InnerHeader = () => {
         show={showUserGuide}
         setShow={setShowUserGuide}
         title="User Guide"
-        src="/santander.pdf"
+        src={props?.userGuideUrl || "https://www.scmibusiness.co.uk/sysimgdocs/docs/User-Guide-V1_pg1_1.pdf"}
       />
       <AboutModal show={showAbout} setShow={setShowAbout} />
     </>
