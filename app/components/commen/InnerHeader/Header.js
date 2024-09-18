@@ -12,14 +12,16 @@ import Link from "next/link";
 import Modal from "react-bootstrap/Modal";
 import { useDashboard } from "../../../contexts/layoutContext";
 import Styles from "./Innerheader.module.scss";
+import axios from "axios";
 
 // Default function for inner header component
-const InnerHeader = (props) => {
+const InnerHeader = () => {
   const [showUserGuide, setShowUserGuide] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const session = useSession();
   const pathName = usePathname();
   const [headerText, setHeaderText] = useState("");
+  const [userGuideUrl, setUserGuideUrl] = useState("");
   const loggedIn = !!session.data;
   const { handleGoBack } = useDashboard();
 
@@ -27,6 +29,30 @@ const InnerHeader = (props) => {
   useEffect(() => {
     document.body.style.overflow = "auto";
   }, []);
+
+  useEffect(()=>{
+    let userId = session.data?.user?.id || "";
+    getNewsData(userId);
+  },[session.data?.user?.id])
+
+  // set user guide url
+  async function getNewsData(userId){
+    try{
+      const response = await axios.post(`/api/news`, {
+        userId,
+        lastupdatedttm: "2012-03-12 05:49:32",
+        userguidelastupdatedttm: "2017-08-21 16:03:19",
+      });
+  
+      if(response?.data?.result?.userguide?.userguidepath){
+        setUserGuideUrl(response.data.result.userguide.userguidepath);
+      } else {
+        setUserGuideUrl("https://www.scmibusiness.co.uk/sysimgdocs/docs/User-Guide-V1_pg1_1.pdf");
+      }
+    } catch (error) {
+      console.log("error", error.message);
+    }
+  }
 
   const menuClick = () => {
     document.getElementById("menupopup").style.display = "block";
@@ -63,7 +89,6 @@ const InnerHeader = (props) => {
 
   // Setting hedding text in header
   useEffect(() => {
-    console.log("recag");
     switch (pathName) {
       case "/actions":
         setHeaderText("Visits Reports Actions");
@@ -239,7 +264,7 @@ const InnerHeader = (props) => {
         show={showUserGuide}
         setShow={setShowUserGuide}
         title="User Guide"
-        src={props?.userGuideUrl || "https://www.scmibusiness.co.uk/sysimgdocs/docs/User-Guide-V1_pg1_1.pdf"}
+        src={userGuideUrl || "https://www.scmibusiness.co.uk/sysimgdocs/docs/User-Guide-V1_pg1_1.pdf"}
       />
       <AboutModal show={showAbout} setShow={setShowAbout} />
     </>
