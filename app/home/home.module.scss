@@ -331,24 +331,24 @@
   padding-top:0px;
   margin-top: 15px;
   width: 97%;
-  ::-webkit-scrollbar {
+  height: 90%;
+}
+.sidebarmenu::-webkit-scrollbar {
     width: 5px;
   }
 
   /* Track */
-  ::-webkit-scrollbar-track {
+  .sidebarmenu::-webkit-scrollbar-track {
     background: #eeeeee;
     border-radius: 10px;
   }
 
   /* Handle */
-  ::-webkit-scrollbar-thumb {
+  .sidebarmenu::-webkit-scrollbar-thumb {
     background:#6F7779;
     border-radius: 10px;
   }
 
- 
-}
 .cntntbox a {
   .brdradius {
     position: relative;
