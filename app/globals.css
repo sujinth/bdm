@@ -670,8 +670,43 @@ button{
   background: #6F7779;
   border-radius: 10px; /* Adjust radius as needed */
 }
-
- 
+.aboutpopup{
+  padding: 40px 0px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.aboutpopup-title{
+  font-family: SantanderHead-Bold;
+    font-size: 24px;
+    letter-spacing: 0.3px;
+    font-weight: 500;
+    padding: 15px 0px;
+}
+.modal.show .modal-dialog.about-box{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-open.about-open{
+  padding-right: 0px !important;
+}
+.about-box .modal-content{
+  height: 80%;
+  width: 70%;
+}
 @media (max-width: 1200px) {
   .col {
     overflow-x: scroll;
@@ -734,6 +769,18 @@ button{
   }
 }
 }
+@media (max-width: 480px) {
+.aboutpopup{
+  img{
+    width: 80% !important;
+  }
+}
+.about-box .modal-content {
+
+  width: 90%;
+}
+}
+
 @-moz-document url-prefix() {
 .listitems {
   scrollbar-width: thin; 

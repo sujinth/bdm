@@ -15,7 +15,8 @@ import Styles from "./Innerheader.module.scss";
 
 // Default function for inner header component
 const InnerHeader = () => {
-  const [show, setShow] = useState(false);
+  const [showUserGuide, setShowUserGuide] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const session = useSession();
   const pathName = usePathname();
   const [headerText, setHeaderText] = useState("");
@@ -195,63 +196,105 @@ const InnerHeader = () => {
                 Change password
               </Link>
             </div>
-            <div
-              className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
-            >
+            <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}>
               <button
                 className={Styles.userBtn}
                 type="button"
                 onClick={() => {
-                  setShow(true);
+                  setShowUserGuide(true);
                   menuClose();
                 }}
               >
                 User guide
               </button>
             </div>
-            <UserGuide show={show} setShow={setShow} />
-            <div
-              className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
-            >
-              <Link href="#" onClick={menuClose}>
+            <div className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}>
+              <button
+                className={Styles.userBtn}
+                type="button"
+                onClick={() => {
+                  setShowAbout(true);
+                  menuClose();
+                }}
+              >
                 About
-              </Link>
+              </button>
             </div>
             <div
               className={`${Styles.clrgry} ${Styles.alignlft} ${Styles.pdTB20} ${Styles.menulist}`}
             >
-              <Link href="#" onClick={menuClose}>
+              <Link  href="#"
+                  onClick={(e) => {
+                    e.preventDefault(); 
+                    window.location.href = "mailto:your_review@scmibusiness.co.uk";
+                    menuClose();
+                }}>
                 Feedback
               </Link>
             </div>
           </div>
         </div>
       </div>
+      <CustomModal
+        show={showUserGuide}
+        setShow={setShowUserGuide}
+        title="User Guide"
+        src="/santander.pdf"
+      />
+      <AboutModal show={showAbout} setShow={setShowAbout} />
     </>
   );
 };
 
 export default InnerHeader;
-
-// User guide
-function UserGuide({ show, setShow }) {
+function CustomModal({ show, setShow, title, src }) {
   return (
-    <>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        dialogClassName="modal-90w"
-        aria-labelledby="example-custom-modal-styling-title"
-        className={Styles.userguidepopup}
-      >
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Body>
-          <iframe
-            src="/santander.pdf"
-            style={{ width: "100%", height: "600px", border: "none" }}
-          ></iframe>
-        </Modal.Body>
-      </Modal>
-    </>
+    <Modal
+      show={show}
+      onHide={() => setShow(false)}
+      dialogClassName="modal-90w"
+      aria-labelledby={title}
+      className={Styles.userguidepopup}
+    >
+      <Modal.Header closeButton></Modal.Header>
+      <Modal.Body>
+        <iframe src={src} style={{ width: "100%", height: "500px", border: "none" }}></iframe>
+      </Modal.Body>
+    </Modal>
+  );
+}
+// About Modal 
+function AboutModal({ show, setShow }) {
+  useEffect(() => {
+    if (show) {
+      document.body.classList.add("about-open");
+    } else {
+      document.body.classList.remove("about-open");
+    }
+
+    // Clean up the class when the component unmounts or modal closes
+    return () => {
+      document.body.classList.remove("about-open");
+    };
+  }, [show]);
+
+  return (
+    <Modal
+      show={show}
+      onHide={() => setShow(false)}
+      dialogClassName="modal-90w about-box"
+      aria-labelledby="About"
+      className={Styles.userguidepopup}
+    >
+      <Modal.Header closeButton></Modal.Header>
+      <Modal.Body>
+        <div class="aboutpopup" style={{ textAlign: 'center' }}>
+          <div> 
+            <img src="/about-logo.png" alt="About Image" style={{ width: 'auto', height: 'auto' }} />
+            <div class="aboutpopup-title">MI Business App</div>
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal>
   );
 }
