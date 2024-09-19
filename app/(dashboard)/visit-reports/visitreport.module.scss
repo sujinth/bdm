@@ -330,6 +330,13 @@ ul.listiconhide li::after {
   background-color: #fff;
   box-shadow: 0px 0px 10px -5px #695e5e;
 }
+.footerbtnrow{
+  button{
+    min-width: 110px;
+    justify-content: center;
+  }
+  
+}
 .btnrow {
   justify-content: space-between;
 }
@@ -509,6 +516,12 @@ ul.listiconhide li::after {
   }
   .detailbx {
     width: 65%;
+  }
+  .footerbtnrow{
+    button{
+      min-width: fit-content;
+    }
+    
   }
 }
 @media (max-width: 768px) {

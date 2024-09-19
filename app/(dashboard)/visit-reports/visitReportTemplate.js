@@ -1275,7 +1275,7 @@ const VisitReportTemplate = ({ selectedData }) => {
           {isLastTabSelected && (
             <div className={Styles.mainboxfooter}>
               <div
-                className={`${Styles.flex} ${Styles.btnrow}  ${Styles.rowreverse}`}
+                className={`${Styles.flex} ${Styles.btnrow}  ${Styles.rowreverse} ${Styles.footerbtnrow}`}
               >
                 {/* Action Buttons  */}
                 {Object.keys(selectedExistingVisitReportData).length !== 0 &&
@@ -1520,7 +1520,7 @@ const VisitReportTemplate = ({ selectedData }) => {
                 )}
               </div>
 
-              <div className={`${Styles.flex} ${Styles.btnrow}`}>
+              <div className={`${Styles.flex} ${Styles.btnrow} ${Styles.footerbtnrow}`}>
                 <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
                   {formData.flagRecipient === "Y" && (
                     <>
