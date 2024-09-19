@@ -1520,10 +1520,10 @@ const VisitReportTemplate = ({ selectedData }) => {
                 )}
               </div>
 
-              <div className={`${Styles.flex} ${Styles.btnrow} ${Styles.footerbtnrow}`}>
+              <div className={`${Styles.flex} ${Styles.btnrow} ${Styles.footerbtnrow} `}>
                 <div className={`${Styles.flex} ${Styles.rowrhtbtn}`}>
                   {formData.flagRecipient === "Y" && (
-                    <>
+                    <> 
                       <div className={Styles.searchbox}>
                         <PopoverComponent
                           id="addRecipientsBtn"
