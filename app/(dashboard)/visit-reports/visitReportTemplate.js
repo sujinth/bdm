@@ -582,8 +582,22 @@ const VisitReportTemplate = ({ selectedData }) => {
         };
       }
       localStorage.setItem("visitReportForm", JSON.stringify(storedSavedData));
+      setPopupContent((prevState) => ({
+        ...prevState,
+        duelOption: false,
+        titleContent: "",
+        detailContent: "Visit report saved successfully.",
+        show: true,
+      }));
     } catch (error) {
       console.log("err ->", error.message);
+      setPopupContent((prevState) => ({
+        ...prevState,
+        duelOption: false,
+        titleContent: "",
+        detailContent: error.message || "Something went wrong, please try again later.",
+        show: true,
+      }));
     }
   };
 
@@ -955,8 +969,24 @@ const VisitReportTemplate = ({ selectedData }) => {
 
       // Save the updated data back to localStorage
       localStorage.setItem("savedData", JSON.stringify(storedSavedData));
+
+      setPopupContent((prevState) => ({
+        ...prevState,
+        duelOption: false,
+        titleContent: "",
+        detailContent: "Visit report saved successfully.",
+        show: true,
+      }));
+      
     } catch (err) {
       console.log("Error ", err.message);
+      setPopupContent((prevState) => ({
+        ...prevState,
+        duelOption: false,
+        titleContent: "",
+        detailContent: err.message || "Something went wrong, please try again later.",
+        show: true,
+      }));
     }
   };
 
@@ -1306,8 +1336,8 @@ const VisitReportTemplate = ({ selectedData }) => {
                     <CustomButton
                       type="button"
                       onClick={handleTemplateFormSaveButton}
-                    >
-                      Save
+                    >Save
+                      
                     </CustomButton>
                     <CustomButton
                       type="button"
