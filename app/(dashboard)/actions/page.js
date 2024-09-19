@@ -262,9 +262,17 @@ const Action = () => {
             ...prevState,
             titleContent: "",
             duelOption: false,
-            detailContent: "Actions updated successfilly.",
+            detailContent: "Actions updated successfully.",
             show: true,
             onClick: clickOk,
+          }));
+        } else {
+          setPopupContent((prevState) => ({
+            ...prevState,
+            duelOption: false,
+            titleContent: "",
+            detailContent: "Actions saved successfully.",
+            show: true,
           }));
         }
       } else {
@@ -278,6 +286,15 @@ const Action = () => {
               "Something went wrong, please try again later.",
             show: true,
             onClick: clickOk,
+          }));
+        } else {
+          setPopupContent((prevState) => ({
+            ...prevState,
+            duelOption: false,
+            titleContent: "",
+            detailContent: visitNameResponse?.data?.result?.message ||
+              "Something went wrong, please try again later.",
+            show: true,
           }));
         }
       }
