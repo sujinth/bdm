@@ -549,6 +549,11 @@ ul.listiconhide li::after {
     height: auto;
     overflow-y: auto;
   }
+  .contentwhtbx {
+    form {
+     height: 375px;
+    }
+  }
 }
 .nodata{
   color: #ec0000;
@@ -637,7 +642,7 @@ ul.listiconhide {
     font-weight: 500;
   }
 }
-.ftw600, .titlebx, .cntnttitle, .recipientsbtn {
+.ftw600, .titlebx, .cntnttitle {
   font-weight: 500;
 }
 .listitems {

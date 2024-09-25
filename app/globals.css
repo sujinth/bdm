@@ -741,6 +741,16 @@ button{
       height:480px;
     }
   }
+  .tabbtn {
+   
+    li {
+      button.nav-link{
+        
+        letter-spacing: 0px;
+        font-size: 14px;
+      }
+    }
+  }
 }
 @media (max-width: 768px) {
   .flex {
