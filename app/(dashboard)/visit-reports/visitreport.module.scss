@@ -86,26 +86,19 @@
 }
 .contentwhtbx {
   background-color: #fff;
-  //height: 750px;
   padding: 20px 0px 20px;
   form {
     overflow-y: auto;
-    // height: 720px;
     max-height: 375px;
     padding-right: 15px;
   }
-  
   ::-webkit-scrollbar {
     width: 5px;
   } 
-
-  /* Track */
   ::-webkit-scrollbar-track {
     background: #eeeeee;
     border-radius: 10px;
   }
-
-  /* Handle */
   ::-webkit-scrollbar-thumb {
     background: #6f7779;
     border-radius: 10px;
@@ -127,20 +120,15 @@
     }
   }
 }
-/* Scrollbar width */
 .listcntnt::-webkit-scrollbar {
   width: 5px;
 }
-
-/* Track of the scrollbar */
 .listcntnt::-webkit-scrollbar-track {
   background: #eeeeee;
 }
-
-/* Scrollbar thumb (the draggable part) */
 .listcntnt::-webkit-scrollbar-thumb {
   background: #6F7779;
-  border-radius: 10px; /* Adjust radius as needed */
+  border-radius: 10px; 
 }
 .listcntnt {
   padding-left: 25px !important;
@@ -171,9 +159,6 @@
   li:nth-child(odd) {
     background: #fff;
   }
-  // li:not(:last-child) {
-  //   border-bottom: 1px solid #989898;
-  // }
   li a {
     width: 100%;
     height: inherit;
@@ -182,20 +167,8 @@
     padding: 10px;
     padding-right: 20px;
   }
-  // li::after {
-  //   content: "";
-  //   position: absolute;
-  //   top: 15px;
-  //   right: 15px;
-  //   background-image: url(/player.svg);
-  //   background-repeat: no-repeat;
-  //   display: inline-block;
-  //   width: 20px;
-  //   height: 20px;
-  // }
 }
 .listitems {
-  // border: 1px solid #989898;
   li.listhead {
     background-color: #DEEDF2;
   }
@@ -318,9 +291,6 @@ ul.listiconhide li::after {
 .flex {
   display: flex;
 }
-// .contentwhtbxfooter {
-//    position: relative;
-// }
 .mainboxfooter {
   position: absolute;
   bottom: -15px;
@@ -527,9 +497,6 @@ ul.listiconhide li::after {
   .visitnamebx {
     width: 100%;
     margin: auto;
-    // .titlebx{
-    //   margin-bottom: 0px;
-    // }
     .listcntnt {
       overflow: auto;
     }
@@ -590,37 +557,29 @@ ul.listiconhide li::after {
   scrollbar-width: thin; 
   scrollbar-color: #6F7779 #eeeeee; 
 }
-
 .listitems::-webkit-scrollbar {
   width: 5px;
 }
-
 .listitems::-webkit-scrollbar-track {
   background: #eeeeee;
 }
-
 .listitems::-webkit-scrollbar-thumb {
   background: #6F7779;
 }
-
 .contentwhtbx form{
   scrollbar-width: thin; 
   scrollbar-color: #6F7779 #eeeeee;
 }
-  .contentwhtbx form::-webkit-scrollbar {
-    width: 5px;
-  }
-
-
-  .contentwhtbx form::-webkit-scrollbar-track {
-    background: #eeeeee;
-  }
-
-
-  .contentwhtbx form::-webkit-scrollbar-thumb {
-    background: #6f7779;
-    border-radius: 10px;
-  } 
+.contentwhtbx form::-webkit-scrollbar {
+  width: 5px;
+}
+.contentwhtbx form::-webkit-scrollbar-track {
+  background: #eeeeee;
+}
+.contentwhtbx form::-webkit-scrollbar-thumb {
+  background: #6f7779;
+  border-radius: 10px;
+} 
 .listcntnt {
   scrollbar-width: thin; 
   scrollbar-color: #6F7779 #eeeeee;
@@ -628,18 +587,15 @@ ul.listiconhide li::after {
 .listcntnt::-webkit-scrollbar {
   width: 5px;
 }
-
 .listcntnt::-webkit-scrollbar-track {
   background: #eeeeee;
 }
-
 .listcntnt::-webkit-scrollbar-thumb {
   background: #6F7779;
 }
 ul.listiconhide {
   li {
-    
-    font-weight: 500;
+  font-weight: 500;
   }
 }
 .ftw600, .titlebx, .cntnttitle {

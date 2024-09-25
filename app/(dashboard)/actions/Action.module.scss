@@ -68,13 +68,13 @@
     width: 5px;
   }
 
-  /* Track */
+
   ::-webkit-scrollbar-track {
     background: #eeeeee;
     border-radius: 10px;
   }
 
-  /* Handle */
+
   ::-webkit-scrollbar-thumb {
     background: #6f7779;
     border-radius: 10px;
@@ -85,20 +85,18 @@
   letter-spacing: 0.3px;
   font-size: 18px;
 }
-/* Scrollbar width */
+
 .listitems::-webkit-scrollbar {
   width: 5px;
 }
 
-/* Track of the scrollbar */
 .listitems::-webkit-scrollbar-track {
   background: #eeeeee;
 }
 
-/* Scrollbar thumb (the draggable part) */
 .listitems::-webkit-scrollbar-thumb {
   background: #6F7779;
-  border-radius: 10px; /* Adjust radius as needed */
+  border-radius: 10px; 
 }
 .listcntnt {
   li {
@@ -165,9 +163,6 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  // height: 60vh;
-  // overflow: auto;
-  //padding-top: 0;
   width: 100%;
 }
 
@@ -187,8 +182,6 @@
 .flex {
   display: flex;
 }
-
-//Action-pg
 .listitems {
   .listtoptitle {
     background-color: #ec0000;
@@ -212,7 +205,6 @@
 .actioncontent .listitems .listcntnt{
   padding-left: 25px !important;
 }
-//Action-pg
 @media (max-width: 1200px) {
   .visitnamebx {
     width: 25%;
@@ -258,9 +250,7 @@
      height: 375px;
     }
   }
-  // .innercontentwhtbx {
-  //   overflow-y: auto;
-  // }
+ 
 }
 @media (max-width: 390px) {
   .detailbximage {

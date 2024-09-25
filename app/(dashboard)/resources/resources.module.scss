@@ -121,20 +121,17 @@
     background-color: #DEEDF2;
   }
 }
-/* Scrollbar width */
 .listitems::-webkit-scrollbar {
   width: 5px;
 }
 
-/* Track of the scrollbar */
 .listitems::-webkit-scrollbar-track {
   background: #eeeeee;
 }
 
-/* Scrollbar thumb (the draggable part) */
 .listitems::-webkit-scrollbar-thumb {
   background: #6F7779;
-  border-radius: 10px; /* Adjust radius as needed */
+  border-radius: 10px; 
 }
 .listhead {
   a {
@@ -148,7 +145,6 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  // padding-top: 15%;
   min-height: 600px;
 }
 .textcntr {

@@ -61,12 +61,6 @@ body {
   line-height: normal ;
   letter-spacing: 0.3px;
   min-height: 100vh;
-  /* background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    ) 
-    rgb(var(--background-start-rgb)); */
   a {
     text-decoration: none !important;
     color: #000;
@@ -143,9 +137,6 @@ body {
     
   }
 }
-/* .popover-body div:not(:last-child) button {
-  border-bottom: 1px solid #cacaca;
-} */ 
 
 #searchpopover-positioned {
   padding: 10px !important;
@@ -184,12 +175,10 @@ body {
   margin-bottom: 40px !important;
   li {
     width: 50%;
-    /* height: 50px; */
     background-color: #DEEDF2;
     font-weight: 600;
     display: flex;
     justify-content: center;
-    /* border: 1px solid #6F7779; */
     
     button.nav-link{
       color: #000;
@@ -231,7 +220,6 @@ body {
   }
   button:hover,
   button:focus {
-    /* border: 0px; */
     border-radius: 0px;
     color: #fff;
   }
@@ -285,7 +273,6 @@ body {
     height: 50px;
     display: flex;
     align-items: center;
-    /* border: 1px solid #989898 !important; */
     border-bottom: 0px solid #989898 !important;
     color: #000 !important;
     font-weight: 500 !important;
@@ -298,17 +285,12 @@ body {
 }
 
 .nav-pills  {
-  /* padding-left: 25px !important; */
   padding-right: 10px;
   min-height: 270px;
   height: 400px;
   overflow: auto;
   align-content: flex-start;
 }
-
-/* .nav-pills .nav-item:last-child {
-  border-bottom: 1px solid #989898 !important;
-} */
 .checkboxcntnt {
   text-transform: capitalize;
   .input-group-text {
@@ -365,20 +347,18 @@ body {
     padding-top: 10px;
   }
 }
-/* Scrollbar width */
+
 .listitems::-webkit-scrollbar {
   width: 5px;
 }
 
-/* Track of the scrollbar */
 .listitems::-webkit-scrollbar-track {
   background: #eeeeee;
 }
 
-/* Scrollbar thumb (the draggable part) */
 .listitems::-webkit-scrollbar-thumb {
   background: #6F7779;
-  border-radius: 10px; /* Adjust radius as needed */
+  border-radius: 10px; 
 }
 .contractform {
   .labelinput {
@@ -569,7 +549,6 @@ body {
   .visitnamebx {
     width: 25%;
     max-width: 25%;
-    /* padding-left: 0px; */
 }
 .splvisitnamebx{
   width: 100% !important;
@@ -578,7 +557,6 @@ body {
   .detailbx{
     width: 75%;
     max-width: 75%;
-    /* padding-right: 0px; */
     
   }
 }
@@ -660,15 +638,13 @@ button{
   width: 5px;
 }
 
-/* Track of the scrollbar */
 .innernavpills.nav-pills::-webkit-scrollbar-track {
   background: #eeeeee;
 }
 
-/* Scrollbar thumb (the draggable part) */
 .innernavpills.nav-pills::-webkit-scrollbar-thumb {
   background: #6F7779;
-  border-radius: 10px; /* Adjust radius as needed */
+  border-radius: 10px; 
 }
 .aboutpopup{
   padding: 40px 0px;
