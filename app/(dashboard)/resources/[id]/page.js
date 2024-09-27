@@ -16,6 +16,7 @@ import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Styles from "../resources.module.scss";
+import { useDashboard } from "@/app/contexts/layoutContext";
 import Loader from "@/app/components/commen/Loader/Loader";
 
 // Default function for resource module
@@ -25,9 +26,16 @@ const ResourcesList = () => {
   const resourceId = params.id;
   const [resourcesList, setResourcesList] = useState([]);
   const [pageLoader, setPageLoader] = useState(true);
+  const { setGoBackToPage } = useDashboard();
 
   useEffect(() => {
     getResources();
+    setGoBackToPage({
+      pageOne: false,
+      pageTwo: false,
+      pageThree: false,
+      pageFour: false,
+    });
   }, [session.data?.user?.id]);
 
   // Function for memorise resources data

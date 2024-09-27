@@ -46,7 +46,6 @@ const Forgotpassword = () => {
         // Clear previous error messages
         setErrorMessage((prev) => ({ ...prev, txtFUsernameErrorMsg: "" }));
       }
-      // ${process.env.NEXT_PUBLIC_APP_ENDPOINT}
       const response = await axios.post(`/api/auth/forgotPassword`, formFields);
       let responseData = response.data.result;
       if (responseData.length !== 0) {
@@ -110,11 +109,6 @@ const Forgotpassword = () => {
         </div>
         <div className={Styles.rightbox}>
           <img  src="/login-rightbanner.png" alt="santander"/>
-          {/* <div>
-            <div className={Styles.title}>Santander Consumer Finance</div>
-            <div className={Styles.subcntnt}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div>
-          </div> */}
-          
         </div>
       </div>
     </div>

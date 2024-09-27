@@ -20,6 +20,8 @@ export const LayoutProvider = ({ children }) => {
       setGoBackToPage((prev) => ({ ...prev, pageTwo: true, pageThree: false }));
     } else if (goBackToPage.pageFour) {
       setGoBackToPage((prev) => ({ ...prev, pageFour: false }));
+    } else if(goBackToPage.pageOne){
+      router.push("/home");
     } else {
       router.back();
     }

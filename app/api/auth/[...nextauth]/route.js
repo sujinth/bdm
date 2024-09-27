@@ -19,10 +19,6 @@ const handler = NextAuth({
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
-      //   credentials: {
-      //     email: {},
-      //     password: {}
-      // },
       async authorize(credentials, req) {
         try {
           let formData = new FormData();

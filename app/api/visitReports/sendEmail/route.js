@@ -31,7 +31,7 @@ export async function POST(request) {
     );
   } catch (err) {
     console.log("errr->", err);
-    return new Response(JSON.stringify({ message: "faild", result: [] }), {
+    return new Response(JSON.stringify({ message: "failed", result: [] }), {
       status: 500,
     });
   }

@@ -11,12 +11,24 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Styles from "./resources.module.scss";
 import Loader from "@/app/components/commen/Loader/Loader";
+import { useDashboard } from "@/app/contexts/layoutContext";
 
 // Function for resources main component
 const Resources = () => {
   const session = useSession();
   const [resorcesList, setResourcesList] = useState([]);
   const [pageLoader, setPageLoader] = useState(true);
+  const { setGoBackToPage } = useDashboard();
+
+  // Initial page setting
+  useEffect(()=>{
+    setGoBackToPage({
+      pageOne: true,
+      pageTwo: false,
+      pageThree: false,
+      pageFour: false,
+    });
+  },[])
 
   // If any changes happen in session below useEffect will render
   useEffect(() => {

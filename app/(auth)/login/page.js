@@ -130,11 +130,6 @@ const Login = () => {
         </div>
         <div className={Styles.rightbox}>
           <img  src="/login-rightbanner.png" alt="santander"/>
-          {/* <div>
-            <div className={Styles.title}>Santander Consumer Finance</div>
-            <div className={Styles.subcntnt}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div>
-          </div> */}
-          
         </div>
       </div>
     </div>

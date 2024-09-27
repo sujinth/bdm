@@ -115,7 +115,6 @@ const Updatepassword = () => {
             userId: session.data?.user?.id,
             txtCPassword: formFields.txtCPassword,
           };
-          // ${process.env.NEXT_PUBLIC_APP_ENDPOINT}
           const response = await axios.post(
             `/api/auth/updatePassword`,
             requestBody

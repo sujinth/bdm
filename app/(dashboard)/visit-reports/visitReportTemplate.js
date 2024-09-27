@@ -377,7 +377,7 @@ const VisitReportTemplate = ({ selectedData }) => {
       setPopupContent((prevState) => ({
         ...prevState,
         duelOption: false,
-        detailContent: "At least one recepient required.",
+        detailContent: "At least one recipient required.",
         show: true,
         onClick: handleClick,
       }));
@@ -395,7 +395,6 @@ const VisitReportTemplate = ({ selectedData }) => {
   // Handle Function while clicking send mail No
   function sendEmailNo() {
     let sendEmailFlag = false;
-    // handleClick();
     setPopupContent((prevState) => ({
       ...prevState,
       detailContent: "",
@@ -520,7 +519,7 @@ const VisitReportTemplate = ({ selectedData }) => {
         setPopupContent((prevState) => ({
           ...prevState,
           duelOption: false,
-          detailContent: "Dealership report sent faild.",
+          detailContent: "Dealership report sent failed.",
           show: true,
           onClick: handleClick,
         }));
@@ -590,7 +589,6 @@ const VisitReportTemplate = ({ selectedData }) => {
         show: true,
       }));
     } catch (error) {
-      console.log("err ->", error.message);
       setPopupContent((prevState) => ({
         ...prevState,
         duelOption: false,
@@ -695,6 +693,12 @@ const VisitReportTemplate = ({ selectedData }) => {
 
   // Function handle click new form
   const handleClickNewForm = () => {
+    setGoBackToPage({
+      pageOne: false,
+      pageTwo: false,
+      pageThree: true,
+      pageFour: false,
+    });
     setIsActive(!isActive);
     // Handle li click selected style
     if (selectedElement) {
@@ -789,7 +793,7 @@ const VisitReportTemplate = ({ selectedData }) => {
       setPopupContent((prevState) => ({
         ...prevState,
         duelOption: false,
-        detailContent: "Please enter dealer attendees.",
+        detailContent: "Please enter Dealer Attendees.",
         show: true,
         onClick: handleClick,
       }));
@@ -797,7 +801,7 @@ const VisitReportTemplate = ({ selectedData }) => {
       setPopupContent((prevState) => ({
         ...prevState,
         duelOption: false,
-        detailContent: "Please enter SCUK attendees.",
+        detailContent: "Please enter SCUK Attendees.",
         show: true,
         onClick: handleClick,
       }));
@@ -853,7 +857,6 @@ const VisitReportTemplate = ({ selectedData }) => {
           requestBodyObj
         );
         if (response.data.result.root?.emailresend?.[0]?.status == 1) {
-          // response.data.result.root.emailresend[0].message
           setPopupContent((prevState) => ({
             ...prevState,
             duelOption: false,
@@ -861,12 +864,11 @@ const VisitReportTemplate = ({ selectedData }) => {
             show: true,
             onClick: handleClick,
           }));
-          // alert(response.data.result.root.emailresend[0].message)
         } else {
           setPopupContent((prevState) => ({
             ...prevState,
             duelOption: false,
-            detailContent: "Dealership report sent faild.",
+            detailContent: "Dealership report sent failed.",
             show: true,
             onClick: handleClick,
           }));
@@ -875,7 +877,7 @@ const VisitReportTemplate = ({ selectedData }) => {
         setPopupContent((prevState) => ({
           ...prevState,
           duelOption: false,
-          detailContent: "At least one recepient required.",
+          detailContent: "At least one recipient required.",
           show: true,
           onClick: handleClick,
         }));
@@ -979,7 +981,6 @@ const VisitReportTemplate = ({ selectedData }) => {
       }));
       
     } catch (err) {
-      console.log("Error ", err.message);
       setPopupContent((prevState) => ({
         ...prevState,
         duelOption: false,
@@ -1207,7 +1208,7 @@ const VisitReportTemplate = ({ selectedData }) => {
         ...prevState,
         titleContent: "",
         duelOption: false,
-        detailContent: "Please enter Dealer Signature",
+        detailContent: "Please enter Dealer Signature.",
         show: true
       }));
     } else if(txtScfSignature?.value?.trim() == ""){
@@ -1215,7 +1216,7 @@ const VisitReportTemplate = ({ selectedData }) => {
         ...prevState,
         titleContent: "",
         duelOption: false,
-        detailContent: "Please enter SCF Reviewer Signature",
+        detailContent: "Please enter SCF Reviewer Signature.",
         show: true
       }));
     } else if(nextReviewDate?.value?.trim() == ""){

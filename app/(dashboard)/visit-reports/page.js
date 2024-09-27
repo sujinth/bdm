@@ -78,7 +78,12 @@ const VisitReport = () => {
   }
 
   useEffect(() => {
-    setGoBackToPage((prev) => ({ ...prev, pageOne: true }));
+    setGoBackToPage({
+      pageOne: true,
+      pageTwo: false,
+      pageThree: false,
+      pageFour: false,
+    });
     getVisitReports();
   }, [session.data?.user?.id]);
 

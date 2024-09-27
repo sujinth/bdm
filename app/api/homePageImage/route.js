@@ -18,12 +18,12 @@ export async function POST(request) {
     );
 
     return new Response(
-      JSON.stringify({ message: "sucess", result: response.data.root }),
+      JSON.stringify({ message: "success", result: response.data.root }),
       { status: 200 }
     );
   } catch (error) {
     console.log("err - >", error.message);
-    return new Response(JSON.stringify({ message: "faild", result: [] }), {
+    return new Response(JSON.stringify({ message: "failed", result: [] }), {
       status: 500,
     });
   }

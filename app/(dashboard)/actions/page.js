@@ -43,6 +43,16 @@ const Action = () => {
   const session = useSession();
   const router = useRouter();
 
+  // Initial page setting
+  useEffect(()=>{
+    setGoBackToPage({
+      pageOne: true,
+      pageTwo: false,
+      pageThree: false,
+      pageFour: false,
+    });
+  },[])
+
   // Function for render at the time of change in goBackToPage state.
   useEffect(() => {
     let pageNameData = pageName;
